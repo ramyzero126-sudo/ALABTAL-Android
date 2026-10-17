@@ -1,0 +1,657 @@
+(() => {
+  const $ = s => document.querySelector(s);
+  const list = $("#riders");
+  let data = [];
+  let status = "الكل";
+  let selectedCity = "الكل";
+  let busy = false;
+
+  const text = (obj, keys, fallback = "") => {
+    for (const k of keys) {
+      const v = obj?.[k];
+      if (v !== undefined && v !== null && v !== "") return v;
+    }
+    return fallback;
+  };
+
+  const number = (obj, keys, fallback = 0) => {
+    const v = Number(text(obj, keys, fallback));
+    return Number.isFinite(v) ? v : fallback;
+  };
+
+
+  function orderField(order, pattern) {
+    const seen = new Set();
+    function walk(value, depth) {
+      if (!value || typeof value !== "object" || depth > 5 || seen.has(value)) return "";
+      seen.add(value);
+      for (const [key, val] of Object.entries(value)) {
+        if (pattern.test(key) && val != null && typeof val !== "object" && String(val).trim()) {
+          return String(val);
+        }
+      }
+      for (const val of Object.values(value)) {
+        const found = walk(val, depth + 1);
+        if (found) return found;
+      }
+      return "";
+    }
+    return walk(order, 0) || "—";
+  }
+
+  function normalize(x) {
+    const name = text(x, ["name","riderName","rider_name","fullName","full_name","employeeName","driverName"], "مندوب");
+    const id = text(x, ["id","empId","riderId","rider_id","employeeId","employee_id","code"], "—");
+    const rawStatus = String(text(x, ["status","riderStatus","rider_status","state","workingStatus"], "غير محدد"));
+    const s = rawStatus.toLowerCase();
+    let state = rawStatus;
+    if (/break|rest|استراحة|بريك/.test(s)) state = "استراحة";
+    else if (/work|active|online|شغال|working/.test(s)) state = "شغال";
+    else if (/late|delay|متأخر/.test(s)) state = "متأخر";
+    else if (/ready/.test(s)) state = "READY";
+
+    const orders = number(x, ["orders","ordersCount","orders_count","totalOrders","todayOrders","completedOrders"]);
+    const hours = text(x, ["hours","workingHours","working_hours","totalHours","shiftHours"], "—");
+    const utr = text(x, ["utr","UTR","utrValue"], "—");
+    const breaks = number(x, ["breaks","breakCount","break_count","breaksCount"]);
+    const progress = Math.max(0, Math.min(100, number(x, ["progress","progressPercent","progress_percent"], 0)));
+
+    return {
+      raw: x, name: String(name), id: String(id),
+      city: String(text(x, ["city","cityName","city_name","zone","location"], "—")),
+      status: state, orders, hours: String(hours), utr: String(utr),
+      breaks, progress, wallet: String(text(x, ["wallet","balance","walletBalance"], "—")), shiftStart: String(text(x, ["shiftStart"], "—")), shiftEnd: String(text(x, ["shiftEnd","shiftEndOrig"], "—")),
+      supervisor: String(text(x, ["supervisor","supervisorName","supervisor_name","manager"], "—")),
+      bookedTomorrow: x.bookedTomorrow === true || String(x.bookedTomorrow).toLowerCase() === "true",
+      activeOrder: Array.isArray(x.activeOrders) ? x.activeOrders.find(o => o && typeof o === "object") : (x.activeOrders && typeof x.activeOrders === "object" ? x.activeOrders : null)
+    };
+  }
+
+  function showLogin(message = "") {
+    let box = $("#alabtalLogin");
+    if (!box) {
+      box = document.createElement("div");
+      box.id = "alabtalLogin";
+      box.style.cssText = "position:fixed;inset:0;z-index:9999;background:#090909f5;display:grid;place-items:center;padding:20px";
+      box.innerHTML = `
+        <form id="alabtalLoginForm" style="width:min(100%,390px);background:#171717;border:1px solid #ff7900;border-radius:18px;padding:24px;color:#fff;font-family:inherit">
+          <h2 style="color:#ff7900;margin:0 0 8px">ALABTAL LIVE</h2>
+          <p style="color:#bbb">سجّل دخولك بحساب لوحة Desktop</p>
+          <label style="display:block;margin:16px 0 6px">اسم المستخدم</label>
+          <input name="username" autocomplete="username" required style="box-sizing:border-box;width:100%;padding:13px;border-radius:9px;border:1px solid #444;background:#222;color:white">
+          <label style="display:block;margin:14px 0 6px">كلمة المرور</label>
+          <input name="password" type="password" autocomplete="current-password" required style="box-sizing:border-box;width:100%;padding:13px;border-radius:9px;border:1px solid #444;background:#222;color:white">
+          <p id="alabtalLoginError" style="color:#ff8b72;font-size:13px"></p>
+          <button id="alabtalLoginBtn" style="width:100%;padding:13px;border:0;border-radius:9px;background:#ff7900;color:#111;font-weight:bold">تسجيل الدخول</button>
+        </form>`;
+      document.body.appendChild(box);
+      $("#alabtalLoginForm").addEventListener("submit", async e => {
+        e.preventDefault();
+        const btn = $("#alabtalLoginBtn");
+        const err = $("#alabtalLoginError");
+        btn.disabled = true;
+        btn.textContent = "جارٍ تسجيل الدخول...";
+        err.textContent = "";
+        try {
+          const fd = new FormData(e.target);
+          const res = await fetch("/api/login", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({
+              username: fd.get("username"),
+              password: fd.get("password")
+            })
+          });
+          const result = await res.json();
+          if (!res.ok || !result.ok) throw new Error(result.error || "فشل تسجيل الدخول");
+          box.remove();
+          await loadData();
+        } catch (error) {
+          err.textContent = error.message || "تعذر الاتصال بالبروكسي";
+        } finally {
+          if (btn.isConnected) {
+            btn.disabled = false;
+            btn.textContent = "تسجيل الدخول";
+          }
+        }
+      });
+    }
+    if (message) $("#alabtalLoginError").textContent = message;
+  }
+
+
+  let liveSummaryStats = null;
+
+  function updateDashboardStats() {
+    const total = key => data.reduce((n, r) => {
+      const v = String(r[key] ?? "").replace(",", ".");
+      const m = v.match(/-?\d+(?:\.\d+)?/);
+      return n + (m ? Number(m[0]) : 0);
+    }, 0);
+    const available = key => data.filter(r =>
+      r.raw && r.raw[key] !== undefined &&
+      r.raw[key] !== null && String(r.raw[key]).trim() !== ""
+    );
+    const src = liveSummaryStats || {};
+    const num = (key, fallback) =>
+      typeof src[key] === "number" && Number.isFinite(src[key])
+        ? src[key] : fallback;
+    const fmt = (n, digits = 1) =>
+      Number(n).toLocaleString("ar-EG", { maximumFractionDigits: digits });
+
+    const orders = num("orders", total("orders"));
+    const hours = num("hours",
+      available("hours").length ? total("hours") : NaN);
+    const lateMinutes = num("lateMinutes",
+      available("lateMinutes").length ? total("lateMinutes") : NaN);
+    const stats = {
+      "إجمالي المناديب": String(num("open", data.length)),
+      "إجمالي الأوردرات": fmt(orders, 0),
+      "الأوردرات": fmt(orders, 0),
+      "ساعات العمل": Number.isFinite(hours) ? fmt(hours) : "غير متاح",
+      "متأخر (ساعة)": Number.isFinite(lateMinutes)
+        ? fmt(lateMinutes / 60) : "غير متاح",
+      "UTR": Number.isFinite(hours) && hours > 0
+        ? fmt(orders / hours) : "غير متاح",
+      "خارج التغطية": "غير متاح",
+      "مستبعدة": "غير متاح",
+      "مخالفات اليوم": "غير متاح",
+      "أمراء المناوبات": "غير متاح",
+      "مناديب تحت المتابعة": "غير متاح"
+    };
+
+    document.querySelectorAll(".tile").forEach(tile => {
+      const label = tile.querySelector("label");
+      const value = tile.querySelector("strong");
+      if (!label || !value) return;
+      const key = label.textContent.trim();
+      if (Object.prototype.hasOwnProperty.call(stats, key)) {
+        value.textContent = stats[key];
+      }
+    });
+  }
+
+  function render() {
+    if (!list) return;
+    const q = ($("#search")?.value || "").trim().toLowerCase();
+
+    const cityTabs = $("#cityTabs");
+    const cities = ["طنطا"]
+      .sort((a, b) => a.localeCompare(b, "ar"));
+
+    if (selectedCity !== "الكل" && !cities.includes(selectedCity)) selectedCity = "الكل";
+
+    if (cityTabs) {
+      cityTabs.innerHTML = [
+        ...cities.map(city => {
+          const count = data.filter(r => ((r.city || "").trim() || "غير محددة") === city).length;
+          return `<button type="button" class="chip ${selectedCity === city ? "active" : ""}" data-city="${esc(city)}">${esc(city)} <b>${count}</b></button>`;
+        })
+      ].join("");
+    }
+
+    // Real status counts from the current rider data
+    document.querySelectorAll("#filters [data-status]").forEach(button => {
+      const key = button.dataset.status || "الكل";
+      if (!button.dataset.baseLabel) {
+        button.dataset.baseLabel = button.textContent.trim();
+      }
+      const count = key === "الكل"
+        ? data.length
+        : data.filter(r => r.status === key).length;
+      button.innerHTML = `${esc(button.dataset.baseLabel)} <b>${count}</b>`;
+    });
+
+    const rows = data.filter(r => {
+      const statusMatch = status === "الكل" || r.status === status;
+      const city = (r.city || "").trim() || "غير محددة";
+      const cityMatch = selectedCity === "الكل" || city === selectedCity;
+      return statusMatch && cityMatch &&
+        `${r.name} ${r.id} ${r.city}`.toLowerCase().includes(q);
+    });
+
+    if ($("#sort")?.value === "orders") rows.sort((a,b) => b.orders-a.orders);
+    else rows.sort((a,b) => a.name.localeCompare(b.name, "ar"));
+
+  window.formatShiftTime = function(value) {
+    const raw = String(value ?? "").trim();
+    if (!raw || raw === "—" || raw === "-") return "—";
+    const d = new Date(raw);
+    if (Number.isNaN(d.getTime())) return raw;
+    return new Intl.DateTimeFormat("en-US", {
+      timeZone: "Africa/Cairo",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true
+    }).format(d);
+  }
+
+
+    const card = r => {
+      const order = r.activeOrder;
+      const restaurant = order ? orderField(order, /vendor|restaurant|merchant|shop|store|name/i) : "";
+      const pickup = order ? orderField(order, /pickup|pick.?up|collect|restaurantAddress|fromAddress/i) : "";
+      const dropoff = order ? orderField(order, /drop.?off|deliveryAddress|customerAddress|destination|deliverTo/i) : "";
+      const orderStatus = order ? orderField(order, /orderStatus|status|state|currentStatus/i) : "";
+      const orderId = order ? orderField(order, /orderId|order_id|id|code/i) : "";
+
+      let statusLabel = "مفيش أوردر";
+      let statusClass = "no-order";
+      if (order) {
+        statusClass = "has-order";
+        const s = (orderStatus || "").toLowerCase();
+        if (/picked|pickup|collected|استلام|تم الاستلام/.test(s)) statusLabel = "تم الاستلام من المطعم";
+        else if (/deliver|on.?way|في الطريق|heading|to.?customer/.test(s)) statusLabel = "في الطريق للعميل";
+        else if (/arrive|arrived|وصل|at.?customer|delivered/.test(s)) statusLabel = "وصل عند العميل";
+        else if (/ready|preparing|جاري|cooking|at.?restaurant|وصل عند المطعم/.test(s)) statusLabel = "وصل عند المطعم";
+        else if (/assign|new|pending|معاه/.test(s)) statusLabel = "معاه أوردر";
+        else statusLabel = orderStatus || "معاه أوردر";
+      }
+
+      return `
+      <article class="rider">
+        <div class="rider-head">
+          <div class="avatar">🛵</div>
+          <div class="rider-info">
+            <div class="rider-name">${esc(r.name)}</div>
+            <div class="sub">#${esc(r.id)} · 📍 ${esc(r.city)}</div>
+            <div class="sub">♙ ${esc(r.supervisor)}</div>
+            <div class="sub">🕒 ${esc(formatShiftTime(r.shiftStart))} → ${esc(formatShiftTime(r.shiftEnd))}</div>
+          </div>
+          <span class="status">${esc(r.status)}</span>
+        </div>
+
+        ${order ? `
+        <div class="order-box">
+          <div class="order-status-badge ${statusClass}"><span class="status-orb"></span>${esc(statusLabel)}</div>
+          <div class="order-details">
+            ${restaurant ? `<div class="order-line">🍽️ <b>المطعم:</b> ${esc(restaurant)}</div>` : ""}
+            ${pickup ? `<div class="order-line">📍 <b>من:</b> ${esc(pickup)}</div>` : ""}
+            ${dropoff ? `<div class="order-line">🏁 <b>إلى العميل:</b> ${esc(dropoff)}</div>` : ""}
+            ${orderId && orderId !== "—" ? `<div class="order-line">📦 <b>رقم الأوردر:</b> ${esc(orderId)}</div>` : ""}
+          </div>
+        </div>` : `
+        <div class="order-box empty-order">
+          <div class="order-status-badge no-order">مفيش أوردر حالياً</div>
+        </div>`}
+
+        <div class="metrics">
+          <div class="metric"><b>${r.orders}</b><small>أوردر</small></div>
+          <div class="metric"><b>${esc(r.utr)}</b><small>UTR</small></div>
+          <div class="metric"><b>${esc(r.hours)}</b><small>ساعة</small></div>
+          <div class="metric"><b>${r.breaks}</b><small>بريك</small></div>
+        </div>
+
+        <div class="actions">
+          <button class="action" disabled>تزويد</button>
+          <button class="action" disabled>فك بريك</button>
+          <button class="action" disabled>قفل</button>
+          <button class="action" disabled>اتصال</button>
+        </div>
+      </article>`;
+    };
+
+    if (!rows.length) {
+      list.innerHTML = '<div class="empty">لا توجد بيانات أو نتائج مطابقة</div>';
+      return;
+    }
+
+    const groups = new Map();
+    rows.forEach(r => {
+      const area = (r.city || "").trim() || "منطقة غير محددة";
+      if (!groups.has(area)) groups.set(area, []);
+      groups.get(area).push(r);
+    });
+
+    list.innerHTML = [...groups.entries()]
+      .sort((a,b) => a[0].localeCompare(b[0], "ar"))
+      .map(([area, riders]) => `
+        <section class="area-box">
+          <header class="area-heading">
+            <div class="area-title"><span class="area-pin">📍</span><span>${esc(area)}</span></div>
+            <span class="area-count">${riders.length} مندوب</span>
+          </header>
+          <div class="area-riders">${riders.map(card).join("")}</div>
+        </section>`).join("");
+  }
+
+  function esc(v) {
+    return String(v ?? "").replace(/[&<>"']/g, c => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    }[c]));
+  }
+
+  async function loadData() {
+    if (busy) return;
+    busy = true;
+    list.innerHTML = '<div class="empty">جارٍ تحميل بيانات المناديب...</div>';
+    try {
+      const session = await fetch("/api/session", {cache:"no-store"});
+      if (session.status === 401) {
+        showLogin("سجّل الدخول لعرض البيانات الحقيقية");
+        list.innerHTML = "";
+        return;
+      }
+      if (!session.ok) throw new Error("تعذر التحقق من جلسة الدخول");
+
+      const city = "tanta";
+      if (city === null || !city.trim()) {
+        list.innerHTML = '<div class="empty">لم يتم اختيار مدينة</div>';
+        return;
+      }
+
+      const res = await fetch("/api/live-ops?city=" + encodeURIComponent(city.trim()), {
+        cache:"no-store",
+        credentials:"same-origin"
+      });
+      const result = await res.json();
+      liveSummaryStats = result && !Array.isArray(result) &&
+        result.stats && typeof result.stats === "object"
+          ? result.stats : null;
+      if (res.status === 401) {
+        showLogin("انتهت الجلسة؛ سجّل الدخول مرة أخرى");
+        return;
+      }
+      if (!res.ok) throw new Error(result.error || "فشل تحميل بيانات المناديب");
+
+      let records = Array.isArray(result) ? result :
+        (Array.isArray(result.cards) ? result.cards :
+        Array.isArray(result.riders) ? result.riders :
+        Array.isArray(result.data) ? result.data :
+        Array.isArray(result.items) ? result.items : []);
+
+      if (!records.length) {
+        list.innerHTML = '<div class="empty">الطلب نجح لكن لم أجد قائمة مناديب في الاستجابة. راجع شكل JSON في سجل البروكسي.</div>';
+        console.log("Live response structure:", Object.keys(result || {}));
+        return;
+      }
+      data = records.map(normalize);
+
+      // مصدر الحجوزات الأصلي، مستقل عن بيانات اللايف.
+      try {
+        const parts = new Intl.DateTimeFormat("en-CA", {
+          timeZone: "Africa/Cairo", year: "numeric", month: "2-digit", day: "2-digit"
+        }).formatToParts(new Date());
+        const part = key => parts.find(x => x.type === key)?.value || "";
+        const day = `${part("year")}-${part("month")}-${part("day")}`;
+        const bookingRes = await fetch(
+          "/api/notbooked?city=" + encodeURIComponent(city.trim()) + "&day=" + day,
+          { cache: "no-store", credentials: "same-origin" }
+        );
+        const bookingJson = await bookingRes.json();
+        if (!bookingRes.ok || bookingJson.ok === false) {
+          throw new Error(bookingJson.error || "تعذر تحميل الحجوزات الأصلية");
+        }
+        officialBookingData = bookingJson;
+      } catch (bookingError) {
+        officialBookingData = null;
+        console.error("[Official bookings]", bookingError);
+      }
+
+
+      // مصدر الحجوزات الأصلي، مستقل عن بيانات اللايف.
+      try {
+        const parts = new Intl.DateTimeFormat("en-CA", {
+          timeZone: "Africa/Cairo", year: "numeric", month: "2-digit", day: "2-digit"
+        }).formatToParts(new Date());
+        const part = key => parts.find(x => x.type === key)?.value || "";
+        const day = `${part("year")}-${part("month")}-${part("day")}`;
+        const bookingRes = await fetch(
+          "/api/notbooked?city=" + encodeURIComponent(city.trim()) + "&day=" + day,
+          { cache: "no-store", credentials: "same-origin" }
+        );
+        const bookingJson = await bookingRes.json();
+        if (!bookingRes.ok || bookingJson.ok === false) {
+          throw new Error(bookingJson.error || "تعذر تحميل الحجوزات الأصلية");
+        }
+        officialBookingData = bookingJson;
+      } catch (bookingError) {
+        officialBookingData = null;
+        console.error("[Official bookings]", bookingError);
+      }
+
+      updateDashboardStats();
+      render();
+      if (activeView === "bookings") renderBookings();
+    } catch (error) {
+      list.innerHTML = '<div class="empty">' + esc(error.message || "حدث خطأ") + '</div>';
+    } finally {
+      busy = false;
+    }
+  }
+
+  document.querySelectorAll("#filters [data-status]").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll("#filters [data-status]").forEach(x => x.classList.remove("active"));
+    b.classList.add("active");
+    status = b.dataset.status || "الكل";
+    render();
+  }));
+  $("#cityTabs")?.addEventListener("click", e => {
+    const button = e.target.closest("button[data-city]");
+    if (!button) return;
+    selectedCity = button.dataset.city || "الكل";
+    render();
+  });
+  $("#search")?.addEventListener("input", render);
+  $("#searchBtn")?.addEventListener("click", render);
+  $("#sort")?.addEventListener("change", render);
+
+  const refreshLiveBtn = document.getElementById("refreshLiveBtn");
+  refreshLiveBtn?.addEventListener("click", async () => {
+    if (busy) return;
+    refreshLiveBtn.disabled = true;
+    refreshLiveBtn.textContent = "⟳ جاري التحديث...";
+    try {
+      await loadData();
+    } finally {
+      refreshLiveBtn.disabled = false;
+      refreshLiveBtn.textContent = "↻ تحديث";
+    }
+  });
+
+
+  // Sidebar navigation and shift bookings view
+  const sideMenu = document.getElementById("sideMenu");
+  const menuBackdrop = document.getElementById("menuBackdrop");
+  const mainWrap = document.getElementById("mainWrap");
+  const bookingsView = document.getElementById("bookingsView");
+  let activeView = "live";
+
+  function closeMenu() {
+    sideMenu?.classList.remove("open");
+    menuBackdrop?.classList.remove("show");
+    sideMenu?.setAttribute("aria-hidden", "true");
+  }
+  function openMenu() {
+    sideMenu?.classList.add("open");
+    menuBackdrop?.classList.add("show");
+    sideMenu?.setAttribute("aria-hidden", "false");
+  }
+  document.getElementById("menuToggle")?.addEventListener("click", openMenu);
+  document.getElementById("menuClose")?.addEventListener("click", closeMenu);
+  menuBackdrop?.addEventListener("click", closeMenu);
+
+  let officialBookingData = null;
+
+  function renderBookings() {
+    const target = document.getElementById("bookingList");
+    if (!target) return;
+    const parent = target.parentElement;
+
+    if (!document.getElementById("bookingTools")) {
+      const tools = document.createElement("div");
+      tools.id = "bookingTools";
+      tools.style.cssText =
+        "display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:16px 0";
+      tools.innerHTML = `
+        <input id="bookingSearch" placeholder="ابحث بالاسم أو الكود..."
+          style="box-sizing:border-box;width:100%;padding:12px;border-radius:10px;border:1px solid #444;background:#171717;color:#fff">
+        <select id="bookingFilter"
+          style="width:100%;padding:12px;border-radius:10px;border:1px solid #444;background:#171717;color:#fff">
+          <option value="all">كل المناديب</option>
+          <option value="booked">حاجزين</option>
+          <option value="unbooked">غير حاجزين</option>
+        </select>`;
+      parent.insertBefore(tools, target);
+      document.getElementById("bookingSearch").addEventListener("input", renderBookings);
+      document.getElementById("bookingFilter").addEventListener("change", renderBookings);
+    }
+
+    const res = officialBookingData;
+    if (!res || !Array.isArray(res.booked) || !Array.isArray(res.notBooked)) {
+      target.innerHTML = '<div class="empty">جارٍ تحميل بيانات الحجوزات الأصلية...</div>';
+      return;
+    }
+
+    const bookedRows = res.booked.map(r => ({ ...r, __officialBooked: true }));
+    const unbookedRows = res.notBooked.map(r => ({ ...r, __officialBooked: false }));
+    const rosterTotal = Number(res.rosterTotal) || bookedRows.length + unbookedRows.length;
+    const pct = rosterTotal ? Math.round(bookedRows.length / rosterTotal * 100) : 0;
+
+    const get = (r, keys, fallback = "") => {
+      for (const k of keys) {
+        const v = r?.[k];
+        if (v !== undefined && v !== null && typeof v !== "object" && String(v).trim()) return String(v);
+      }
+      return fallback;
+    };
+
+    const search = (document.getElementById("bookingSearch")?.value || "").trim().toLowerCase();
+    const mode = document.getElementById("bookingFilter")?.value || "all";
+    let rows = [...bookedRows, ...unbookedRows].map(r => ({
+      raw: r,
+      name: get(r, ["name", "riderName", "fullName", "employeeName", "empName"], "بدون اسم"),
+      id: get(r, ["id", "empId", "employeeId", "riderId", "code"], "—"),
+      city: get(r, ["cityName", "city", "city_name", "zone"], "طنطا"),
+      supervisor: get(r, ["supervisorName", "supervisor", "managerName"], "—"),
+      booked: r.__officialBooked
+    }));
+
+    rows = rows.filter(r =>
+      (mode === "all" || (mode === "booked" ? r.booked : !r.booked)) &&
+      `${r.name} ${r.id} ${r.city} ${r.supervisor}`.toLowerCase().includes(search)
+    );
+    rows.sort((a, b) => a.name.localeCompare(b.name, "ar"));
+
+    const totalEl = document.getElementById("bookingTotal");
+    const bookedEl = document.getElementById("bookingTomorrow");
+    if (totalEl) totalEl.textContent = rosterTotal;
+    if (bookedEl) bookedEl.textContent = bookedRows.length;
+
+    const percentEl = document.getElementById("bookingPercent");
+    const progressEl = document.getElementById("bookingProgressBar");
+    const detailEl = document.getElementById("bookingPercentDetail");
+    if (percentEl) percentEl.textContent = pct + "%";
+    if (progressEl) progressEl.style.width = Math.max(0, Math.min(100, pct)) + "%";
+    if (detailEl) detailEl.textContent =
+      `${bookedRows.length} من ${rosterTotal} مندوب · ${unbookedRows.length} بدون حجز`;
+
+    let summary = document.getElementById("bookingFilterSummary");
+    if (!summary) {
+      summary = document.createElement("div");
+      summary.id = "bookingFilterSummary";
+      summary.style.cssText = "margin:8px 0 14px;color:var(--muted,#aaa);font-size:14px;line-height:1.9";
+      parent.insertBefore(summary, target);
+    }
+    summary.textContent =
+      `نسبة الحجز: ${pct}% · القوة الأصلية: ${rosterTotal} · ` +
+      `${bookedRows.length} حاجز · ${unbookedRows.length} لسه ما حجزوش · المعروض: ${rows.length}`;
+
+    if (!rows.length) {
+      target.innerHTML = '<div class="empty">لا توجد نتائج مطابقة للفلاتر الحالية.</div>';
+      return;
+    }
+
+    target.innerHTML = rows.map(r => `
+      <article class="booking-card">
+        <div class="booking-card-head">
+          <div><strong>${esc(r.name)}</strong><small>كود المندوب: ${esc(r.id)}</small></div>
+          <span class="booking-state ${r.booked ? "is-booked" : "not-booked"}">
+            ${r.booked ? "حاجز" : "لسه ما حجزش"}
+          </span>
+        </div>
+        <div class="booking-meta">
+          <span>📍 ${esc(r.city)}</span>
+          <span>👤 ${esc(r.supervisor)}</span>
+        </div>
+      </article>`).join("");
+  }
+
+  document.querySelectorAll(".side-link[data-view]").forEach(button => {
+    button.addEventListener("click", () => {
+      activeView = button.dataset.view;
+      document.querySelectorAll(".side-link").forEach(x => x.classList.toggle("active", x === button));
+      document.body.classList.toggle("bookings-mode", activeView === "bookings");
+      if (bookingsView) bookingsView.hidden = activeView !== "bookings";
+      if (mainWrap) {
+        [...mainWrap.children].forEach(child => {
+          if (child === bookingsView || child.tagName === "FOOTER") return;
+          child.hidden = activeView === "bookings";
+        });
+      }
+      closeMenu();
+      if (activeView === "bookings") renderBookings();
+    });
+  });
+  document.getElementById("bookingSearch")?.addEventListener("input", renderBookings);
+  document.getElementById("refreshBookingsBtn")?.addEventListener("click", async () => {
+    await loadData();
+    renderBookings();
+  });
+
+  loadData();
+})();
+
+
+// ALABTAL_LOGOUT_BUTTON
+(async function () {
+  try {
+    const check = await fetch("/api/session", { cache: "no-store" });
+    if (!check.ok || document.getElementById("alabtalLogoutBtn")) return;
+
+    const btn = document.createElement("button");
+    btn.id = "alabtalLogoutBtn";
+    btn.textContent = "⎋ تسجيل خروج";
+    btn.style.cssText = [
+      "position:fixed", "top:12px", "left:12px", "z-index:99999",
+      "padding:11px 16px", "border:1px solid #ff7900",
+      "border-radius:10px", "background:#171717", "color:#ff9a32",
+      "font-weight:800", "font-size:14px", "cursor:pointer",
+      "box-shadow:0 4px 18px #0008"
+    ].join(";");
+
+    btn.addEventListener("click", async function () {
+      if (!confirm("هل تريد تسجيل الخروج؟")) return;
+      btn.disabled = true;
+      btn.textContent = "جارٍ تسجيل الخروج...";
+      try {
+        const res = await fetch("/api/logout", {
+          method: "POST",
+          credentials: "same-origin",
+          cache: "no-store"
+        });
+        if (!res.ok) throw new Error("تعذر تسجيل الخروج");
+        location.reload();
+      } catch (e) {
+        alert(e.message || "تعذر الاتصال");
+        btn.disabled = false;
+        btn.textContent = "⎋ تسجيل خروج";
+      }
+    });
+
+    document.body.appendChild(btn);
+  } catch (_) {}
+})();
+
+
+
+
+document.addEventListener("click", function(e) {
+  if (e.target.closest("button, a, input, select, textarea, label")) return;
+  const card = e.target.closest(".rider");
+  if (!card) return;
+  const details = card.querySelector(".order-route");
+  if (!details) return;
+  card.classList.toggle("order-expanded");
+});

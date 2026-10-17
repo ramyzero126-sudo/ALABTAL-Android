@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>متابعة الحجوزات — ALABTAL</title>
+  <meta name="theme-color" content="#0c0d12" />
+  <link rel="icon" href="icon-192.png" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=alabtal-full-dashboard-1" />
+</head>
+<body>
+  <!-- LOGIN (same flow as old) -->
+  <div id="loginScreen">
+    <div class="login-panel">
+      <img src="icon-192.png" alt="ALABTAL" class="login-logo" />
+      <h1>ALABTAL — متابعة الحجوزات</h1>
+      <p class="login-sub">DISPATCH CONSOLE</p>
+      <form id="loginForm">
+        <input id="loginUser" type="text" placeholder="اليوزر (أو ID المندوب)" autocomplete="username" required />
+        <input id="loginPass" type="password" placeholder="الباسورد (أو رقم البطاقة)" autocomplete="current-password" required />
+        <button type="submit" id="loginBtn">تسجيل الدخول</button>
+        <p id="loginError"></p>
+        <button type="button" id="googleLoginBtn" class="google-login-btn">
+          🌐 تسجيل الدخول باستخدام Google
+        </button>
+        <p id="googleLoginMsg" role="status" style="font-size:12px;text-align:center;margin-top:8px"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div id="app" class="hidden">
+    <!-- Header like original -->
+    <header class="app-header">
+      <div class="hdr-right">
+        <img src="icon-192.png" alt="" class="hdr-logo" />
+        <div class="hdr-titles">
+          <strong id="headerTitle">ALABTAL</strong>
+          <span id="headerUser">—</span>
+        </div>
+      </div>
+      <div class="hdr-actions">
+        <button type="button" id="refreshBtn" class="hdr-btn" title="تحديث">↻</button>
+        <button type="button" id="roosterOpenBtn" class="hdr-btn" title="فتح Rooster">↗</button>
+        <button type="button" id="logoutBtn" class="hdr-btn" title="خروج">⏻</button>
+      </div>
+    </header>
+
+    <!-- Main mode tabs (old structure) -->
+    <nav class="mode-tabs" id="modeTabs">
+      <button type="button" class="mode-btn active" data-mode="bookings">📋 الحجوزات</button>
+      <button type="button" class="mode-btn" data-mode="live">🛰️ اللايف</button>
+      <button type="button" class="mode-btn" data-mode="hours">⏱️ ساعات العمل</button>
+  <button type="button" class="mode-btn" data-mode="roster">👥 المناديب</button>
+      <button type="button" class="mode-btn" data-mode="target">🎯 التارجت</button>
+    </nav>
+
+    <!-- ========== BOOKINGS ========== -->
+    <section id="mode-bookings" class="mode-panel active">
+      <div class="stats-grid" id="bookingsStats">
+        <div class="stat-card ok"><span class="s-label">على الشفت الآن</span><span class="s-val" id="stBooked">—</span></div>
+        <div class="stat-card"><span class="s-label">شغالين</span><span class="s-val" id="stWorking">—</span></div>
+        <div class="stat-card warn"><span class="s-label">بريك</span><span class="s-val" id="stBreak">—</span></div>
+        <div class="stat-card"><span class="s-label">مع طلب</span><span class="s-val" id="stWithOrder">—</span></div>
+        <div class="stat-card"><span class="s-label">من الروستر</span><span class="s-val" id="stForce">—</span></div>
+        <div class="stat-card bad"><span class="s-label">روستر بدون لايف</span><span class="s-val" id="stNot">—</span></div>
+      </div>
+
+      <div class="sub-tabs" id="bookingsSubTabs">
+        <button type="button" class="sub-btn active" data-sub="onshift">على الشفت</button>
+        <button type="button" class="sub-btn" data-sub="working">شغالين</button>
+        <button type="button" class="sub-btn" data-sub="break">بريك</button>
+        <button type="button" class="sub-btn" data-sub="order">مع طلب</button>
+        <button type="button" class="sub-btn" data-sub="roster_missing">في الروستر ومش لايف</button>
+      </div>
+
+      <div class="toolbar">
+        <input type="search" id="bkSearch" placeholder="بحث في الحجوزات / الشفت..." />
+        <button type="button" class="tool-btn" id="bkCopyBtn">📋 نسخ</button>
+      </div>
+
+      <div class="list-meta">
+        <span id="bkCount">0</span>
+        <span id="bkNote" style="color:var(--muted);font-size:0.75rem;">من اللايف + مقارنة الروستر</span>
+      </div>
+      <div id="bookingsList" class="live-list"></div>
+      <div id="bookingsEmpty" class="empty-box hidden">
+        <div class="empty-icon">📋</div>
+        <h3>لا توجد بيانات</h3>
+        <p>انتظر تحميل اللايف أو حدّث التوكنات</p>
+      </div>
+    </section>
+
+    <!-- ========== LIVE ========== -->
+    <section id="mode-live" class="mode-panel">
+      <div class="stats-grid cols-4">
+        <div class="stat-card ok"><span class="s-label">شغالين</span><span class="s-val" id="lvWorking">—</span></div>
+        <div class="stat-card warn"><span class="s-label">بريك</span><span class="s-val" id="lvBreak">—</span></div>
+        <div class="stat-card"><span class="s-label">مع طلب</span><span class="s-val" id="lvOrders">—</span></div>
+        <div class="stat-card bad"><span class="s-label">الإجمالي</span><span class="s-val" id="lvTotal">—</span></div>
+        <div class="stat-card ok"><span class="s-label">ساعات العمل</span><span class="s-val" id="lvHours">—</span></div>
+        <div class="stat-card warn"><span class="s-label">الأوردرات المنفذة</span><span class="s-val" id="lvCompletedOrders">—</span></div>
+      </div>
+
+      <div class="region-tabs" id="regionTabs">
+        <button type="button" class="region-tab active" data-region="all">الكل</button>
+        <button type="button" class="region-tab" data-region="tanta">طنطا</button>
+        <button type="button" class="region-tab" data-region="zagazig">زقازيق</button>
+        <button type="button" class="region-tab" data-region="cairo">القاهرة</button>
+        <button type="button" class="region-tab" data-region="alex">إسكندرية</button>
+        <button type="button" class="region-tab" data-region="other">باقي المناطق</button>
+      </div>
+
+      <div class="sub-tabs" id="liveSubTabs">
+        <button type="button" class="sub-btn active" data-live="all">الكل</button>
+        <button type="button" class="sub-btn" data-live="working">شغالين</button>
+        <button type="button" class="sub-btn" data-live="break">بريك</button>
+        <button type="button" class="sub-btn" data-live="other">أخرى</button>
+      </div>
+
+      <div class="toolbar stack">
+        <div class="filter-row" style="grid-template-columns:1fr auto auto;">
+          <input type="search" id="lvSearch" placeholder="بحث: اسم · ID · زون · نقطة الانطلاق..." />
+          <button type="button" class="tool-btn" id="lvRefreshBtn">↻</button>
+          <span id="lvAutoBadge" class="auto-badge">30ث</span>
+        </div>
+      </div>
+
+      <div class="list-meta">
+        <span id="lvCount">0 مندوب</span>
+        <button type="button" class="city-tab active" id="lvOursToggle">مناديبنا فقط</button>
+        <span id="lvStatusMsg"></span>
+      </div>
+      <div id="liveList" class="live-list"></div>
+      <div id="liveEmpty" class="empty-box hidden">
+        <div class="empty-icon">🛰️</div>
+        <h3>لا توجد بيانات لايف</h3>
+        <p>بيتم مسح كل المدن تلقائي وعرض مناديب EL ABTAL فقط</p>
+      </div>
+      <div id="liveLoading" class="empty-box hidden"><div class="spinner"></div><p>جارِ تحميل اللايف...</p></div>
+    </section>
+
+    <!-- ========== ROSTER (working from Sheet) ========== -->
+    <section id="mode-hours" class="mode-panel">
+      <div class="stats-grid cols-4">
+        <div class="stat-card ok">
+          <span class="s-label">إجمالي الساعات</span>
+          <span class="s-val" id="hoursTotal">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="s-label">عدد المناديب</span>
+          <span class="s-val" id="hoursCount">—</span>
+        </div>
+      </div>
+      <div class="list-meta">
+        <span>ساعات الشيفت من بيانات الشيت</span>
+      </div>
+      <div id="hoursList" class="live-list"></div>
+      <div id="hoursEmpty" class="empty-box hidden">
+        <p>لا توجد بيانات ساعات شيفت متاحة</p>
+      </div>
+    </section>
+
+    <section id="mode-roster" class="mode-panel">
+      <div class="stats-grid cols-4">
+        <div class="stat-card"><span class="s-label">الإجمالي</span><span class="s-val" id="rsTotal">—</span></div>
+        <div class="stat-card ok"><span class="s-label">نشط</span><span class="s-val" id="rsActive">—</span></div>
+        <div class="stat-card bad"><span class="s-label">غير نشط</span><span class="s-val" id="rsInactive">—</span></div>
+        <div class="stat-card warn"><span class="s-label">المناطق</span><span class="s-val" id="rsAreas">—</span></div>
+      </div>
+
+      <div class="toolbar stack">
+        <input type="search" id="rsSearch" placeholder="بحث: اسم · ID · موبايل · منطقة · مشرف" />
+        <div class="filter-row">
+          <select id="rsStatus">
+            <option value="all">كل الحالات</option>
+            <option value="active">نشط</option>
+            <option value="inactive">غير نشط</option>
+          </select>
+          <select id="rsArea"><option value="all">كل المناطق</option></select>
+          <select id="rsSuper"><option value="all">كل المشرفين</option></select>
+        </div>
+      </div>
+
+      <div class="list-meta">
+        <span id="rsCount">0 نتيجة</span>
+        <button type="button" class="linkish" id="rsClear">مسح الفلاتر</button>
+      </div>
+      <div id="rsList" class="rider-list"></div>
+      <div id="rsEmpty" class="empty-box hidden"><p>لا توجد نتائج</p></div>
+      <div id="rsLoading" class="empty-box"><div class="spinner"></div><p>جارِ تحميل الروستر...</p></div>
+    </section>
+
+    <!-- ========== TARGET ========== -->
+    <section id="mode-target" class="mode-panel">
+      <div class="stats-grid cols-4">
+        <div class="stat-card"><span class="s-label">تارجت اليوم</span><span class="s-val" id="tgDay">—</span></div>
+        <div class="stat-card ok"><span class="s-label">المحقق</span><span class="s-val" id="tgDone">—</span></div>
+        <div class="stat-card warn"><span class="s-label">المتبقي</span><span class="s-val" id="tgLeft">—</span></div>
+        <div class="stat-card"><span class="s-label">نسبة الإنجاز</span><span class="s-val" id="tgPct">—</span></div>
+      </div>
+      <div class="list-body">
+        <div class="empty-box">
+          <div class="empty-icon">🎯</div>
+          <h3>التارجت غير مربوط بعد</h3>
+          <p>نفس تنظيم لوحة التارجت — جاهز للربط بمصدر البيانات.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Rider detail modal -->
+  <div id="detailModal" class="modal hidden">
+    <div class="modal-bg" id="modalBg"></div>
+    <div class="modal-sheet">
+      <div class="modal-head">
+        <h2 id="detailName">—</h2>
+        <button type="button" id="detailClose" class="hdr-btn">✕</button>
+      </div>
+      <div id="detailBody" class="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="app.js?v=desktop-live-fix-2"></script>
+
+<div id="roosterModal" style="display:none;position:fixed;inset:0;z-index:9999;background:#080d18;padding:10px;box-sizing:border-box">
+  <div style="height:100%;display:flex;flex-direction:column;gap:8px">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <strong style="color:white">Rooster</strong>
+      <div style="display:flex;gap:8px">
+        <button id="roosterExternalBtn" type="button">فتح خارجيًا ↗</button>
+        <button id="roosterCloseBtn" type="button">إغلاق ✕</button>
+      </div>
+    </div>
+    <iframe id="roosterFrame" title="Rooster" src="about:blank"
+      style="border:0;border-radius:8px;background:white;flex:1;width:100%"
+      referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+</div>
+
+</body>
+</html>
