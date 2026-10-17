@@ -3254,3 +3254,39 @@ html body #riders .actions .action {
   .head-action { padding:7px 6px; font-size:10px; }
   #notificationsPanel { top:62px; }
 }
+
+
+/* ALABTAL DROPDOWN TYPEWRITER AND DETAIL PAGE */
+.header-select-wrap{position:relative;display:inline-flex;align-items:center}
+.header-select-wrap select{appearance:none;-webkit-appearance:none;max-width:155px;padding:9px 12px 9px 28px;border:1px solid #ffb36b88;border-radius:12px;background:#1b130e;color:#ffb36b;font:inherit;font-size:12px;font-weight:850}
+.header-select-wrap .select-arrow{position:absolute;left:9px;pointer-events:none;color:#ff8a35;font-size:17px}
+.brand-typewriter{min-height:64px;margin:0 0 13px;display:flex;align-items:center;justify-content:center;gap:4px;border:1px solid #ff7a164d;border-radius:18px;background:linear-gradient(110deg,#1b1008,#080a0c 65%,#1b1008);box-shadow:inset 0 1px #ffffff0a,0 8px 22px #ff790d0d;color:#ff861f;font-size:clamp(23px,5vw,32px);font-weight:1000;letter-spacing:3px;text-shadow:0 0 9px #ff790d88,0 0 22px #ff790d33}
+.brand-typewriter i{display:inline-block;width:3px;height:1.1em;background:#ff861f;box-shadow:0 0 9px #ff861f;animation:alabtalCursor .7s steps(2,end) infinite}
+@keyframes alabtalCursor{50%{opacity:0}}
+.rider-status-line{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:11px 0 4px}
+.rider-state-pill{display:inline-flex;align-items:center;padding:5px 11px;border-radius:999px;background:#09251d;border:1px solid #20d7a4;color:#20d7a4;font-size:12px;font-weight:900}
+.rider .order-status-badge{display:inline-flex;align-items:center;padding:5px 11px;border-radius:999px;font-size:12px;font-weight:900}
+.rider .order-status-badge.has-order{color:#ffb36b;background:#291607;border-color:#ff8a24;box-shadow:0 0 12px #ff7a1d24}
+.rider .order-status-badge.no-order{color:#a6aebb;background:#111519;border-color:#454b55}
+.rider-detail-page{position:fixed;inset:0;z-index:2000;display:none;overflow-y:auto;background:radial-gradient(ellipse at 50% 0,#251205,#050607 54%,#000);padding:0 14px 28px}
+.rider-detail-page.open{display:block;animation:alabtalDetailIn .2s ease-out}
+@keyframes alabtalDetailIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.detail-top{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 0;background:#070809ed;backdrop-filter:blur(12px);border-bottom:1px solid #ff7a1640;color:#ff9b45}
+.detail-top button{border:1px solid #ff8a244d;border-radius:11px;background:#211308;color:#ffb36b;padding:9px 13px;font:inherit;font-weight:850}
+.detail-top strong{font-size:16px}.detail-top span{font-size:11px;font-weight:950;letter-spacing:2px}
+#riderDetailContent{max-width:650px;margin:18px auto}
+.detail-rider-card{padding:17px;border:1px solid #ff7a1666;border-radius:23px;background:linear-gradient(145deg,#15110d,#080a0c 68%);box-shadow:0 18px 40px #0009,0 0 24px #ff7a1610}
+.detail-rider-hero{display:flex;align-items:center;gap:13px;padding-bottom:15px;border-bottom:1px solid #ffffff12}
+.detail-avatar{display:grid;place-items:center;width:64px;height:64px;flex:0 0 64px;border:1px solid #ff8a24;border-radius:20px;background:#281609;font-size:32px}
+.detail-rider-hero small{color:#ff9a42;font-weight:850;letter-spacing:1px}.detail-rider-hero h2{margin:5px 0;font-size:21px;color:#f7f7f7}.detail-rider-hero p{margin:0;color:#aeb5bf;font-size:13px}
+.detail-status-row{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.detail-rider-card h3{margin:22px 0 10px;color:#ff9b45;font-size:15px}
+.detail-field{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:12px 2px;border-bottom:1px solid #ffffff0d}
+.detail-field span{color:#9da5b2;font-size:13px;flex:0 0 38%}.detail-field b{color:#f2f4f8;text-align:left;overflow-wrap:anywhere;font-size:13px}
+.detail-no-order{padding:15px;border:1px dashed #545b66;border-radius:13px;color:#b4bbc5;text-align:center}
+.detail-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:18px}
+.detail-metrics div{padding:12px 4px;text-align:center;border:1px solid #ffffff12;border-radius:13px;background:#101316}
+.detail-metrics b{display:block;color:#ffb36b;font-size:20px}.detail-metrics small{color:#aeb5bf;font-size:11px}
+.detail-wallet{display:flex;justify-content:space-between;gap:12px;margin-top:12px;padding:14px;border-radius:13px;background:#10221b;border:1px solid #1d7553;color:#a5e9c9}.detail-wallet b{color:#fff}
+body.detail-page-open{overflow:hidden}
+@media(max-width:620px){.header-select-wrap select{max-width:130px;font-size:11px;padding:8px 9px 8px 24px}.headright{gap:5px}.brand-typewriter{min-height:57px;letter-spacing:2px}.detail-rider-card{padding:13px}.detail-field span{flex-basis:36%}}

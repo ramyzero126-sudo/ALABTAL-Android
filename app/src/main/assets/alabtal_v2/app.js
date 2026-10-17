@@ -224,7 +224,6 @@
 
   function render() {
     if (!list) return;
-    const q = ($("#search")?.value || "").trim().toLowerCase();
 
     const cityTabs = $("#cityTabs");
     const cities = ["طنطا"]
@@ -257,12 +256,10 @@
       const statusMatch = status === "الكل" || r.status === status;
       const city = (r.city || "").trim() || "غير محددة";
       const cityMatch = selectedCity === "الكل" || city === selectedCity;
-      return statusMatch && cityMatch &&
-        `${r.name} ${r.id} ${r.city}`.toLowerCase().includes(q);
+      return statusMatch && cityMatch;
     });
 
-    if ($("#sort")?.value === "orders") rows.sort((a,b) => b.orders-a.orders);
-    else rows.sort((a,b) => a.name.localeCompare(b.name, "ar"));
+    rows.sort((a,b) => a.name.localeCompare(b.name, "ar"));
 
   window.formatShiftTime = function(value) {
     const raw = String(value ?? "").trim();
@@ -300,7 +297,7 @@
       }
 
       return `
-      <article class="rider">
+      <article class="rider" data-rider-name="${esc(r.name)}" data-rider-id="${esc(r.id)}">
         <div class="rider-head">
           <div class="avatar">🛵</div>
           <div class="rider-info">
@@ -312,19 +309,10 @@
           <span class="status">${esc(r.status)}</span>
         </div>
 
-        ${order ? `
-        <div class="order-box">
-          <div class="order-status-badge ${statusClass}"><span class="status-orb"></span>${esc(statusLabel)}</div>
-          <div class="order-details">
-            ${restaurant ? `<div class="order-line">🍽️ <b>المطعم:</b> ${esc(restaurant)}</div>` : ""}
-            ${pickup ? `<div class="order-line">📍 <b>من:</b> ${esc(pickup)}</div>` : ""}
-            ${dropoff ? `<div class="order-line">🏁 <b>إلى العميل:</b> ${esc(dropoff)}</div>` : ""}
-            ${orderId && orderId !== "—" ? `<div class="order-line">📦 <b>رقم الأوردر:</b> ${esc(orderId)}</div>` : ""}
-          </div>
-        </div>` : `
-        <div class="order-box empty-order">
-          <div class="order-status-badge no-order">مفيش أوردر حالياً</div>
-        </div>`}
+        <div class="rider-status-line">
+          <span class="rider-state-pill">${esc(r.status)}</span>
+          <span class="order-status-badge ${statusClass}">${order ? "● معاه أوردر" : "○ مفيش أوردر"}</span>
+        </div>
 
         <div class="metrics">
           <div class="metric"><b>${r.orders}</b><small>أوردر</small></div>
@@ -423,6 +411,7 @@
         return;
       }
       data = records.map(normalize);
+      window.alabtalRiderData = data;
       notifyRiderStatusChanges(data);
 
       // مصدر الحجوزات الأصلي، مستقل عن بيانات اللايف.
@@ -490,9 +479,6 @@
     selectedCity = button.dataset.city || "الكل";
     render();
   });
-  $("#search")?.addEventListener("input", render);
-  $("#searchBtn")?.addEventListener("click", render);
-  $("#sort")?.addEventListener("change", render);
 
   const refreshLiveBtn = document.getElementById("refreshLiveBtn");
   refreshLiveBtn?.addEventListener("click", async () => {
@@ -665,12 +651,15 @@
 (function () {
   const $ = id => document.getElementById(id);
 
-  // تبويبات أعلى الشاشة تستخدم نفس التنقل الأصلي للحجوزات
-  $("headerLiveBtn")?.addEventListener("click", () => {
-    document.querySelector('.side-link[data-view="live"]')?.click();
+  // القائمة المنسدلة العلوية
+  $("headerViewSelect")?.addEventListener("change", e => {
+    document.querySelector(`.side-link[data-view="${e.target.value}"]`)?.click();
   });
-  $("headerBookingsBtn")?.addEventListener("click", () => {
-    document.querySelector('.side-link[data-view="bookings"]')?.click();
+  document.querySelectorAll(".side-link[data-view]").forEach(button => {
+    button.addEventListener("click", () => {
+      const select = $("headerViewSelect");
+      if (select) select.value = button.dataset.view || "live";
+    });
   });
 
   // لوحة الإشعارات
@@ -742,7 +731,94 @@ document.addEventListener("click", function(e) {
   if (e.target.closest("button, a, input, select, textarea, label")) return;
   const card = e.target.closest(".rider");
   if (!card) return;
-  const details = card.querySelector(".order-box");
-  if (!details) return;
-  card.classList.toggle("order-expanded");
+
+  const riders = window.alabtalRiderData || [];
+  const rider = riders.find(r =>
+    r.name === card.dataset.riderName && r.id === card.dataset.riderId
+  );
+  if (!rider) return;
+
+  const safe = v => String(v ?? "—").replace(/[&<>"']/g, c =>
+    ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])
+  );
+  const findField = (obj, pattern) => {
+    const seen = new Set();
+    function walk(value, depth) {
+      if (!value || typeof value !== "object" || depth > 5 || seen.has(value)) return "";
+      seen.add(value);
+      for (const [key, val] of Object.entries(value)) {
+        if (pattern.test(key) && val != null && typeof val !== "object" && String(val).trim()) return String(val);
+      }
+      for (const val of Object.values(value)) {
+        const found = walk(val, depth + 1);
+        if (found) return found;
+      }
+      return "";
+    }
+    return obj ? (walk(obj, 0) || "—") : "—";
+  };
+
+  const order = rider.activeOrder;
+  const orderStatus = findField(order, /orderStatus|status|state|currentStatus/i);
+  const orderId = findField(order, /orderId|order_id|id|code/i);
+  const restaurant = findField(order, /vendor|restaurant|merchant|shop|store|name/i);
+  const pickup = findField(order, /pickup|pick.?up|collect|restaurantAddress|fromAddress/i);
+  const dropoff = findField(order, /drop.?off|deliveryAddress|customerAddress|destination|deliverTo/i);
+
+  let page = document.getElementById("riderDetailPage");
+  if (!page) {
+    page = document.createElement("section");
+    page.id = "riderDetailPage";
+    page.className = "rider-detail-page";
+    page.innerHTML = '<header class="detail-top"><button type="button" id="detailBackBtn">‹ رجوع</button><strong>تفاصيل المندوب</strong><span>ALABTAL</span></header><div id="riderDetailContent"></div>';
+    document.body.appendChild(page);
+    page.querySelector("#detailBackBtn").addEventListener("click", () => {
+      page.classList.remove("open");
+      document.body.classList.remove("detail-page-open");
+    });
+  }
+
+  document.getElementById("riderDetailContent").innerHTML = `
+    <article class="detail-rider-card">
+      <div class="detail-rider-hero"><span class="detail-avatar">🛵</span><div><small>AL ABTAL · طنطا</small><h2>${safe(rider.name)}</h2><p>كود المندوب: ${safe(rider.id)}</p></div></div>
+      <div class="detail-status-row"><span class="rider-state-pill">${safe(rider.status)}</span><span class="order-status-badge ${order ? "has-order" : "no-order"}">${order ? "● معاه أوردر" : "○ مفيش أوردر"}</span></div>
+      <h3>تفاصيل الأوردر</h3>
+      ${order ? `<div class="detail-field"><span>حالة الأوردر</span><b>${safe(orderStatus)}</b></div><div class="detail-field"><span>رقم الأوردر</span><b>${safe(orderId)}</b></div><div class="detail-field"><span>المطعم</span><b>${safe(restaurant)}</b></div><div class="detail-field"><span>عنوان الاستلام</span><b>${safe(pickup)}</b></div><div class="detail-field"><span>عنوان العميل</span><b>${safe(dropoff)}</b></div>` : '<div class="detail-no-order">المندوب لا يحمل أوردرًا نشطًا حاليًا.</div>'}
+      <h3>بيانات المندوب</h3>
+      <div class="detail-field"><span>المدينة</span><b>${safe(rider.city)}</b></div><div class="detail-field"><span>المشرف</span><b>${safe(rider.supervisor)}</b></div><div class="detail-field"><span>بداية الشيفت</span><b>${safe(window.formatShiftTime ? window.formatShiftTime(rider.shiftStart) : rider.shiftStart)}</b></div><div class="detail-field"><span>نهاية الشيفت</span><b>${safe(window.formatShiftTime ? window.formatShiftTime(rider.shiftEnd) : rider.shiftEnd)}</b></div>
+      <div class="detail-metrics"><div><b>${rider.orders}</b><small>أوردر</small></div><div><b>${safe(rider.utr)}</b><small>UTR</small></div><div><b>${safe(rider.hours)}</b><small>ساعة</small></div><div><b>${rider.breaks}</b><small>بريك</small></div></div>
+      <div class="detail-wallet"><span>💰 المحفظة</span><b>${safe(rider.wallet)}</b></div>
+    </article>`;
+  page.classList.add("open");
+  document.body.classList.add("detail-page-open");
 });
+
+
+// ALABTAL_TYPEWRITER
+(function () {
+  const target = document.getElementById("brandTypingText");
+  if (!target) return;
+  const words = ["ALABTAL", "TALABAT", "طنطا"];
+  let wordIndex = 0, charIndex = 0, deleting = false;
+  function tick() {
+    const word = words[wordIndex];
+    target.textContent = word.slice(0, charIndex);
+    if (!deleting) {
+      charIndex++;
+      if (charIndex > word.length) {
+        deleting = true;
+        setTimeout(tick, 1000);
+        return;
+      }
+    } else {
+      charIndex--;
+      if (charIndex < 0) {
+        deleting = false;
+        charIndex = 0;
+        wordIndex = (wordIndex + 1) % words.length;
+      }
+    }
+    setTimeout(tick, deleting ? 65 : 135);
+  }
+  tick();
+})();

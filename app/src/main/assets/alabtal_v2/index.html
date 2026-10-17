@@ -9,7 +9,7 @@
 <header class="topbar">
   <button id="menuToggle" class="iconbtn" aria-label="فتح القائمة">☰</button>
   <div class="brand"><b>ALABTAL</b><small>LIVE RIDER OPERATIONS</small></div>
-  <div class="headright"><button id="headerLiveBtn" class="head-action" type="button">اللايف</button><button id="headerBookingsBtn" class="head-action" type="button">الحجوزات</button><button id="notificationsBtn" class="iconbtn" type="button" aria-label="الإشعارات">🔔<span id="notificationCount" hidden>0</span></button><button id="alabtalLogoutBtn" class="head-action logout-action" type="button">⎋ خروج</button></div>
+  <div class="headright"><label class="header-select-wrap"><select id="headerViewSelect" aria-label="اختيار الصفحة"><option value="live">حالة المناديب</option><option value="bookings">حجوزات الشيفتات</option></select><span class="select-arrow">⌄</span></label><button id="notificationsBtn" class="iconbtn" type="button" aria-label="الإشعارات">🔔<span id="notificationCount" hidden>0</span></button><button id="alabtalLogoutBtn" class="head-action logout-action" type="button">⎋ خروج</button></div>
 </header>
 <aside id="sideMenu" class="side-menu" aria-hidden="true">
   <div class="side-menu-brand"><b>ALABTAL</b><button id="menuClose" type="button">×</button></div>
@@ -44,7 +44,7 @@
     </div>
   </section>
   <section class="filters">
-    <div class="searchrow"><input id="search" placeholder="🔎 ابحث باسم المندوب أو الرقم"><select id="sort"><option value="name">ترتيب: الاسم</option><option value="orders">ترتيب: الأوردرات</option></select><button class="primary" id="searchBtn">بحث</button></div>
+    <div class="brand-typewriter" aria-label="ALABTAL TALABAT طنطا"><span id="brandTypingText">ALABTAL</span><i></i></div>
     <div class="chips" id="filters">
       <button class="chip active" data-status="الكل">الكل</button><button class="chip" data-status="شغال">🟢 شغال</button><button class="chip" data-status="متأخر">🔴 متأخر</button><button class="chip" data-status="استراحة">🟡 استراحة</button><button class="chip" data-status="READY">🔵 READY</button>
     </div>
