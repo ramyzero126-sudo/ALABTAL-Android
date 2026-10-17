@@ -1884,105 +1884,177 @@ body{margin:0;background:radial-gradient(ellipse at 50% 0,#21100b 0, #050607 38%
   }
 }
 
-/* ALABTAL ORANGE x GREEN — COMPACT 3D */
+
+/* ALABTAL LUXURY EMERALD 3D — VISUAL ONLY */
 :root {
-  --orange: #ff682f;
-  --green: #19d99a;
+  color-scheme: dark;
+  --ab-bg: #070a08;
+  --ab-surface: #101712;
+  --ab-surface-2: #151f18;
+  --ab-emerald: #00d98b;
+  --ab-emerald-soft: #00a86b;
+  --ab-text: #f1f8f3;
+  --ab-muted: #9aada1;
+  --ab-border: rgba(0, 217, 139, .22);
+  --ab-shadow: 0 12px 28px rgba(0,0,0,.48),
+               inset 0 1px 0 rgba(255,255,255,.045);
 }
 
-.rider,
-.area-box,
-.booking-card,
-.booking-summary > article,
-.tile,
-.metric {
-  border-radius: 16px !important;
+html { background: var(--ab-bg); }
+body {
+  background:
+    radial-gradient(ellipse at 12% 0%, rgba(0,217,139,.09), transparent 38%),
+    radial-gradient(ellipse at 90% 85%, rgba(0,120,72,.09), transparent 36%),
+    var(--ab-bg) !important;
+  color: var(--ab-text);
+}
+
+header, .header, .topbar, .top-bar, .navbar, nav,
+.sidebar, .side-nav, aside {
+  background: linear-gradient(145deg, #131c16, #090d0a) !important;
+  border-color: var(--ab-border) !important;
+}
+
+.card, .stat-card, .metric-card, .dashboard-card,
+.panel, .widget, .stat-box, .summary-card,
+.live-card, .shift-card, .rider-card,
+[class*="stat-card"], [class*="dashboard-card"] {
+  background: linear-gradient(145deg, #19251d 0%, #101712 48%, #0b100d 100%) !important;
+  color: var(--ab-text) !important;
+  border: 1px solid var(--ab-border) !important;
+  border-radius: 18px !important;
   box-shadow:
-    0 5px 0 #020303,
-    0 10px 18px #0009,
-    inset 0 1px 0 #ffffff12 !important;
+    0 12px 0 #070b08,
+    0 15px 24px rgba(0,0,0,.42),
+    inset 0 1px 0 rgba(255,255,255,.07),
+    inset 0 -1px 0 rgba(0,217,139,.08) !important;
+  transition: transform .22s ease, box-shadow .22s ease,
+              border-color .22s ease !important;
 }
 
-.rider {
-  padding: 10px !important;
-  border: 1px solid #ff682f !important;
-  background: linear-gradient(145deg, #202019, #0a100e 72%) !important;
-  transition: transform .18s ease, box-shadow .18s ease;
+.live-card, .rider-card {
+  position: relative;
+  overflow: hidden;
+  border-top: 2px solid rgba(0,217,139,.58) !important;
 }
 
-.rider:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 0 #020303, 0 5px 10px #0009 !important;
+.card:hover, .stat-card:hover, .metric-card:hover,
+.dashboard-card:hover, .panel:hover, .widget:hover,
+.live-card:hover, .shift-card:hover, .rider-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0,255,160,.55) !important;
+  box-shadow:
+    0 15px 0 #060907,
+    0 22px 34px rgba(0,0,0,.48),
+    0 0 22px rgba(0,217,139,.09),
+    inset 0 1px 0 rgba(255,255,255,.09) !important;
 }
 
-.rider:before {
-  width: 4px !important;
-  background: linear-gradient(180deg, #ff682f, #19d99a) !important;
+h1, h2, h3, h4, .section-title, .card-title {
+  color: var(--ab-text);
+}
+small, .muted, .subtitle, .text-muted {
+  color: var(--ab-muted);
 }
 
-.area-box {
-  padding: 9px !important;
-  border: 1px solid #19d99a66 !important;
-  background: linear-gradient(145deg, #12251d, #090d0b 75%) !important;
+button, .btn, input[type="button"], input[type="submit"],
+[role="button"] {
+  border-radius: 12px;
+  transition: transform .18s ease, filter .18s ease,
+              box-shadow .18s ease;
 }
 
-.area-heading {
-  padding: 9px 11px !important;
-  background: linear-gradient(110deg, #402015, #103024) !important;
-  border-color: #ff682f77 !important;
+button:not(:disabled):hover, .btn:hover,
+input[type="button"]:hover, input[type="submit"]:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
 }
 
-.area-riders {
-  gap: 10px !important;
+button.primary, .btn-primary, .btn-success,
+button[type="submit"], input[type="submit"] {
+  background: linear-gradient(145deg, #00e69a, #008c59);
+  color: #03150c;
+  border: 1px solid rgba(125,255,197,.45);
+  box-shadow: 0 4px 0 #075438, 0 8px 18px rgba(0,217,139,.13);
+  font-weight: 800;
 }
 
-.metric {
-  padding: 7px 3px !important;
-  border-color: #19d99a35 !important;
-  background: linear-gradient(145deg, #17251f, #0b100e) !important;
+input, select, textarea {
+  background-color: #0b120d !important;
+  color: var(--ab-text) !important;
+  border-color: rgba(0,217,139,.24) !important;
+  border-radius: 10px;
 }
 
-.metric b,
-.status {
-  color: #19d99a !important;
+input:focus, select:focus, textarea:focus {
+  border-color: var(--ab-emerald) !important;
+  box-shadow: 0 0 0 3px rgba(0,217,139,.12) !important;
+  outline: none;
 }
 
-.status {
-  background: #0b3024 !important;
-  border-color: #19d99a77 !important;
+table {
+  color: var(--ab-text);
+  border-color: rgba(0,217,139,.15);
+}
+th {
+  background: #142019;
+  color: #7cf4bd;
+}
+td, th {
+  border-color: rgba(0,217,139,.12);
+}
+tr:hover td {
+  background: rgba(0,217,139,.045);
 }
 
-.action.call {
-  background: linear-gradient(145deg, #087d57, #06422f) !important;
-  color: #baffdf !important;
-  border-color: #19d99a !important;
+.badge, .pill, .live-pill {
+  border-radius: 999px;
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #080c09; }
+::-webkit-scrollbar-thumb {
+  background: #176b49;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover { background: #00a86b; }
+
+@media (max-width: 600px) {
+  .card, .stat-card, .metric-card, .dashboard-card,
+  .panel, .widget, .live-card, .shift-card, .rider-card {
+    border-radius: 15px !important;
+    box-shadow:
+      0 7px 0 #070b08,
+      0 10px 18px rgba(0,0,0,.4),
+      inset 0 1px 0 rgba(255,255,255,.05) !important;
+  }
+  .live-card:hover, .card:hover, .panel:hover {
+    transform: none;
+  }
 }
 
-.action.break,
-.primary,
-.chip.active {
-  background: linear-gradient(145deg, #ff9a45, #ff5429) !important;
-  border-color: #ff8a42 !important;
-}
 
-.booking-summary > article,
-.booking-card {
-  border-color: #19d99a40 !important;
-  background: linear-gradient(145deg, #17231d, #0b100e) !important;
-}
+/* ALABTAL MOBILE RENDER PERFORMANCE */
+@media (max-width: 700px) {
+  html {
+    scroll-behavior: auto !important;
+  }
 
-.booking-summary > article strong {
-  color: #19d99a !important;
-  text-shadow: 0 0 12px #19d99a22 !important;
-}
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 
-.booking-summary .booking-progress i {
-  background: linear-gradient(90deg, #ff682f, #19d99a) !important;
-}
-
-@media (max-width: 620px) {
-  .rider { padding: 9px !important; }
-  .area-box { padding: 7px !important; }
-  .area-riders { gap: 9px !important; }
-  .metric { border-radius: 11px !important; }
+  .live-card,
+  .area-group,
+  .area-riders,
+  .booking-card,
+  .stat-card,
+  .dashboard-card {
+    box-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
 }

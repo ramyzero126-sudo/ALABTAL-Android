@@ -1883,3 +1883,152 @@ body{margin:0;background:radial-gradient(ellipse at 50% 0,#21100b 0, #050607 38%
     animation: none !important;
   }
 }
+
+
+/* ALABTAL LUXURY EMERALD 3D — VISUAL ONLY */
+:root {
+  color-scheme: dark;
+  --ab-bg: #070a08;
+  --ab-surface: #101712;
+  --ab-surface-2: #151f18;
+  --ab-emerald: #00d98b;
+  --ab-emerald-soft: #00a86b;
+  --ab-text: #f1f8f3;
+  --ab-muted: #9aada1;
+  --ab-border: rgba(0, 217, 139, .22);
+  --ab-shadow: 0 12px 28px rgba(0,0,0,.48),
+               inset 0 1px 0 rgba(255,255,255,.045);
+}
+
+html { background: var(--ab-bg); }
+body {
+  background:
+    radial-gradient(ellipse at 12% 0%, rgba(0,217,139,.09), transparent 38%),
+    radial-gradient(ellipse at 90% 85%, rgba(0,120,72,.09), transparent 36%),
+    var(--ab-bg) !important;
+  color: var(--ab-text);
+}
+
+header, .header, .topbar, .top-bar, .navbar, nav,
+.sidebar, .side-nav, aside {
+  background: linear-gradient(145deg, #131c16, #090d0a) !important;
+  border-color: var(--ab-border) !important;
+}
+
+.card, .stat-card, .metric-card, .dashboard-card,
+.panel, .widget, .stat-box, .summary-card,
+.live-card, .shift-card, .rider-card,
+[class*="stat-card"], [class*="dashboard-card"] {
+  background: linear-gradient(145deg, #19251d 0%, #101712 48%, #0b100d 100%) !important;
+  color: var(--ab-text) !important;
+  border: 1px solid var(--ab-border) !important;
+  border-radius: 18px !important;
+  box-shadow:
+    0 12px 0 #070b08,
+    0 15px 24px rgba(0,0,0,.42),
+    inset 0 1px 0 rgba(255,255,255,.07),
+    inset 0 -1px 0 rgba(0,217,139,.08) !important;
+  transition: transform .22s ease, box-shadow .22s ease,
+              border-color .22s ease !important;
+}
+
+.live-card, .rider-card {
+  position: relative;
+  overflow: hidden;
+  border-top: 2px solid rgba(0,217,139,.58) !important;
+}
+
+.card:hover, .stat-card:hover, .metric-card:hover,
+.dashboard-card:hover, .panel:hover, .widget:hover,
+.live-card:hover, .shift-card:hover, .rider-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0,255,160,.55) !important;
+  box-shadow:
+    0 15px 0 #060907,
+    0 22px 34px rgba(0,0,0,.48),
+    0 0 22px rgba(0,217,139,.09),
+    inset 0 1px 0 rgba(255,255,255,.09) !important;
+}
+
+h1, h2, h3, h4, .section-title, .card-title {
+  color: var(--ab-text);
+}
+small, .muted, .subtitle, .text-muted {
+  color: var(--ab-muted);
+}
+
+button, .btn, input[type="button"], input[type="submit"],
+[role="button"] {
+  border-radius: 12px;
+  transition: transform .18s ease, filter .18s ease,
+              box-shadow .18s ease;
+}
+
+button:not(:disabled):hover, .btn:hover,
+input[type="button"]:hover, input[type="submit"]:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+button.primary, .btn-primary, .btn-success,
+button[type="submit"], input[type="submit"] {
+  background: linear-gradient(145deg, #00e69a, #008c59);
+  color: #03150c;
+  border: 1px solid rgba(125,255,197,.45);
+  box-shadow: 0 4px 0 #075438, 0 8px 18px rgba(0,217,139,.13);
+  font-weight: 800;
+}
+
+input, select, textarea {
+  background-color: #0b120d !important;
+  color: var(--ab-text) !important;
+  border-color: rgba(0,217,139,.24) !important;
+  border-radius: 10px;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--ab-emerald) !important;
+  box-shadow: 0 0 0 3px rgba(0,217,139,.12) !important;
+  outline: none;
+}
+
+table {
+  color: var(--ab-text);
+  border-color: rgba(0,217,139,.15);
+}
+th {
+  background: #142019;
+  color: #7cf4bd;
+}
+td, th {
+  border-color: rgba(0,217,139,.12);
+}
+tr:hover td {
+  background: rgba(0,217,139,.045);
+}
+
+.badge, .pill, .live-pill {
+  border-radius: 999px;
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #080c09; }
+::-webkit-scrollbar-thumb {
+  background: #176b49;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover { background: #00a86b; }
+
+@media (max-width: 600px) {
+  .card, .stat-card, .metric-card, .dashboard-card,
+  .panel, .widget, .live-card, .shift-card, .rider-card {
+    border-radius: 15px !important;
+    box-shadow:
+      0 7px 0 #070b08,
+      0 10px 18px rgba(0,0,0,.4),
+      inset 0 1px 0 rgba(255,255,255,.05) !important;
+  }
+  .live-card:hover, .card:hover, .panel:hover {
+    transform: none;
+  }
+}
+
