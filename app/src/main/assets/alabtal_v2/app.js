@@ -321,11 +321,17 @@
           <div class="metric"><b>${r.breaks}</b><small>بريك</small></div>
         </div>
 
+        <div class="wallet-row">
+          <span>💰 المحفظة</span>
+          <b>${esc(r.wallet)}</b>
+        </div>
+
         <div class="actions">
-          <button class="action" disabled>تزويد</button>
-          <button class="action" disabled>فك بريك</button>
-          <button class="action" disabled>قفل</button>
+          <button class="action" disabled>واتساب</button>
           <button class="action" disabled>اتصال</button>
+          <button class="action" disabled>قفل</button>
+          <button class="action" disabled>فك بريك</button>
+          <button class="action" disabled>تزويد</button>
         </div>
       </article>`;
     };

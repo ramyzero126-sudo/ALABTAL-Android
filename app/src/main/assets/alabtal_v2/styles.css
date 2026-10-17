@@ -3163,3 +3163,43 @@ html body #riders .actions .action {
     justify-self: start !important;
   }
 }
+
+
+/* ALABTAL - compact green 3D rider card + wallet */
+html body #riders .rider {
+  border: 1px solid rgba(39, 235, 158, .8) !important;
+  border-radius: 18px !important;
+  box-shadow:
+    0 2px 0 #08764c,
+    0 5px 14px #0009,
+    0 0 12px rgba(20, 230, 145, .13),
+    inset 0 1px 0 #ffffff18 !important;
+}
+html body #riders .wallet-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  margin: 7px 0 !important;
+  padding: 7px 10px !important;
+  border: 1px solid rgba(35, 220, 145, .38) !important;
+  border-radius: 11px !important;
+  background: linear-gradient(110deg, #102b23, #101719) !important;
+  color: #b8f8dc !important;
+  font-size: 12px !important;
+}
+html body #riders .wallet-row b {
+  color: #55f0ae !important;
+  font-size: 13px !important;
+  overflow-wrap: anywhere !important;
+}
+html body #riders .actions {
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 4px !important;
+}
+html body #riders .actions .action {
+  min-width: 0 !important;
+  padding: 8px 1px !important;
+  font-size: 10px !important;
+  border-radius: 9px !important;
+}
