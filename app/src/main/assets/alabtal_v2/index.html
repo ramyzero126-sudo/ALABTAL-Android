@@ -3,18 +3,19 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#ff642f"><title>ALABTAL | Live Rider Operations</title>
-<link rel="stylesheet" href="styles.css?v=32">
+<link rel="stylesheet" href="styles.css?v=33">
 </head>
 <body>
 <header class="topbar">
   <button id="menuToggle" class="iconbtn" aria-label="فتح القائمة">☰</button>
-  <div class="brand"><b>ALABTAL</b><small>LIVE RIDER OPERATIONS</small></div>
-  <div class="headright"><label class="header-select-wrap"><select id="headerViewSelect" aria-label="اختيار الصفحة"><option value="live">حالة المناديب</option><option value="bookings">حجوزات الشيفتات</option></select><span class="select-arrow">⌄</span></label><button id="notificationsBtn" class="iconbtn" type="button" aria-label="الإشعارات">🔔<span id="notificationCount" hidden>0</span></button><button id="alabtalLogoutBtn" class="head-action logout-action" type="button">⎋ خروج</button></div>
+  <div class="brand"><b>AL ABTAL</b><small>OPERATIONS</small></div>
+  <div class="headright"><button id="notificationsBtn" class="iconbtn" type="button" aria-label="الإشعارات">🔔<span id="notificationCount" hidden>0</span></button><button id="alabtalLogoutBtn" class="head-action logout-action" type="button">⎋ خروج</button></div>
 </header>
 <aside id="sideMenu" class="side-menu" aria-hidden="true">
-  <div class="side-menu-brand"><b>ALABTAL</b><button id="menuClose" type="button">×</button></div>
-  <button class="side-link active" data-view="live">🛰️ حالة المناديب</button>
-  <button class="side-link" data-view="bookings">📅 حجوزات الشيفتات</button>
+  <div class="side-menu-brand"><b>AL ABTAL <small>OPERATIONS</small></b><button id="menuClose" type="button">×</button></div>
+  <div class="side-menu-section">القائمة الرئيسية</div>
+  <button class="side-link active" data-view="live"><span class="side-link-icon">◉</span><span>حالة المناديب</span><span class="side-link-arrow">‹</span></button>
+  <button class="side-link" data-view="bookings"><span class="side-link-icon">▦</span><span>حجوزات الشيفتات</span><span class="side-link-arrow">‹</span></button>
   <div class="side-menu-note">ALABTAL · Rider Operations</div>
 </aside>
 <div id="menuBackdrop" class="menu-backdrop"></div>
@@ -80,5 +81,5 @@
   </section>
   <footer>ALABTAL <span>—</span> أكثر من مجرد توصيل</footer>
 </main>
-<script src="app.js?v=fastload2"></script>
+<script src="app.js?v=fastload3"></script>
 </body></html>

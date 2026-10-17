@@ -310,7 +310,6 @@
         </div>
 
         <div class="rider-status-line">
-          <span class="rider-state-pill">${esc(r.status)}</span>
           <span class="order-status-badge ${statusClass}">${order ? "● معاه أوردر" : "○ مفيش أوردر"}</span>
         </div>
 

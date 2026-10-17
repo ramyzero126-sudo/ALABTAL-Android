@@ -3290,3 +3290,94 @@ html body #riders .actions .action {
 .detail-wallet{display:flex;justify-content:space-between;gap:12px;margin-top:12px;padding:14px;border-radius:13px;background:#10221b;border:1px solid #1d7553;color:#a5e9c9}.detail-wallet b{color:#fff}
 body.detail-page-open{overflow:hidden}
 @media(max-width:620px){.header-select-wrap select{max-width:130px;font-size:11px;padding:8px 9px 8px 24px}.headright{gap:5px}.brand-typewriter{min-height:57px;letter-spacing:2px}.detail-rider-card{padding:13px}.detail-field span{flex-basis:36%}}
+
+
+/* AL ABTAL OPERATIONS - GLOWING BRAND + ORGANIZED SIDE MENU */
+.topbar{
+  background:linear-gradient(110deg,#101b16,#080d0b 72%,#15100b)!important;
+  color:#f4fff8!important;border-bottom:1px solid #1d6b49!important;
+  border-radius:0 0 18px 18px!important;
+  box-shadow:0 5px 24px #00ff8a12!important;
+}
+.topbar .brand b{
+  color:#ff8b2b!important;
+  letter-spacing:2px!important;
+  text-shadow:0 0 5px #ff790d,0 0 12px #ff790d99,0 0 26px #ff790d66!important;
+  animation:alabtalBrandGlow 2s ease-in-out infinite alternate;
+}
+.topbar .brand small{
+  display:block;color:#8cf4bb!important;letter-spacing:3px!important;
+  text-shadow:0 0 9px #20ff9866!important;
+}
+@keyframes alabtalBrandGlow{
+  from{ text-shadow:0 0 4px #ff790d,0 0 9px #ff790d66; }
+  to{ text-shadow:0 0 7px #ff9b40,0 0 17px #ff790d,0 0 30px #ff790d88; }
+}
+.topbar .iconbtn{
+  background:#102219!important;border:1px solid #286744!important;
+  color:#9affc8!important;
+}
+.topbar .head-action{
+  background:#1b211c!important;color:#ffb16a!important;
+  border:1px solid #7b4927!important;
+}
+.side-menu{
+  background:linear-gradient(165deg,#101a14,#080d0b 75%,#11100d)!important;
+  border-left:1px solid #236844!important;
+  padding:22px 14px!important;gap:9px!important;
+}
+.side-menu-brand{
+  border-bottom:1px solid #244c35!important;padding:8px 7px 20px!important;
+}
+.side-menu-brand b{
+  display:flex;flex-direction:column;gap:5px;
+  color:#ff8b2b!important;font-size:23px!important;font-weight:1000!important;
+  text-shadow:0 0 8px #ff790d99,0 0 20px #ff790d44!important;
+}
+.side-menu-brand b small{
+  font-size:10px;letter-spacing:3px;color:#75eaaa;
+  text-shadow:0 0 8px #24ff9766;
+}
+.side-menu-brand button{
+  background:#17251c!important;border:1px solid #28583b!important;
+  color:#a6f5c6!important;
+}
+.side-menu-section{
+  padding:12px 10px 5px;color:#728f7d;font-size:11px;font-weight:800;
+  letter-spacing:.4px;
+}
+.side-menu .side-link{
+  display:flex!important;align-items:center!important;gap:12px!important;
+  min-height:54px;padding:12px!important;text-align:right!important;
+  border:1px solid #ffffff0b!important;border-radius:13px!important;
+  background:linear-gradient(110deg,#ffffff06,#ffffff02)!important;
+  color:#c5d7cb!important;font-size:14px!important;font-weight:800!important;
+  transition:background .2s,border-color .2s,transform .2s;
+}
+.side-menu .side-link .side-link-icon{
+  display:grid;place-items:center;flex:0 0 32px;height:32px;
+  border-radius:10px;background:#15251b;border:1px solid #294d36;
+  color:#83e9ae;font-size:19px;
+}
+.side-menu .side-link .side-link-arrow{
+  margin-right:auto;color:#668b73;font-size:24px;line-height:1;
+}
+.side-menu .side-link.active{
+  background:linear-gradient(105deg,#173c28,#102218)!important;
+  border-color:#2a9b61!important;color:#a3f7c2!important;
+  box-shadow:inset -3px 0 #43e68c,0 4px 16px #00c86a12!important;
+}
+.side-menu .side-link.active .side-link-icon{
+  background:#174b2d;border-color:#36b76b;color:#b4ffd0;
+  box-shadow:0 0 12px #24ff8a1b;
+}
+.side-menu .side-link.active .side-link-arrow{color:#71f0a6}
+.side-menu-note{
+  border-top:1px solid #203d2b;color:#63816e!important;
+  padding:16px 9px 8px!important;letter-spacing:.5px;
+}
+.rider-status-line{justify-content:flex-start!important}
+@media(max-width:620px){
+  .topbar .brand b{font-size:19px!important;letter-spacing:1.5px!important}
+  .topbar .brand small{font-size:8px!important;letter-spacing:2px!important}
+}
