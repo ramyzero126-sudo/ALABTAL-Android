@@ -1883,3 +1883,106 @@ body{margin:0;background:radial-gradient(ellipse at 50% 0,#21100b 0, #050607 38%
     animation: none !important;
   }
 }
+
+/* ALABTAL ORANGE x GREEN — COMPACT 3D */
+:root {
+  --orange: #ff682f;
+  --green: #19d99a;
+}
+
+.rider,
+.area-box,
+.booking-card,
+.booking-summary > article,
+.tile,
+.metric {
+  border-radius: 16px !important;
+  box-shadow:
+    0 5px 0 #020303,
+    0 10px 18px #0009,
+    inset 0 1px 0 #ffffff12 !important;
+}
+
+.rider {
+  padding: 10px !important;
+  border: 1px solid #ff682f !important;
+  background: linear-gradient(145deg, #202019, #0a100e 72%) !important;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.rider:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #020303, 0 5px 10px #0009 !important;
+}
+
+.rider:before {
+  width: 4px !important;
+  background: linear-gradient(180deg, #ff682f, #19d99a) !important;
+}
+
+.area-box {
+  padding: 9px !important;
+  border: 1px solid #19d99a66 !important;
+  background: linear-gradient(145deg, #12251d, #090d0b 75%) !important;
+}
+
+.area-heading {
+  padding: 9px 11px !important;
+  background: linear-gradient(110deg, #402015, #103024) !important;
+  border-color: #ff682f77 !important;
+}
+
+.area-riders {
+  gap: 10px !important;
+}
+
+.metric {
+  padding: 7px 3px !important;
+  border-color: #19d99a35 !important;
+  background: linear-gradient(145deg, #17251f, #0b100e) !important;
+}
+
+.metric b,
+.status {
+  color: #19d99a !important;
+}
+
+.status {
+  background: #0b3024 !important;
+  border-color: #19d99a77 !important;
+}
+
+.action.call {
+  background: linear-gradient(145deg, #087d57, #06422f) !important;
+  color: #baffdf !important;
+  border-color: #19d99a !important;
+}
+
+.action.break,
+.primary,
+.chip.active {
+  background: linear-gradient(145deg, #ff9a45, #ff5429) !important;
+  border-color: #ff8a42 !important;
+}
+
+.booking-summary > article,
+.booking-card {
+  border-color: #19d99a40 !important;
+  background: linear-gradient(145deg, #17231d, #0b100e) !important;
+}
+
+.booking-summary > article strong {
+  color: #19d99a !important;
+  text-shadow: 0 0 12px #19d99a22 !important;
+}
+
+.booking-summary .booking-progress i {
+  background: linear-gradient(90deg, #ff682f, #19d99a) !important;
+}
+
+@media (max-width: 620px) {
+  .rider { padding: 9px !important; }
+  .area-box { padding: 7px !important; }
+  .area-riders { gap: 9px !important; }
+  .metric { border-radius: 11px !important; }
+}
