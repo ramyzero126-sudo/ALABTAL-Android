@@ -3394,3 +3394,285 @@ body.detail-page-open{overflow:hidden}
 @media (max-width: 620px) {
   .live-refresh-countdown { font-size: 10px; }
 }\n
+
+/* ALABTAL RIDER 3D PREMIUM V1 */
+.rider {
+  position: relative !important;
+  isolation: isolate;
+  direction: rtl;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin: 10px 2px 14px !important;
+  padding: 13px !important;
+  border: 1px solid rgba(75, 238, 160, .38) !important;
+  border-radius: 17px !important;
+  background:
+    radial-gradient(ellipse at 5% 0%, rgba(25, 208, 125, .17), transparent 48%),
+    linear-gradient(145deg, #172720 0%, #0c1512 48%, #101e18 100%) !important;
+  color: #effff6 !important;
+  box-shadow:
+    0 3px 0 #07100c,
+    0 7px 0 #14291e,
+    0 12px 22px rgba(0, 0, 0, .42),
+    inset 0 1px 0 rgba(255,255,255,.12),
+    inset 0 -1px 0 rgba(57, 236, 145, .15) !important;
+  transform: perspective(850px) translateZ(0);
+  transform-style: preserve-3d;
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+
+.rider::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg,
+    rgba(121,255,190,.75),
+    transparent 27%,
+    rgba(53,134,91,.16) 65%,
+    rgba(67,255,163,.55));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.rider::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  top: 0;
+  left: 12%;
+  width: 58%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #a3ffd0, transparent);
+  opacity: .8;
+  box-shadow: 0 0 12px rgba(61,255,157,.7);
+}
+
+.rider > * {
+  position: relative;
+  z-index: 1;
+}
+
+.rider-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  min-width: 0;
+  padding-bottom: 10px;
+}
+
+.rider .avatar {
+  flex: 0 0 39px;
+  width: 39px;
+  height: 39px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(119,255,187,.48);
+  border-radius: 12px;
+  background: linear-gradient(145deg, #28563e, #10271b);
+  box-shadow: 0 4px 0 #09160e, 0 6px 12px #0008, inset 0 1px #ffffff26;
+}
+
+.rider-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.rider .rider-name {
+  color: #f2fff8;
+  font-size: 13px;
+  font-weight: 850;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  text-shadow: 0 1px 9px #53ffad24;
+}
+
+.rider .sub {
+  margin-top: 3px;
+  color: #a9c8b7;
+  font-size: 10px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.rider .status {
+  flex: 0 0 auto;
+  max-width: 78px;
+  padding: 5px 8px;
+  border: 1px solid rgba(76,255,158,.42);
+  border-radius: 8px;
+  background: linear-gradient(145deg, #1d5337, #103321);
+  color: #8effba;
+  font-size: 10px;
+  font-weight: 850;
+  box-shadow: 0 3px 0 #081a10, inset 0 1px #ffffff17;
+}
+
+.rider .rider-status-line {
+  margin: 2px 0 9px;
+}
+
+.rider .order-status-badge {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  padding: 6px 9px;
+  border: 1px solid #3e7258;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #193729, #102219);
+  color: #c8f6db;
+  font-size: 10px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+  box-shadow: inset 0 1px #ffffff0b, 0 2px 0 #09140e;
+}
+
+.rider .order-status-badge.has-order {
+  border-color: #b28a38;
+  background: linear-gradient(135deg, #49391a, #211b10);
+  color: #ffe2a0;
+}
+
+.rider .order-status-badge.no-order {
+  border-color: #466457;
+  color: #b9d4c6;
+}
+
+.rider .metrics {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px !important;
+  margin: 9px 0 !important;
+}
+
+.rider .metric {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 9px 3px 8px !important;
+  border: 1px solid rgba(102,225,159,.22);
+  border-radius: 10px;
+  background: linear-gradient(150deg, #203d2d 0%, #13251b 78%);
+  box-shadow:
+    0 3px 0 #09140e,
+    0 5px 9px #0005,
+    inset 0 1px 0 #ffffff10;
+  text-align: center;
+}
+
+.rider .metric b {
+  color: #91ffc0;
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1.1;
+  text-shadow: 0 0 10px #4cff9c26;
+  overflow-wrap: anywhere;
+}
+
+.rider .metric small {
+  color: #b9d7c6;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.rider .wallet-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+  padding: 10px 11px;
+  border: 1px solid rgba(88,242,155,.32);
+  border-radius: 10px;
+  background: linear-gradient(110deg, #1a3a29, #102219);
+  color: #c6dfd0;
+  font-size: 11px;
+  box-shadow: inset 0 1px #ffffff0a, 0 3px 0 #09140e;
+}
+
+.rider .wallet-row b {
+  color: #8cffb8;
+  font-size: 16px;
+  font-weight: 900;
+  white-space: nowrap;
+  text-shadow: 0 0 12px #45ff9826;
+}
+
+.rider .actions {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 5px !important;
+  margin-top: 11px !important;
+}
+
+.rider .actions .action {
+  min-width: 0;
+  min-height: 32px;
+  padding: 6px 2px !important;
+  border: 1px solid #3a7755 !important;
+  border-radius: 8px !important;
+  background: linear-gradient(145deg, #28563b, #142b1d) !important;
+  color: #dffff0 !important;
+  font-size: 10px !important;
+  font-weight: 800;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  box-shadow: 0 3px 0 #08140d, inset 0 1px #ffffff18 !important;
+  text-shadow: 0 1px #0005;
+}
+
+.rider .actions .action:disabled {
+  opacity: .62;
+}
+
+.rider .actions .action:not(:disabled) {
+  cursor: pointer;
+}
+
+.rider .actions .action:not(:disabled):active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #08140d !important;
+}
+
+@media (hover: hover) {
+  .rider:hover {
+    transform: perspective(850px) translateY(-2px) rotateX(.5deg);
+    border-color: rgba(102,255,176,.7) !important;
+    box-shadow:
+      0 3px 0 #07100c,
+      0 8px 0 #173524,
+      0 16px 26px rgba(0,0,0,.48),
+      0 0 16px rgba(52,255,151,.09),
+      inset 0 1px 0 rgba(255,255,255,.15) !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .rider {
+    padding: 10px !important;
+    border-radius: 14px !important;
+  }
+  .rider .rider-name {
+    font-size: 12px;
+  }
+  .rider .metrics {
+    gap: 4px !important;
+  }
+  .rider .metric {
+    padding: 8px 2px 7px !important;
+  }
+  .rider .metric b {
+    font-size: 14px;
+  }
+  .rider .actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
