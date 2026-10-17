@@ -2381,3 +2381,125 @@ tr:hover td {
   .stats { gap: 6px !important; }
   .chips .chip { padding: 6px 8px !important; font-size: 10px !important; }
 }
+
+
+/* ALABTAL SIGNATURE RIDER UI V6 */
+:root {
+  --ab-orange: #ff963c;
+  --ab-orange-light: #ffc078;
+  --ab-led: #48ff91;
+  --ab-bg: #090b0d;
+}
+
+.tile {
+  position: relative !important;
+  overflow: hidden !important;
+  border: 1px solid #48ff9128 !important;
+  border-radius: 11px !important;
+  background: linear-gradient(145deg,#202225 0%,#101214 55%,#090a0b 100%) !important;
+  box-shadow: inset 0 1px 0 #ffffff0b, 0 5px 14px #0007 !important;
+}
+.tile::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 14% !important;
+  right: 14% !important;
+  height: 2px !important;
+  background: linear-gradient(90deg,transparent,var(--ab-led),transparent) !important;
+  box-shadow: 0 0 7px #48ff9140 !important;
+  pointer-events: none !important;
+}
+.tile strong {
+  color: var(--ab-orange-light) !important;
+  text-shadow: 0 0 10px #ff963c20 !important;
+}
+.tile label { color: #e5e7e9 !important; }
+
+.panel {
+  position: relative !important;
+  overflow: hidden !important;
+  border: 1px solid #48ff9124 !important;
+  border-radius: 15px !important;
+  background: linear-gradient(150deg,#151719,#0a0c0e) !important;
+  box-shadow: 0 7px 20px #0005 !important;
+}
+.panel::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 12% !important;
+  right: 12% !important;
+  height: 2px !important;
+  background: linear-gradient(90deg,transparent,var(--ab-led),transparent) !important;
+  pointer-events: none !important;
+}
+
+.chips { gap: 5px !important; }
+.chips .chip {
+  padding: 6px 9px !important;
+  border: 1px solid #48ff9130 !important;
+  border-radius: 9px !important;
+  background: linear-gradient(145deg,#1b1d1f,#101112) !important;
+  color: #e8e8e8 !important;
+  font-size: 11px !important;
+  transition: background .2s ease, border-color .2s ease !important;
+}
+.chips .chip.active {
+  border-color: var(--ab-orange) !important;
+  background: linear-gradient(135deg,#ffc078,#ff842f) !important;
+  color: #1a1008 !important;
+  box-shadow: 0 0 9px #ff963c25 !important;
+}
+
+.rider {
+  position: relative !important;
+  overflow: hidden !important;
+  padding: 12px !important;
+  border: 1px solid #ff963c66 !important;
+  border-radius: 16px !important;
+  background: linear-gradient(145deg,#202123 0%,#121416 48%,#090a0b 100%) !important;
+  box-shadow: inset 0 1px 0 #ffffff0b, 0 7px 17px #0008 !important;
+}
+.rider::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 12px !important;
+  bottom: 12px !important;
+  left: 0 !important;
+  width: 3px !important;
+  border-radius: 0 4px 4px 0 !important;
+  background: linear-gradient(180deg,var(--ab-led),var(--ab-orange),#ff6b32) !important;
+  box-shadow: 0 0 8px #48ff9125 !important;
+  pointer-events: none !important;
+}
+.rider .rider-name {
+  color: #fff !important;
+  font-weight: 800 !important;
+}
+.rider .metrics .metric {
+  border: 1px solid #ff963c38 !important;
+  border-radius: 10px !important;
+  background: linear-gradient(145deg,#241b14,#111315) !important;
+  box-shadow: inset 0 1px 0 #ffffff08 !important;
+}
+.rider .metrics .metric b {
+  color: var(--ab-orange-light) !important;
+}
+.rider .actions .action {
+  border-radius: 9px !important;
+}
+.rider .order-route {
+  border-radius: 11px !important;
+}
+
+@media(max-width:620px) {
+  .stats { gap: 6px !important; }
+  .tile { padding: 8px 4px !important; }
+  .tile strong { font-size: 18px !important; }
+  .tile label { font-size: 10px !important; }
+  .panel { padding: 10px !important; }
+  .chips .chip { padding: 6px 8px !important; font-size: 10px !important; }
+  .rider { padding: 11px !important; border-radius: 14px !important; }
+}
+
