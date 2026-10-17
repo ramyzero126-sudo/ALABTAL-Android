@@ -20,6 +20,9 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.io.FileInputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class MainActivity extends Activity {
     private static final String TAG = "ALABTAL";
@@ -93,6 +96,7 @@ public class MainActivity extends Activity {
 
         new Thread(() -> {
             try {
+                downloadUiUpdates();
                 Python py = Python.getInstance();
                 py.getModule("os").callAttr(
                     "chdir", getFilesDir().getAbsolutePath());
@@ -134,6 +138,59 @@ public class MainActivity extends Activity {
                     Toast.LENGTH_LONG).show());
             }
         }, "ALABTAL-Startup").start();
+    }
+
+
+    private void downloadUiUpdates() {
+        String base = "https://raw.githubusercontent.com/ramyzero126-sudo/ALABTAL-Android/main/app/src/main/assets/alabtal_v2/";
+        String[] names = {"index.html", "styles.css", "app.js", "typewriter.js"};
+
+        for (String name : names) {
+            File temp = null;
+            HttpURLConnection conn = null;
+            try {
+                URL url = new URL(base + name + "?update=" + System.currentTimeMillis());
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setConnectTimeout(7000);
+                conn.setReadTimeout(10000);
+                conn.setRequestProperty("Cache-Control", "no-cache");
+                conn.setRequestProperty("User-Agent", "ALABTAL-Android");
+                conn.connect();
+
+                if (conn.getResponseCode() != 200) {
+                    Log.w(TAG, "UI update skipped: " + name + " HTTP " + conn.getResponseCode());
+                    continue;
+                }
+
+                File dir = new File(getFilesDir(), "alabtal_v2");
+                if (!dir.exists() && !dir.mkdirs()) {
+                    throw new java.io.IOException("Cannot create UI directory");
+                }
+
+                temp = new File(dir, name + ".update.tmp");
+                try (InputStream in = conn.getInputStream();
+                     FileOutputStream out = new FileOutputStream(temp)) {
+                    byte[] buffer = new byte[8192];
+                    int count;
+                    while ((count = in.read(buffer)) != -1) out.write(buffer, 0, count);
+                    out.getFD().sync();
+                }
+
+                File target = new File(dir, name);
+                try (InputStream in = new FileInputStream(temp);
+                     FileOutputStream out = new FileOutputStream(target)) {
+                    byte[] buffer = new byte[8192];
+                    int count;
+                    while ((count = in.read(buffer)) != -1) out.write(buffer, 0, count);
+                }
+                Log.i(TAG, "UI updated from GitHub: " + name);
+            } catch (Exception e) {
+                Log.w(TAG, "Using bundled UI for " + name + ": " + e.getMessage());
+            } finally {
+                if (temp != null) temp.delete();
+                if (conn != null) conn.disconnect();
+            }
+        }
     }
 
     private void createNotificationChannel() {
