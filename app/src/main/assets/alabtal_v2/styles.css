@@ -3676,3 +3676,104 @@ body.detail-page-open{overflow:hidden}
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+
+/* ALABTAL LIVE CARD 3D FIX V2 */
+.live-card {
+  position: relative !important;
+  isolation: isolate;
+  overflow: hidden !important;
+  border: 1px solid rgba(79,255,163,.48) !important;
+  border-radius: 16px !important;
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(28,220,125,.18), transparent 52%),
+    linear-gradient(145deg,#172820 0%,#0b1510 55%,#12241a 100%) !important;
+  box-shadow:
+    0 3px 0 #07100b,
+    0 7px 0 #14271c,
+    0 13px 22px rgba(0,0,0,.42),
+    inset 0 1px 0 rgba(255,255,255,.13) !important;
+  transform: translateZ(0);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.live-card::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  top: 0;
+  left: 8%;
+  width: 65%;
+  height: 2px;
+  background: linear-gradient(90deg,transparent,#a0ffd0,transparent);
+  box-shadow: 0 0 13px rgba(70,255,160,.65);
+}
+
+.live-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.live-card .live-card-top {
+  border-radius: 10px;
+}
+
+.live-card .live-pill {
+  border: 1px solid rgba(100,255,170,.45) !important;
+  box-shadow: 0 3px 0 #09140d, inset 0 1px rgba(255,255,255,.12) !important;
+}
+
+.live-card .live-grid {
+  gap: 6px !important;
+}
+
+.live-card .live-grid > *,
+.live-card .stat-card,
+.live-card .metric-card {
+  min-width: 0;
+  border: 1px solid rgba(99,230,157,.26) !important;
+  border-radius: 10px !important;
+  background: linear-gradient(150deg,#203d2d,#12251a) !important;
+  box-shadow:
+    0 3px 0 #08130c,
+    0 5px 9px rgba(0,0,0,.28),
+    inset 0 1px rgba(255,255,255,.09) !important;
+}
+
+.live-card .live-actions {
+  gap: 5px !important;
+}
+
+.live-card .live-actions button,
+.live-card .live-actions .btn {
+  min-width: 0;
+  border: 1px solid #397753 !important;
+  border-radius: 8px !important;
+  background: linear-gradient(145deg,#28563b,#142a1d) !important;
+  box-shadow: 0 3px 0 #08130c, inset 0 1px rgba(255,255,255,.12) !important;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.live-card .live-actions button:active,
+.live-card .live-actions .btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #08130c !important;
+}
+
+@media (hover:hover) {
+  .live-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(111,255,180,.72) !important;
+    box-shadow:
+      0 3px 0 #07100b,
+      0 8px 0 #173523,
+      0 16px 25px rgba(0,0,0,.48),
+      0 0 15px rgba(52,255,151,.1) !important;
+  }
+}
+
+@media (max-width:380px) {
+  .live-card .live-grid { gap: 4px !important; }
+  .live-card .live-actions { gap: 4px !important; }
+}
