@@ -67,6 +67,44 @@
     };
   }
 
+
+  let notificationBaseline = null;
+
+  function notifyRiderStatusChanges(rows) {
+    const current = new Map();
+
+    for (const rider of rows) {
+      const key = rider.id && rider.id !== "—"
+        ? "id:" + rider.id
+        : "name:" + rider.name;
+      current.set(key, rider);
+    }
+
+    if (notificationBaseline === null) {
+      notificationBaseline = current;
+      return;
+    }
+
+    for (const [key, rider] of current) {
+      const old = notificationBaseline.get(key);
+      if (!old || old.status === rider.status) continue;
+
+      try {
+        if (window.AndroidNotifications &&
+            typeof window.AndroidNotifications.show === "function") {
+          window.AndroidNotifications.show(
+            "تغيّرت حالة مندوب - ALABTAL",
+            `${rider.name}: ${old.status} ← ${rider.status}`
+          );
+        }
+      } catch (error) {
+        console.error("[ALABTAL notifications]", error);
+      }
+    }
+
+    notificationBaseline = current;
+  }
+
   function showLogin(message = "") {
     let box = $("#alabtalLogin");
     if (!box) {
@@ -367,6 +405,7 @@
         return;
       }
       data = records.map(normalize);
+      notifyRiderStatusChanges(data);
 
       // مصدر الحجوزات الأصلي، مستقل عن بيانات اللايف.
       try {
