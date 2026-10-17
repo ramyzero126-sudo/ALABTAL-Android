@@ -642,6 +642,19 @@
     renderBookings();
   });
 
+  // ALABTAL_AUTO_REFRESH_30S
+  let alabtalAutoRefreshBusy = false;
+  setInterval(async () => {
+    if (document.hidden || busy || alabtalAutoRefreshBusy) return;
+    alabtalAutoRefreshBusy = true;
+    try {
+      await loadData();
+    } catch (error) {
+      console.error("[ALABTAL auto refresh]", error);
+    } finally {
+      alabtalAutoRefreshBusy = false;
+    }
+  }, 30000);
   loadData();
 })();
 
