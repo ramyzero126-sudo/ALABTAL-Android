@@ -48,6 +48,16 @@ public class MainActivity extends Activity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 CookieManager.getInstance().flush();
+                view.evaluateJavascript(
+                    "(function(){var e=document.getElementById('alabtal-native-build-test');"
+                    "if(!e){e=document.createElement('div');e.id='alabtal-native-build-test';"
+                    "e.textContent='ALABTAL APK TEST - NEW BUILD';"
+                    "e.style.cssText='position:fixed;top:0;left:0;right:0;z-index:2147483647;"
+                    "padding:14px;background:#ff00aa;color:white;text-align:center;"
+                    "font-size:20px;font-weight:900;border:4px solid #00ff80';"
+                    "document.body.appendChild(e);}})();",
+                    null
+                );
             }
         });
         setContentView(web);
