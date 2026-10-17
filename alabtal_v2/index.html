@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ff642f"><title>ALABTAL | Live Rider Operations</title>
+<link rel="stylesheet" href="styles.css?v=fastload1">
+</head>
+<body>
+<header class="topbar">
+  <button id="menuToggle" class="iconbtn" aria-label="فتح القائمة">☰</button>
+  <div class="brand"><b>ALABTAL</b><small>LIVE RIDER OPERATIONS</small></div>
+  <div class="headright"><span>المندوبين</span><button class="iconbtn">🔔</button></div>
+</header>
+<aside id="sideMenu" class="side-menu" aria-hidden="true">
+  <div class="side-menu-brand"><b>ALABTAL</b><button id="menuClose" type="button">×</button></div>
+  <button class="side-link active" data-view="live">🛰️ حالة المناديب</button>
+  <button class="side-link" data-view="bookings">📅 حجوزات الشيفتات</button>
+  <div class="side-menu-note">ALABTAL · Rider Operations</div>
+</aside>
+<div id="menuBackdrop" class="menu-backdrop"></div>
+<main class="wrap" id="mainWrap">
+  <section class="stats four">
+    <article class="tile teal"><span>📊</span><strong>—</strong><label>إجمالي المناديب</label></article>
+    <article class="tile red"><span>📊</span><strong>—</strong><label>إجمالي الأوردرات</label></article>
+    <article class="tile blue"><span>📊</span><strong>—</strong><label>ساعات العمل</label></article>
+    <article class="tile gold"><span>📊</span><strong>—</strong><label>مخالفات اليوم</label></article>
+  </section>
+  <section class="panel">
+    <h2><i></i> الأداء والمؤشرات <span>▮</span></h2>
+    <div class="stats four">
+      <article class="tile blue"><strong>—</strong><label>UTR</label></article>
+      <article class="tile red"><strong>—</strong><label>خارج التغطية</label></article>
+      <article class="tile red"><strong>—</strong><label>متأخر (ساعة)</label></article>
+      <article class="tile teal"><strong>—</strong><label>مستبعدة</label></article>
+    </div>
+  </section>
+  <section class="panel">
+    <h2><i></i> المشرفين <span>♟</span></h2>
+    <div class="stats four">
+      <article class="tile slate"><strong>—</strong><label>ساعات العمل</label></article>
+      <article class="tile red"><strong>—</strong><label>الأوردرات</label></article>
+      <article class="tile blue"><strong>—</strong><label>أمراء المناوبات</label></article>
+      <article class="tile gold"><strong>—</strong><label>مناديب تحت المتابعة</label></article>
+    </div>
+  </section>
+  <section class="filters">
+    <div class="searchrow"><input id="search" placeholder="🔎 ابحث باسم المندوب أو الرقم"><select id="sort"><option value="name">ترتيب: الاسم</option><option value="orders">ترتيب: الأوردرات</option></select><button class="primary" id="searchBtn">بحث</button></div>
+    <div class="chips" id="filters">
+      <button class="chip active" data-status="الكل">الكل</button><button class="chip" data-status="شغال">🟢 شغال</button><button class="chip" data-status="متأخر">🔴 متأخر</button><button class="chip" data-status="استراحة">🟡 استراحة</button><button class="chip" data-status="READY">🔵 READY</button>
+    </div>
+    <div class="chips city-tabs" id="cityTabs" aria-label="تبويبات المدن"></div>
+  </section>
+  <div class="section-title"><i></i> حالة المناديب <span class="live"><b></b> LIVE</span> <button id="refreshLiveBtn" class="refresh-live-btn" type="button">↻ تحديث</button></div>
+  <section id="riders" class="riders"></section>
+  <section id="bookingsView" class="bookings-view" hidden>
+    <div class="section-title"><i></i> حجوزات الشيفتات
+      <button id="refreshBookingsBtn" class="refresh-live-btn" type="button">↻ تحديث</button>
+    </div>
+    <div class="booking-summary booking-summary-premium">
+      <article class="booking-stat booking-stat-total">
+        <span class="booking-stat-icon">👥</span>
+        <strong id="bookingTotal">—</strong>
+        <span>القوة الأصلية</span>
+      </article>
+      <article class="booking-stat booking-stat-booked">
+        <span class="booking-stat-icon">✓</span>
+        <strong id="bookingTomorrow">—</strong>
+        <span>حاجزين</span>
+      </article>
+      <article class="booking-stat booking-stat-percent">
+        <span class="booking-stat-icon">％</span>
+        <strong id="bookingPercent">—%</strong>
+        <span>نسبة الحجز</span>
+        <div class="booking-progress"><i id="bookingProgressBar"></i></div>
+        <small id="bookingPercentDetail">جارٍ تحميل البيانات</small>
+      </article>
+    </div>
+    <div class="booking-search"><input id="bookingSearch" placeholder="🔎 ابحث باسم المندوب أو الكود"></div>
+    <div id="bookingList" class="booking-list"><div class="empty">جارٍ تحميل بيانات الشيفتات...</div></div>
+  </section>
+  <footer>ALABTAL <span>—</span> أكثر من مجرد توصيل</footer>
+</main>
+<script src="app.js?v=fastload1"></script>
+</body></html>
