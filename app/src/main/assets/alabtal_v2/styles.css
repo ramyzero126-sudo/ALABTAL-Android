@@ -3777,3 +3777,67 @@ body.detail-page-open{overflow:hidden}
   .live-card .live-grid { gap: 4px !important; }
   .live-card .live-actions { gap: 4px !important; }
 }
+
+/* ALABTAL COMPACT RIDER CARD V3 */
+.rider {
+  margin: 6px 2px 9px !important;
+  padding: 9px !important;
+  border-radius: 14px !important;
+}
+.rider .rider-head {
+  align-items: center;
+  gap: 7px;
+  padding-bottom: 5px;
+}
+.rider .avatar {
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+}
+.rider .rider-name { font-size: 12px; line-height: 1.35; }
+.rider .sub { margin-top: 2px; font-size: 9px; line-height: 1.35; }
+.rider .status { padding: 4px 6px; font-size: 9px; }
+.rider .rider-status-line { margin: 0 0 5px !important; }
+.rider .order-status-badge {
+  padding: 4px 7px;
+  font-size: 9px;
+  box-shadow: none;
+}
+.rider .order-status-badge.has-order {
+  border-color: #ff922e !important;
+  background: linear-gradient(135deg,#4a2a10,#281709) !important;
+  color: #ffb15c !important;
+}
+.rider .metrics { gap: 4px !important; margin: 5px 0 !important; }
+.rider .metric { padding: 6px 2px 5px !important; gap: 2px; }
+.rider .metric b { font-size: 14px; }
+.rider .metric small { font-size: 9px; }
+.rider .wallet-row {
+  margin-top: 4px;
+  padding: 6px 8px;
+  font-size: 10px;
+}
+.rider .wallet-row b { font-size: 13px; }
+.rider .actions {
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 3px !important;
+  margin-top: 6px !important;
+}
+.rider .actions .action {
+  min-width: 0;
+  min-height: 27px;
+  padding: 4px 1px !important;
+  font-size: 8px !important;
+  line-height: 1.2;
+}
+@media (max-width: 380px) {
+  .rider { padding: 8px !important; }
+  .rider .rider-name { font-size: 11px; }
+  .rider .sub { font-size: 8px; }
+  .rider .metric { padding: 5px 1px 4px !important; }
+  .rider .metric b { font-size: 13px; }
+  .rider .metric small { font-size: 8px; }
+  .rider .actions { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }
+  .rider .actions .action { font-size: 7px !important; }
+}
