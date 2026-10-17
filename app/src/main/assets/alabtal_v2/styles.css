@@ -2032,3 +2032,120 @@ tr:hover td {
   }
 }
 
+/* ALABTAL PREMIUM CARDS V2 — visual-only overrides */
+.rider {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgba(55, 226, 165, .32);
+  border-radius: 24px;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(19, 180, 127, .13), transparent 48%),
+    linear-gradient(145deg, #151d1c 0%, #0b1011 52%, #080a0c 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    inset 0 -1px 0 rgba(0,0,0,.6),
+    0 5px 0 #050707,
+    0 13px 28px rgba(0,0,0,.38),
+    0 0 18px rgba(21,205,145,.06);
+  transition: border-color .22s ease, box-shadow .22s ease,
+              transform .22s ease;
+}
+
+.rider:before {
+  width: 4px;
+  background: linear-gradient(180deg, #53f5bd, #13b982 55%, #087455);
+  opacity: .95;
+}
+
+.rider:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06),
+              0 3px 0 #050707, 0 8px 18px rgba(0,0,0,.35);
+}
+
+.rider-head {
+  position: relative;
+  z-index: 1;
+}
+
+.avatar {
+  border-color: rgba(70,238,185,.72);
+  background: radial-gradient(circle at 30% 20%, #25483d, #101716 68%);
+  box-shadow: inset 0 2px 5px rgba(255,255,255,.08),
+              0 4px 12px rgba(0,0,0,.3),
+              0 0 12px rgba(40,220,160,.09);
+}
+
+.rider-name {
+  color: #f3fff9;
+  letter-spacing: .1px;
+}
+
+.status {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.07);
+}
+
+.rider-tags .tag {
+  border-color: rgba(163,185,179,.17);
+  background: linear-gradient(145deg, #171e20, #101416);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035);
+}
+
+.metrics .metric {
+  border-color: rgba(154,190,178,.15);
+  border-radius: 14px;
+  background: linear-gradient(145deg, #18201f, #0d1213);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.055),
+              0 3px 8px rgba(0,0,0,.16);
+}
+
+.metrics .metric b {
+  color: #eafff5;
+  font-variant-numeric: tabular-nums;
+}
+
+.actions .action {
+  transition: filter .15s ease, transform .15s ease;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.055);
+}
+
+.actions .action:active {
+  transform: translateY(1px);
+  filter: brightness(1.12);
+}
+
+/* Shift / booking cards */
+.booking-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(63,220,169,.24);
+  border-radius: 20px;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(22,178,126,.11), transparent 52%),
+    linear-gradient(145deg, #17201f, #0c1112 72%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.065),
+              0 4px 0 #070a0a,
+              0 12px 24px rgba(0,0,0,.24);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.booking-card-head strong {
+  color: #f0fff8;
+}
+
+.booking-card-head small,
+.booking-times small {
+  color: #a4b9b0;
+}
+
+.booking-times strong {
+  color: #54e7b2;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rider, .actions .action, .booking-card {
+    transition: none !important;
+  }
+}
