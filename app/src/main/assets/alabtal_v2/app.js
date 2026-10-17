@@ -310,7 +310,7 @@
         </div>
 
         <div class="rider-status-line">
-          <span class="order-status-badge ${statusClass}">${order ? "● معاه أوردر" : "○ مفيش أوردر"}</span>
+          <span class="order-status-badge ${statusClass}">${order ? "● " + esc(statusLabel) : "○ مفيش أوردر"}</span>
         </div>
 
         <div class="metrics">
@@ -368,7 +368,7 @@
   async function loadData() {
     if (busy) return;
     busy = true;
-    list.innerHTML = '<div class="empty">جارٍ تحميل بيانات المناديب...</div>';
+    if (!data.length) list.innerHTML = '<div class="empty">جارٍ تحميل بيانات المناديب...</div>';
     try {
       const session = await fetch("/api/session", {cache:"no-store"});
       if (session.status === 401) {
@@ -435,26 +435,7 @@
       }
 
 
-      // مصدر الحجوزات الأصلي، مستقل عن بيانات اللايف.
-      try {
-        const parts = new Intl.DateTimeFormat("en-CA", {
-          timeZone: "Africa/Cairo", year: "numeric", month: "2-digit", day: "2-digit"
-        }).formatToParts(new Date());
-        const part = key => parts.find(x => x.type === key)?.value || "";
-        const day = `${part("year")}-${part("month")}-${part("day")}`;
-        const bookingRes = await fetch(
-          "/api/notbooked?city=" + encodeURIComponent(city.trim()) + "&day=" + day,
-          { cache: "no-store", credentials: "same-origin" }
-        );
-        const bookingJson = await bookingRes.json();
-        if (!bookingRes.ok || bookingJson.ok === false) {
-          throw new Error(bookingJson.error || "تعذر تحميل الحجوزات الأصلية");
-        }
-        officialBookingData = bookingJson;
-      } catch (bookingError) {
-        officialBookingData = null;
-        console.error("[Official bookings]", bookingError);
-      }
+
 
       updateDashboardStats();
       render();
@@ -527,8 +508,6 @@
       tools.style.cssText =
         "display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:16px 0";
       tools.innerHTML = `
-        <input id="bookingSearch" placeholder="ابحث بالاسم أو الكود..."
-          style="box-sizing:border-box;width:100%;padding:12px;border-radius:10px;border:1px solid #444;background:#171717;color:#fff">
         <select id="bookingFilter"
           style="width:100%;padding:12px;border-radius:10px;border:1px solid #444;background:#171717;color:#fff">
           <option value="all">كل المناديب</option>
@@ -536,7 +515,6 @@
           <option value="unbooked">غير حاجزين</option>
         </select>`;
       parent.insertBefore(tools, target);
-      document.getElementById("bookingSearch").addEventListener("input", renderBookings);
       document.getElementById("bookingFilter").addEventListener("change", renderBookings);
     }
 
@@ -644,8 +622,28 @@
 
   // ALABTAL_AUTO_REFRESH_30S
   let alabtalAutoRefreshBusy = false;
+  let alabtalNextRefreshAt = Date.now() + 30000;
+
   setInterval(async () => {
-    if (document.hidden || busy || alabtalAutoRefreshBusy) return;
+    const countdown = document.getElementById("liveRefreshCountdown");
+    const seconds = Math.max(0, Math.ceil((alabtalNextRefreshAt - Date.now()) / 1000));
+
+    if (countdown) {
+      countdown.textContent = document.hidden
+        ? "التحديث عند فتح التطبيق"
+        : (busy || alabtalAutoRefreshBusy
+            ? "جارٍ التحديث..."
+            : `تحديث خلال ${seconds}ث`);
+    }
+
+    if (document.hidden || Date.now() < alabtalNextRefreshAt) return;
+
+    if (busy || alabtalAutoRefreshBusy) {
+      alabtalNextRefreshAt = Date.now() + 1000;
+      return;
+    }
+
+    alabtalNextRefreshAt = Date.now() + 30000;
     alabtalAutoRefreshBusy = true;
     try {
       await loadData();
@@ -654,7 +652,8 @@
     } finally {
       alabtalAutoRefreshBusy = false;
     }
-  }, 30000);
+  }, 1000);
+
   loadData();
 })();
 

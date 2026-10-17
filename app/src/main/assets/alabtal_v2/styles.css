@@ -3381,3 +3381,16 @@ body.detail-page-open{overflow:hidden}
   .topbar .brand b{font-size:19px!important;letter-spacing:1.5px!important}
   .topbar .brand small{font-size:8px!important;letter-spacing:2px!important}
 }
+
+
+/* ALABTAL unified live refresh countdown */
+.live-refresh-countdown {
+  color: #aab4c4;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  margin-right: 4px;
+}
+@media (max-width: 620px) {
+  .live-refresh-countdown { font-size: 10px; }
+}\n
