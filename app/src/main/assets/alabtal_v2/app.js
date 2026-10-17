@@ -70,6 +70,8 @@
 
   let notificationBaseline = null;
 
+  window.alabtalNotifications = window.alabtalNotifications || [];
+
   function notifyRiderStatusChanges(rows) {
     const current = new Map();
 
@@ -89,12 +91,22 @@
       const old = notificationBaseline.get(key);
       if (!old || old.status === rider.status) continue;
 
+      const item = {
+        id: key + ":" + Date.now(),
+        text: `${rider.name}: ${old.status} ← ${rider.status}`,
+        time: new Date().toLocaleTimeString("ar-EG", {
+          hour: "2-digit", minute: "2-digit"
+        })
+      };
+      window.alabtalNotifications.unshift(item);
+      window.alabtalNotifications = window.alabtalNotifications.slice(0, 30);
+      window.dispatchEvent(new CustomEvent("alabtal-notifications-updated"));
+
       try {
         if (window.AndroidNotifications &&
             typeof window.AndroidNotifications.show === "function") {
           window.AndroidNotifications.show(
-            "تغيّرت حالة مندوب - ALABTAL",
-            `${rider.name}: ${old.status} ← ${rider.status}`
+            "تغيّرت حالة مندوب - ALABTAL", item.text
           );
         }
       } catch (error) {
@@ -649,54 +661,88 @@
 })();
 
 
-// ALABTAL_LOGOUT_BUTTON
-(async function () {
-  try {
-    const check = await fetch("/api/session", { cache: "no-store" });
-    if (!check.ok || document.getElementById("alabtalLogoutBtn")) return;
+// ALABTAL HEADER CONTROLS
+(function () {
+  const $ = id => document.getElementById(id);
 
-    const btn = document.createElement("button");
-    btn.id = "alabtalLogoutBtn";
-    btn.textContent = "⎋ تسجيل خروج";
-    btn.style.cssText = [
-      "position:fixed", "top:12px", "left:12px", "z-index:99999",
-      "padding:11px 16px", "border:1px solid #ff7900",
-      "border-radius:10px", "background:#171717", "color:#ff9a32",
-      "font-weight:800", "font-size:14px", "cursor:pointer",
-      "box-shadow:0 4px 18px #0008"
-    ].join(";");
+  // تبويبات أعلى الشاشة تستخدم نفس التنقل الأصلي للحجوزات
+  $("headerLiveBtn")?.addEventListener("click", () => {
+    document.querySelector('.side-link[data-view="live"]')?.click();
+  });
+  $("headerBookingsBtn")?.addEventListener("click", () => {
+    document.querySelector('.side-link[data-view="bookings"]')?.click();
+  });
 
-    btn.addEventListener("click", async function () {
-      if (!confirm("هل تريد تسجيل الخروج؟")) return;
-      btn.disabled = true;
-      btn.textContent = "جارٍ تسجيل الخروج...";
-      try {
-        const res = await fetch("/api/logout", {
-          method: "POST",
-          credentials: "same-origin",
-          cache: "no-store"
-        });
-        if (!res.ok) throw new Error("تعذر تسجيل الخروج");
-        location.reload();
-      } catch (e) {
-        alert(e.message || "تعذر الاتصال");
-        btn.disabled = false;
-        btn.textContent = "⎋ تسجيل خروج";
+  // لوحة الإشعارات
+  const bell = $("notificationsBtn");
+  if (bell && !$("notificationsPanel")) {
+    const panel = document.createElement("section");
+    panel.id = "notificationsPanel";
+    panel.hidden = true;
+    panel.innerHTML = `
+      <div class="notifications-head">
+        <strong>الإشعارات</strong>
+        <button id="clearNotificationsBtn" type="button">مسح الكل</button>
+      </div>
+      <div id="notificationsList"><p class="notification-empty">لا توجد إشعارات جديدة</p></div>`;
+    document.body.appendChild(panel);
+
+    const renderNotifications = () => {
+      const items = window.alabtalNotifications || [];
+      const count = $("notificationCount");
+      const target = $("notificationsList");
+      if (count) {
+        count.textContent = String(items.length);
+        count.hidden = items.length === 0;
       }
+      if (target) {
+        target.innerHTML = items.length
+          ? items.map(item => `<article class="notification-item"><span>${String(item.text).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}</span><small>${item.time || ""}</small></article>`).join("")
+          : '<p class="notification-empty">لا توجد إشعارات جديدة</p>';
+      }
+    };
+
+    bell.addEventListener("click", () => {
+      panel.hidden = !panel.hidden;
+      if (!panel.hidden) renderNotifications();
     });
+    $("clearNotificationsBtn")?.addEventListener("click", () => {
+      window.alabtalNotifications = [];
+      renderNotifications();
+    });
+    window.addEventListener("alabtal-notifications-updated", renderNotifications);
+    document.addEventListener("click", e => {
+      if (!panel.contains(e.target) && !bell.contains(e.target)) panel.hidden = true;
+    });
+    renderNotifications();
+  }
 
-    document.body.appendChild(btn);
-  } catch (_) {}
+  // تسجيل الخروج من جلسة البروكسي الفعلية
+  $("alabtalLogoutBtn")?.addEventListener("click", async () => {
+    if (!confirm("هل تريد تسجيل الخروج؟")) return;
+    const btn = $("alabtalLogoutBtn");
+    btn.disabled = true;
+    const oldText = btn.textContent;
+    btn.textContent = "جارٍ الخروج...";
+    try {
+      const res = await fetch("/api/logout", {
+        method: "POST", credentials: "same-origin", cache: "no-store"
+      });
+      if (!res.ok) throw new Error("تعذر تسجيل الخروج");
+      location.reload();
+    } catch (error) {
+      alert(error.message || "تعذر الاتصال");
+      btn.disabled = false;
+      btn.textContent = oldText;
+    }
+  });
 })();
-
-
-
 
 document.addEventListener("click", function(e) {
   if (e.target.closest("button, a, input, select, textarea, label")) return;
   const card = e.target.closest(".rider");
   if (!card) return;
-  const details = card.querySelector(".order-route");
+  const details = card.querySelector(".order-box");
   if (!details) return;
   card.classList.toggle("order-expanded");
 });

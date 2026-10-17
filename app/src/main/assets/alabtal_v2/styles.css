@@ -3203,3 +3203,54 @@ html body #riders .actions .action {
   font-size: 10px !important;
   border-radius: 9px !important;
 }
+
+
+/* ALABTAL HEADER ACTIONS + ORDER EXPANSION */
+.topbar .headright { gap: 6px; }
+.head-action {
+  border: 1px solid #153e2b;
+  border-radius: 11px;
+  padding: 8px 10px;
+  background: linear-gradient(145deg,#123d29,#071a11);
+  color: #baffd1;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 850;
+  cursor: pointer;
+}
+.logout-action { border-color: #70403a; color: #ffe0d8; }
+#notificationsBtn { position: relative; cursor: pointer; }
+#notificationCount {
+  position: absolute; top: -6px; inset-inline-end: -6px;
+  min-width: 17px; height: 17px; padding: 0 4px;
+  display: inline-grid; place-items: center;
+  border-radius: 99px; background: #e53b43; color: white;
+  font-size: 10px; font-weight: 900;
+}
+#notificationsPanel {
+  position: fixed; z-index: 10000; top: 72px; inset-inline-end: 10px;
+  width: min(350px, calc(100vw - 20px)); max-height: 65vh;
+  overflow: auto; padding: 12px; border: 1px solid #236843;
+  border-radius: 17px; color: #eafff0;
+  background: linear-gradient(145deg,#0e2117,#060b08);
+  box-shadow: 0 15px 45px #000b, 0 0 20px #20e87820;
+}
+#notificationsPanel[hidden] { display: none !important; }
+.notifications-head { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:9px; }
+.notifications-head button { border:1px solid #285c3d; border-radius:8px; padding:6px 9px; background:#11291b; color:#baffd1; }
+.notification-item { display:flex; flex-direction:column; gap:5px; padding:10px 4px; border-top:1px solid #244332; font-size:13px; }
+.notification-item small,.notification-empty { color:#8ca998; }
+.rider .order-box { display:none !important; }
+.rider.order-expanded .order-box {
+  display:block !important; margin-top:12px; padding:10px;
+  border:1px solid #245f3b; border-radius:13px;
+  background:linear-gradient(145deg,#0d2417,#080e0a);
+  animation: alabtalOrderReveal .2s ease-out;
+}
+.rider { cursor:pointer; }
+.rider .actions button { cursor:default; }
+@media(max-width:620px) {
+  .topbar .headright { gap:4px; }
+  .head-action { padding:7px 6px; font-size:10px; }
+  #notificationsPanel { top:62px; }
+}
