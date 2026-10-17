@@ -12,7 +12,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Identify source
+        run: |
+          echo "SOURCE COMMIT: $(git rev-parse HEAD)"
+          grep -n "ALABTAL V7 TEST" app/src/main/assets/alabtal_v2/index.html
 
       - uses: actions/setup-java@v4
         with:
@@ -34,8 +40,27 @@ jobs:
       - name: Build APK
         run: gradle --no-daemon assembleDebug
 
+      - name: Verify APK contains current UI
+        run: |
+          python - <<'PY'
+          from zipfile import ZipFile
+          from pathlib import Path
+          apk = Path("app/build/outputs/apk/debug/app-debug.apk")
+          with ZipFile(apk) as z:
+              files = z.namelist()
+              matches = [n for n in files if n.endswith("assets/alabtal_v2/index.html")]
+              print("HTML assets:", matches)
+              if not matches:
+                  raise SystemExit("FAIL: Android HTML asset missing from APK")
+              html = z.read(matches[0]).decode("utf-8", "replace")
+              if "ALABTAL V7 TEST" not in html:
+                  raise SystemExit("FAIL: APK does not contain V7 test marker")
+              print("PASS: APK contains ALABTAL V7 TEST")
+          PY
+          sha256sum app/build/outputs/apk/debug/app-debug.apk
+
       - uses: actions/upload-artifact@v4
         with:
-          name: ALABTAL-LIVE-APK
+          name: ALABTAL-LIVE-APK-${{ github.run_number }}-${{ github.sha }}
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
