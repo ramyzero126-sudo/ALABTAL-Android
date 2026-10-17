@@ -2314,3 +2314,70 @@ tr:hover td {
   }
 }
 
+
+/* ALABTAL DASHBOARD LED FIX V5 */
+.tile {
+  position: relative !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(72,255,145,.20) !important;
+  border-radius: 12px !important;
+  background: linear-gradient(145deg,#1b1d20,#0b0d0e) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,.28) !important;
+}
+.tile::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 10% !important;
+  right: 10% !important;
+  height: 2px !important;
+  background: linear-gradient(90deg,transparent,#48ff91,transparent) !important;
+  box-shadow: 0 0 8px rgba(72,255,145,.28) !important;
+  pointer-events: none !important;
+}
+.tile strong, .tile .value { color: #ff9b42 !important; }
+.tile label { color: #e0e3e7 !important; }
+.panel {
+  position: relative !important;
+  overflow: hidden !important;
+  border-color: rgba(72,255,145,.18) !important;
+  background: linear-gradient(145deg,#111416,#090a0b) !important;
+}
+.panel::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 8% !important;
+  right: 8% !important;
+  height: 2px !important;
+  background: linear-gradient(90deg,transparent,#48ff91,transparent) !important;
+  pointer-events: none !important;
+}
+.chips .chip {
+  border: 1px solid rgba(72,255,145,.22) !important;
+  border-radius: 9px !important;
+  background: #151719 !important;
+  color: #e0e3e7 !important;
+}
+.chips .chip.active {
+  border-color: #ff9b42 !important;
+  background: linear-gradient(135deg,#ffb45f,#ff7a2e) !important;
+  color: #17100a !important;
+  box-shadow: 0 0 8px rgba(72,255,145,.12) !important;
+}
+.rider {
+  border: 1px solid rgba(255,155,66,.42) !important;
+  border-radius: 15px !important;
+  background: linear-gradient(145deg,#191a1c,#090a0b) !important;
+}
+.rider .rider-name { color: #f5f5f5 !important; }
+.rider .metrics .metric {
+  border-color: rgba(255,155,66,.3) !important;
+  background: linear-gradient(145deg,#211a14,#111213) !important;
+}
+.rider .metrics .metric b { color: #ffad58 !important; }
+@media(max-width:620px) {
+  .tile { border-radius: 10px !important; }
+  .stats { gap: 6px !important; }
+  .chips .chip { padding: 6px 8px !important; font-size: 10px !important; }
+}
