@@ -14,7 +14,13 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlparse, parse_qs
 from urllib.request import Request, build_opener, HTTPCookieProcessor
 
-BASE_DIR = Path(__file__).resolve().parent
+MODULE_DIR = Path(__file__).resolve().parent
+WORK_DIR = Path.cwd()
+BASE_DIR = (
+    WORK_DIR
+    if (WORK_DIR / "alabtal_v2" / "index.html").is_file()
+    else MODULE_DIR
+)
 DESKTOP_URL = "https://desktop-f8arjo9.tail547e30.ts.net"
 HOST = "127.0.0.1"
 PORT = int(os.environ.get("PORT", "8765"))
