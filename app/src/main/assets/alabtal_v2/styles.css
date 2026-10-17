@@ -3841,3 +3841,30 @@ body.detail-page-open{overflow:hidden}
   .rider .actions { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }
   .rider .actions .action { font-size: 7px !important; }
 }
+
+
+/* ALABTAL FORCE COMPACT CARD V4 */
+.rider {
+  padding: 7px !important;
+  margin: 4px 1px 7px !important;
+  border: 1px solid #24d17a !important;
+  border-radius: 12px !important;
+  background: linear-gradient(145deg,#101a14,#030604 78%) !important;
+  box-shadow: 0 2px 0 #07100b, 0 5px 0 #173523, 0 9px 16px #0009 !important;
+}
+.rider .rider-head { grid-template-columns: 34px minmax(0,1fr) auto !important; gap: 6px !important; }
+.rider .avatar { width: 32px !important; height: 32px !important; font-size: 18px !important; }
+.rider .rider-name { font-size: 11px !important; line-height: 1.25 !important; }
+.rider .sub { font-size: 8px !important; margin-top: 1px !important; line-height: 1.25 !important; }
+.rider .status { font-size: 8px !important; padding: 3px 5px !important; }
+.rider .rider-status-line { margin: 2px 0 4px !important; }
+.rider .order-status-badge { font-size: 8px !important; padding: 3px 6px !important; }
+.rider .order-status-badge.has-order { color: #ffb15c !important; background: #39200d !important; border-color: #ff922e !important; }
+.rider .metrics { grid-template-columns: repeat(4,minmax(0,1fr)) !important; gap: 3px !important; margin: 4px 0 !important; }
+.rider .metric { padding: 4px 1px !important; border-radius: 7px !important; }
+.rider .metric b { font-size: 12px !important; }
+.rider .metric small { font-size: 7px !important; }
+.rider .wallet-row { margin-top: 3px !important; padding: 4px 6px !important; font-size: 9px !important; }
+.rider .wallet-row b { font-size: 11px !important; }
+.rider .actions { grid-template-columns: repeat(5,minmax(0,1fr)) !important; gap: 3px !important; margin-top: 4px !important; }
+.rider .actions .action { min-width: 0 !important; min-height: 24px !important; padding: 3px 0 !important; font-size: 7px !important; line-height: 1.1 !important; border-radius: 6px !important; }
