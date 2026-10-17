@@ -18,7 +18,7 @@ jobs:
       - name: Identify source
         run: |
           echo "SOURCE COMMIT: $(git rev-parse HEAD)"
-          grep -n "ALABTAL V7 TEST" app/src/main/assets/alabtal_v2/index.html
+          grep -n "ALABTAL PREMIUM FINAL LAYER 29" app/src/main/assets/alabtal_v2/styles.css
 
       - uses: actions/setup-java@v4
         with:
@@ -53,9 +53,15 @@ jobs:
               if not matches:
                   raise SystemExit("FAIL: Android HTML asset missing from APK")
               html = z.read(matches[0]).decode("utf-8", "replace")
-              if "ALABTAL V7 TEST" not in html:
-                  raise SystemExit("FAIL: APK does not contain V7 test marker")
-              print("PASS: APK contains ALABTAL V7 TEST")
+              css_matches = [n for n in files if n.endswith("assets/alabtal_v2/styles.css")]
+              if not css_matches:
+                  raise SystemExit("FAIL: Android CSS asset missing from APK")
+              css = z.read(css_matches[0]).decode("utf-8", "replace")
+              if "ALABTAL PREMIUM FINAL LAYER 29" not in css:
+                  raise SystemExit("FAIL: APK does not contain the new premium UI")
+              if "ALABTAL V7 TEST" in html:
+                  raise SystemExit("FAIL: Old HTML test marker still exists")
+              print("PASS: APK contains premium UI and no old HTML test marker")
           PY
           sha256sum app/build/outputs/apk/debug/app-debug.apk
 
