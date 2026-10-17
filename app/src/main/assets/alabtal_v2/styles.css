@@ -2612,81 +2612,118 @@ html body .rider .actions .action {
 
 
 
-/* ALABTAL PREMIUM FINAL LAYER 29 */
+/* ALABTAL PREMIUM 3D RIDER CARDS V30 */
 :root {
   --ab-copper: #d99a5b;
-  --ab-copper-light: #ffd19a;
+  --ab-copper-light: #ffe0b5;
   --ab-teal: #35d6b0;
-  --ab-deep: #0a0d0d;
+  --ab-deep: #090c0c;
 }
 html, body {
-  background: #090b0b !important;
+  background: #080a0a !important;
 }
 .live-card {
   position: relative !important;
   isolation: isolate !important;
   overflow: hidden !important;
-  border: 1px solid rgba(217,154,91,.78) !important;
-  border-radius: 26px !important;
+  border: 1px solid #bd8048 !important;
+  border-radius: 25px !important;
   background:
-    radial-gradient(ellipse at 0% 0%, rgba(217,154,91,.10), transparent 38%),
-    radial-gradient(ellipse at 100% 100%, rgba(53,214,176,.07), transparent 42%),
-    linear-gradient(145deg,#20201d 0%,#121514 42%,#0b0d0d 100%) !important;
+    linear-gradient(115deg,rgba(255,255,255,.055),transparent 27%),
+    radial-gradient(ellipse at 50% 0%,rgba(255,191,120,.13),transparent 54%),
+    linear-gradient(155deg,#29251f 0%,#171918 32%,#0c0f0f 78%,#171511 100%) !important;
   box-shadow:
+    0 2px 0 #f4c18b,
+    0 5px 0 #754a2a,
     0 8px 0 #080909,
-    0 18px 34px rgba(0,0,0,.55),
-    inset 0 2px 0 rgba(255,226,190,.12),
-    inset 0 -2px 0 rgba(0,0,0,.8),
-    0 0 0 1px rgba(255,209,154,.08) !important;
-  transform: none !important;
+    0 18px 28px rgba(0,0,0,.72),
+    0 0 0 1px rgba(255,206,151,.12),
+    inset 0 2px 0 rgba(255,244,225,.23),
+    inset 0 -3px 0 rgba(0,0,0,.8) !important;
+  transform: translateY(-1px) !important;
 }
-.live-card::before,
+.live-card::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  inset: 1px 1px auto 1px !important;
+  height: 3px !important;
+  border-radius: 24px 24px 0 0 !important;
+  background: linear-gradient(90deg,transparent,#ffe0b5 18%,#ffffff 50%,#35d6b0 82%,transparent) !important;
+  opacity: .9 !important;
+}
 .live-card::after {
-  content: none !important;
-  display: none !important;
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  inset: 8px !important;
+  border: 1px solid rgba(255,220,174,.075) !important;
+  border-radius: 18px !important;
+  box-shadow: inset 0 0 22px rgba(0,0,0,.22) !important;
+}
+.live-card > * {
+  position: relative;
+  z-index: 1;
 }
 .live-card .live-card-top {
   position: relative !important;
   z-index: 1 !important;
 }
 .live-card .live-pill {
-  border: 1px solid rgba(53,214,176,.65) !important;
-  background: linear-gradient(145deg,rgba(13,67,54,.95),rgba(8,30,26,.98)) !important;
-  color: #75f0cf !important;
-  box-shadow: inset 0 1px rgba(255,255,255,.1),
-              0 3px 8px rgba(0,0,0,.35) !important;
+  border: 1px solid rgba(53,214,176,.8) !important;
+  background: linear-gradient(145deg,#145342,#09271f) !important;
+  color: #9dffe5 !important;
+  box-shadow:
+    0 3px 0 #061713,
+    0 5px 12px #0008,
+    inset 0 1px 0 #ffffff30 !important;
 }
 .live-card .live-grid {
-  border: 1px solid rgba(53,214,176,.2) !important;
-  border-radius: 22px !important;
-  background: linear-gradient(145deg,rgba(22,28,27,.98),rgba(10,13,13,.98)) !important;
-  box-shadow: inset 0 2px 5px rgba(0,0,0,.48),
-              0 5px 14px rgba(0,0,0,.2) !important;
-}
-.live-card .live-actions button,
-.live-card .live-actions .btn {
-  border: 1px solid rgba(217,154,91,.42) !important;
-  border-radius: 12px !important;
-  background: linear-gradient(145deg,#29251f,#141615) !important;
-  color: #f0d8bd !important;
-  box-shadow: 0 3px 0 #080909,
-              inset 0 1px rgba(255,255,255,.09) !important;
-}
-.live-card .live-actions button:active,
-.live-card .live-actions .btn:active {
-  transform: translateY(2px) !important;
-  box-shadow: 0 1px 0 #080909 !important;
+  border: 1px solid rgba(53,214,176,.25) !important;
+  border-radius: 20px !important;
+  background: linear-gradient(145deg,#101717,#0a0d0d) !important;
+  box-shadow:
+    inset 0 3px 7px #000b,
+    inset 0 1px 0 #ffffff0a,
+    0 1px 0 #ffffff0b !important;
 }
 .live-card .live-grid > *,
 .live-card .stat-card,
 .live-card .metric-card {
-  border-color: rgba(217,154,91,.48) !important;
+  border-color: rgba(217,154,91,.55) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,224,181,.12),
+    0 3px 0 rgba(80,51,29,.65),
+    0 6px 12px rgba(0,0,0,.25) !important;
+}
+.live-card .live-actions button,
+.live-card .live-actions .btn {
+  border: 1px solid rgba(217,154,91,.65) !important;
+  border-radius: 12px !important;
+  background: linear-gradient(155deg,#30281f,#171817 75%) !important;
+  color: #ffe2bf !important;
+  box-shadow:
+    0 3px 0 #090a0a,
+    0 5px 9px #0007,
+    inset 0 1px 0 #ffffff20 !important;
+}
+.live-card .live-actions button:active,
+.live-card .live-actions .btn:active {
+  transform: translateY(2px) !important;
+  box-shadow: 0 1px 0 #090a0a !important;
 }
 @media (max-width:600px) {
   .live-card {
-    border-radius: 23px !important;
-    box-shadow: 0 6px 0 #080909,
-                0 13px 24px rgba(0,0,0,.48),
-                inset 0 1px 0 rgba(255,226,190,.1) !important;
+    border-radius: 22px !important;
+    box-shadow:
+      0 2px 0 #f4c18b,
+      0 5px 0 #754a2a,
+      0 7px 0 #080909,
+      0 13px 22px rgba(0,0,0,.68),
+      inset 0 2px 0 rgba(255,244,225,.18) !important;
   }
 }
