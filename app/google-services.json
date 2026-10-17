@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "49298191633",
+    "project_id": "al-abtal-live",
+    "storage_bucket": "al-abtal-live.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49298191633:android:95dac54a7b994474b288b0",
+        "android_client_info": {
+          "package_name": "com.alabtal.live"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZR2bTdmldLriNwhfHhwDHhL5u66H6ksQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
