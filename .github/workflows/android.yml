@@ -18,7 +18,7 @@ jobs:
       - name: Identify source
         run: |
           echo "SOURCE COMMIT: $(git rev-parse HEAD)"
-          grep -n "ALABTAL PREMIUM FINAL LAYER 29" app/src/main/assets/alabtal_v2/styles.css
+          grep -n "ALABTAL PREMIUM 3D RIDER CARDS V30" app/src/main/assets/alabtal_v2/styles.css
 
       - uses: actions/setup-java@v4
         with:
@@ -57,7 +57,7 @@ jobs:
               if not css_matches:
                   raise SystemExit("FAIL: Android CSS asset missing from APK")
               css = z.read(css_matches[0]).decode("utf-8", "replace")
-              if "ALABTAL PREMIUM FINAL LAYER 29" not in css:
+              if "ALABTAL PREMIUM 3D RIDER CARDS V30" not in css:
                   raise SystemExit("FAIL: APK does not contain the new premium UI")
               if "ALABTAL V7 TEST" in html:
                   raise SystemExit("FAIL: Old HTML test marker still exists")
