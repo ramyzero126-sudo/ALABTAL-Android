@@ -1,0 +1,2315 @@
+*{box-sizing:border-box} :root{--orange:#ff5429;--bg:#030405;--panel:#0d0f11;--edge:#25292f;--muted:#8e96a6;--white:#f3f5fa}
+body{margin:0;background:radial-gradient(ellipse at 50% 0,#21100b 0, #050607 38%,#000 75%);color:var(--white);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif}
+.topbar{height:76px;background:linear-gradient(110deg,#ff7b43,#ff4b22);color:#160b07;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-radius:0 0 26px 26px;box-shadow:0 7px 25px #ff4e2533;position:sticky;top:0;z-index:5}
+.brand{text-align:center;line-height:1}.brand b{display:block;font-size:25px;letter-spacing:4px;font-weight:950}.brand small{font-size:9px;letter-spacing:2px;font-weight:800}.headright{display:flex;align-items:center;gap:14px;font-weight:800}.iconbtn{background:#1112;border:1px solid #2b160e55;border-radius:12px;padding:8px 11px;font-size:19px;color:inherit}
+.wrap{max-width:1000px;margin:auto;padding:18px 16px 26px}.stats{display:grid;gap:12px}.four{grid-template-columns:repeat(4,minmax(0,1fr))}.tile{--accent:#8893a5;background:linear-gradient(145deg,#151719,#080a0c);border:1px solid var(--edge);border-top:4px solid var(--accent);border-radius:19px;padding:15px 10px;text-align:center;min-width:0;box-shadow:inset 0 1px #ffffff09,0 7px 15px #0007}.tile span{display:block;font-size:21px;color:var(--accent)}.tile strong{display:block;font-size:27px;line-height:1.4;color:var(--accent);font-weight:900}.tile label{display:block;font-size:14px;color:#c1c5cf;font-weight:650}.tile small{display:block;color:var(--muted);font-size:12px;margin-top:7px}.teal{--accent:#16c9a0;background:linear-gradient(145deg,#09211d,#0b1011)}.red{--accent:#ff3d53;background:linear-gradient(145deg,#211013,#100b0c)}.blue{--accent:#78aef8;background:linear-gradient(145deg,#0b182b,#0b0e12)}.gold{--accent:#ffb51e;background:linear-gradient(145deg,#211b0b,#100e09)}.slate{--accent:#b5c2d8}
+.panel{margin-top:16px;padding:15px;border:1px solid #25303b;border-radius:24px;background:linear-gradient(145deg,#0b0e11ee,#050607f5);box-shadow:0 10px 25px #0007}.panel h2,.section-title{margin:0 0 14px;font-size:19px;display:flex;align-items:center;gap:9px;font-weight:850}.panel h2 i,.section-title i{width:5px;height:23px;background:var(--orange);border-radius:6px;display:inline-block}.panel h2 span{color:var(--orange);margin-right:auto}
+.filters{margin-top:16px;padding:13px;background:#0b0d0f;border:1px solid var(--edge);border-radius:22px}.searchrow{display:grid;grid-template-columns:1fr 180px auto;gap:10px}input,select{min-width:0;background:#151719;color:#f4f5f8;border:1px solid #30353c;border-radius:15px;padding:13px;font:inherit}input::placeholder{color:#818998}.primary{border:0;border-radius:15px;padding:0 22px;background:var(--orange);color:#1a0904;font:inherit;font-weight:900}.chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.chip{background:#111315;color:#aeb6c6;border:1px solid #30343a;border-radius:99px;padding:9px 17px;font:inherit;font-weight:750}.chip.active{background:var(--orange);border-color:var(--orange);color:#1b0b06;box-shadow:0 4px 18px #ff542944}
+.section-title{margin:22px 4px 12px}.live{margin-right:auto;color:#6c7584;font-size:12px;letter-spacing:1px}.live b{display:inline-block;width:8px;height:8px;background:#17d69f;border-radius:50%;box-shadow:0 0 10px #17d69f}
+.riders{display:grid;gap:15px}.rider{border:2px solid #ff5429;border-radius:27px;padding:14px;background:linear-gradient(135deg,#111416,#050607 65%);box-shadow:0 0 0 5px #ff542912,0 15px 30px #0009;position:relative;overflow:hidden}.rider:before{content:"";position:absolute;inset:0 auto 0 0;width:5px;background:linear-gradient(#ffb51e,#ff5429,#16c9a0)}.rider-head{display:grid;grid-template-columns:70px 1fr auto;gap:12px;align-items:center}.avatar{height:65px;width:65px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(140deg,#392016,#0c0e10);border:2px solid #ffb51e;font-size:32px}.rider-name{font-size:18px;font-weight:900;overflow-wrap:anywhere}.sub{color:#9ba4b5;font-size:13px;margin-top:6px}.status{display:inline-block;border:1px solid #168e6d;background:#09251d;color:#20d7a4;border-radius:99px;padding:5px 12px;font-size:12px;font-weight:850}.progress{height:8px;background:#24282d;border-radius:99px;margin:15px 0;overflow:hidden}.progress span{display:block;width:77%;height:100%;background:linear-gradient(90deg,#11c89b,#ffb51e);border-radius:99px}.rider-tags{display:flex;gap:8px;flex-wrap:wrap}.tag{border:1px solid #303944;background:#111519;border-radius:99px;padding:7px 10px;color:#cbd1dd;font-size:12px}.tag.orange{border-color:#754025;color:#ff9c66}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0}.metric{border:1px solid #292f37;background:#101316;border-radius:15px;padding:10px 4px;text-align:center}.metric b{display:block;font-size:20px;color:#f2f4f8}.metric small{color:#9ca5b5;font-size:12px}.actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.action{border:1px solid #3a424d;border-radius:14px;padding:12px 5px;font:inherit;font-weight:850;background:#171b21;color:#eef1f7}.action.call{background:#063c30;border-color:#10c79a;color:#4be6bc}.action.break{background:#ffb21a;color:#241300;border-color:#ffca55}.action.lock{background:#391019;color:#ff6372;border-color:#ff4056}.action.supply{background:#10213b;color:#88baff;border-color:#427fce}.empty{padding:25px;text-align:center;color:#98a0af;border:1px dashed #333;border-radius:18px}footer{text-align:center;color:var(--orange);letter-spacing:2px;font-size:12px;padding:27px 0 8px}footer span{padding:0 12px}
+@media(max-width:620px){.topbar{height:64px;padding:0 12px}.brand b{font-size:20px;letter-spacing:2px}.brand small{font-size:7px}.headright{font-size:13px;gap:6px}.wrap{padding:12px 8px}.four{gap:8px}.tile{padding:10px 4px;border-radius:15px}.tile strong{font-size:22px}.tile label{font-size:11px}.tile small{font-size:10px}.tile span{font-size:16px}.panel{padding:10px;margin-top:12px;border-radius:19px}.panel h2,.section-title{font-size:16px}.searchrow{grid-template-columns:1fr 1fr}.searchrow input{grid-column:1/-1}.primary{padding:10px}.chip{padding:8px 12px;font-size:12px}.rider{padding:12px;border-radius:22px}.rider-head{grid-template-columns:52px 1fr auto;gap:9px}.avatar{height:50px;width:50px;font-size:25px}.rider-name{font-size:15px}.sub{font-size:11px}.metrics{gap:5px}.metric{padding:8px 2px}.metric b{font-size:17px}.metric small{font-size:10px}.actions{gap:5px}.action{font-size:12px;padding:10px 2px}.status{font-size:10px;padding:5px 7px}}
+
+/* ALABTAL automatic area boxes */
+.area-box{margin:18px 0 22px;padding:12px;border:1px solid #ff542966;border-radius:24px;background:linear-gradient(145deg,#17100d,#080a0c 72%);box-shadow:0 12px 28px #0008,inset 0 1px #ffffff0a}
+.area-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 13px;padding:12px 14px;border-radius:16px;background:linear-gradient(100deg,#3a1c10,#17100d);border:1px solid #ff7b354d}
+.area-title{display:flex;align-items:center;gap:9px;min-width:0;color:#ffb36c;font-size:17px;font-weight:900;overflow-wrap:anywhere}
+.area-pin{display:grid;place-items:center;width:34px;height:34px;flex:0 0 34px;border-radius:11px;background:#ff70221a;border:1px solid #ff8b4355}
+.area-count{flex:0 0 auto;padding:7px 11px;border-radius:99px;background:#ff70221c;border:1px solid #ff8b4355;color:#ffd0a6;font-size:12px;font-weight:850;white-space:nowrap}
+.area-riders{display:grid;grid-template-columns:1fr;gap:13px}
+@media(min-width:850px){.area-riders{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ALABTAL city tabs */
+.city-tabs{margin-top:12px;padding:10px 0 2px;display:flex;gap:9px;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:thin}
+.city-tabs .chip{flex:0 0 auto;white-space:nowrap;border-color:#754025;background:linear-gradient(145deg,#1b1714,#101214);color:#ffd1b0}
+.city-tabs .chip.active{background:linear-gradient(120deg,#ffb51e,#ff642f);border-color:#ffb51e;color:#211006;box-shadow:0 4px 16px #ff642f33}
+.city-tabs .chip b{display:inline-grid;place-items:center;min-width:21px;height:21px;margin-inline-start:5px;padding:0 4px;border-radius:99px;background:#0003;font-size:11px}
+
+
+/* ALABTAL_ORDER_TOGGLE */
+.order-route {
+  display: none;
+}
+.order-route.order-route-open {
+  display: block;
+  animation: alabtalOrderReveal .22s ease-out;
+}
+@keyframes alabtalOrderReveal {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+/* ALABTAL_ORDER_TOGGLE_FIX */
+.rider .order-route { display: none !important; }
+.rider.order-expanded .order-route {
+  display: block !important;
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 12px;
+}
+.rider { cursor: pointer; }
+
+/* ALABTAL_ORDER_STATUS_BADGE */
+.order-status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 12px;
+  margin: 3px;
+  border: 1.5px solid;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.order-status-badge.has-order {
+  color: #16803d;
+  border-color: #22a447;
+  background: #eaffef;
+  box-shadow: 0 0 8px rgba(34,164,71,.16);
+}
+.order-status-badge.no-order {
+  color: #c62828;
+  border-color: #e53935;
+  background: #fff0f0;
+  box-shadow: 0 0 8px rgba(229,57,53,.12);
+}
+.order-status-badge.order-unknown {
+  color: #8a6500;
+  border-color: #d6a500;
+  background: #fff9df;
+}
+
+
+/* ALABTAL manual live refresh */
+.refresh-live-btn {
+  margin-inline-start: 10px;
+  padding: 8px 14px;
+  border: 1px solid rgba(255,100,47,.45);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff784f, #ff642f);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255,100,47,.22);
+}
+.refresh-live-btn:disabled {
+  opacity: .65;
+  cursor: wait;
+}
+
+
+/* ALABTAL sidebar and shift bookings */
+.side-menu{position:fixed;z-index:1002;top:0;right:0;bottom:0;width:min(310px,86vw);padding:22px 16px;background:#101820;color:#f4f7fb;box-shadow:-18px 0 55px #0007;transform:translateX(110%);transition:transform .25s ease;display:flex;flex-direction:column;gap:10px}
+.side-menu.open{transform:translateX(0)}
+.side-menu-brand{display:flex;align-items:center;justify-content:space-between;padding:8px 8px 22px;border-bottom:1px solid #ffffff1c;margin-bottom:8px}
+.side-menu-brand b{font-size:23px;letter-spacing:1px;color:#ff784e}
+.side-menu-brand button{border:0;background:#ffffff12;color:#fff;border-radius:10px;font-size:27px;width:38px;height:38px}
+.side-link{width:100%;text-align:right;padding:15px 14px;border:1px solid #ffffff12;border-radius:13px;background:#ffffff08;color:#e9eef5;font-size:15px;font-weight:700}
+.side-link.active{background:#ff642f20;border-color:#ff642f;color:#ff956f}
+.side-menu-note{margin-top:auto;color:#8b9aaa;font-size:12px;padding:12px}
+.menu-backdrop{position:fixed;inset:0;z-index:1001;background:#03070bb8;opacity:0;visibility:hidden;transition:opacity .2s}
+.menu-backdrop.show{opacity:1;visibility:visible}
+.bookings-view{padding:4px 0 24px}
+.bookings-view[hidden]{display:none!important}
+.booking-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}
+.booking-summary article{display:flex;flex-direction:column;gap:7px;padding:18px;border:1px solid #ffffff15;border-radius:16px;background:linear-gradient(145deg,#172632,#101820);box-shadow:0 8px 22px #0002}
+.booking-summary strong{font-size:27px;color:#ff956f}
+.booking-summary span{font-size:12px;color:#b8c4d0}
+.booking-search{margin:12px 0}
+.booking-search input{width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid #ffffff20;border-radius:12px;background:#111b25;color:inherit;font:inherit}
+.booking-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:13px}
+.booking-card{padding:16px;border:1px solid #ffffff17;border-radius:17px;background:linear-gradient(145deg,#182631,#101820);box-shadow:0 10px 25px #0002;min-width:0}
+.booking-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.booking-card-head>div{display:flex;flex-direction:column;gap:5px;min-width:0}
+.booking-card-head strong{font-size:16px;overflow-wrap:anywhere}
+.booking-card-head small,.booking-times small{font-size:12px;color:#9eafbe}
+.booking-state{font-size:11px;font-weight:700;border-radius:20px;padding:7px 9px;white-space:nowrap}
+.booking-state.is-booked{background:#13b98120;color:#55e0ae;border:1px solid #13b98155}
+.booking-state.not-booked{background:#ffffff0c;color:#b6c1cc;border:1px solid #ffffff18}
+.booking-times{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.booking-times>div{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:12px;background:#ffffff07}
+.booking-times strong{font-size:18px;color:#f4f7fb}
+.booking-meta{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px;color:#9eafbe;font-size:12px}
+@media(max-width:420px){.booking-card{padding:13px}.booking-times strong{font-size:16px}}
+/* ALABTAL SCREEN SPLIT FIX */
+
+[hidden] {
+  display: none !important;
+}
+
+
+/* ALABTAL PREMIUM BOOKING DASHBOARD */
+.bookings-view .booking-summary-premium {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 18px 0 22px;
+}
+.bookings-view .booking-stat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+  min-width: 0;
+  padding: 20px 17px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 20px;
+  background: linear-gradient(145deg, #202936, #111720);
+  box-shadow: 0 10px 26px rgba(0,0,0,.22), inset 0 1px rgba(255,255,255,.06);
+}
+.bookings-view .booking-stat::after {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  left: -35px;
+  top: -42px;
+  border-radius: 50%;
+  background: var(--booking-glow, rgba(255,255,255,.05));
+  filter: blur(2px);
+  pointer-events: none;
+}
+.bookings-view .booking-stat-total { --booking-glow: rgba(64,185,255,.13); }
+.bookings-view .booking-stat-booked { --booking-glow: rgba(44,220,153,.15); }
+.bookings-view .booking-stat-percent {
+  --booking-glow: rgba(255,151,67,.19);
+  border-color: rgba(255,151,67,.32);
+  background: linear-gradient(145deg, #38291f, #17191e 82%);
+}
+.bookings-view .booking-stat-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.08);
+  font-size: 20px;
+}
+.bookings-view .booking-stat strong {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(27px, 5vw, 38px);
+  line-height: 1.1;
+  font-weight: 900;
+  letter-spacing: -.5px;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+.bookings-view .booking-stat-total strong { color: #72caff; }
+.bookings-view .booking-stat-booked strong { color: #50e3ac; }
+.bookings-view .booking-stat-percent strong { color: #ffad68; font-size: clamp(32px, 6vw, 44px); }
+.bookings-view .booking-stat > span:not(.booking-stat-icon) {
+  color: #bdc6d2;
+  font-size: 13px;
+  font-weight: 700;
+}
+.bookings-view .booking-progress {
+  width: 100%;
+  height: 8px;
+  margin-top: 3px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: rgba(255,255,255,.12);
+}
+.bookings-view .booking-progress i {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #ff642f, #ffc078);
+  box-shadow: 0 0 12px rgba(255,130,55,.35);
+  transition: width .6s ease;
+}
+.bookings-view .booking-stat small {
+  color: #c7b5a5;
+  font-size: 11px;
+  line-height: 1.7;
+}
+.bookings-view .booking-card {
+  padding: 17px;
+  margin: 10px 0;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 17px;
+  background: linear-gradient(135deg, rgba(35,44,56,.98), rgba(19,25,34,.98));
+  box-shadow: 0 7px 18px rgba(0,0,0,.15);
+  transition: transform .18s ease, border-color .18s ease;
+}
+.bookings-view .booking-card:active {
+  transform: scale(.99);
+}
+.bookings-view .booking-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.bookings-view .booking-card-head strong {
+  display: block;
+  color: #f5f7fa;
+  font-size: 15px;
+  font-weight: 800;
+}
+.bookings-view .booking-card-head small {
+  display: block;
+  margin-top: 6px;
+  color: #9daaba;
+  font-size: 12px;
+}
+.bookings-view .booking-state {
+  flex-shrink: 0;
+  padding: 7px 11px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+}
+.bookings-view .booking-state.is-booked {
+  color: #61e5b1;
+  background: rgba(43,208,145,.12);
+  border: 1px solid rgba(43,208,145,.23);
+}
+.bookings-view .booking-state.not-booked {
+  color: #ffb0a2;
+  background: rgba(255,100,80,.11);
+  border: 1px solid rgba(255,100,80,.22);
+}
+.bookings-view .booking-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-top: 13px;
+  color: #aeb9c8;
+  font-size: 12px;
+}
+@media (max-width: 480px) {
+  .bookings-view .booking-summary-premium { gap: 8px; }
+  .bookings-view .booking-stat { padding: 13px 10px; border-radius: 15px; gap: 8px; }
+  .bookings-view .booking-stat-icon { width: 31px; height: 31px; font-size: 17px; border-radius: 10px; }
+  .bookings-view .booking-stat > span:not(.booking-stat-icon) { font-size: 11px; }
+  .bookings-view .booking-stat small { font-size: 10px; }
+}
+
+/* ALABTAL PREMIUM BOOKING CARDS */
+.booking-summary {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+  margin: 18px 0 24px !important;
+}
+
+.booking-summary > article {
+  position: relative !important;
+  overflow: hidden !important;
+  min-width: 0 !important;
+  padding: 20px 18px !important;
+  border: 1px solid rgba(83, 213, 255, .24) !important;
+  border-radius: 20px !important;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(0, 195, 255, .14), transparent 58%),
+    linear-gradient(145deg, #172538 0%, #0b1422 75%) !important;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, .25),
+              inset 0 1px 0 rgba(255, 255, 255, .07) !important;
+  transition: transform .2s ease, border-color .2s ease,
+              box-shadow .2s ease !important;
+}
+
+.booking-summary > article::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  right: 16px !important;
+  left: 16px !important;
+  height: 3px !important;
+  border-radius: 0 0 8px 8px !important;
+  background: linear-gradient(90deg, transparent, #36d9ff, transparent) !important;
+}
+
+.booking-summary > article strong {
+  display: block !important;
+  margin: 8px 0 10px !important;
+  color: #f4fbff !important;
+  font-size: clamp(25px, 4vw, 36px) !important;
+  font-weight: 900 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -.8px !important;
+  text-shadow: 0 0 18px rgba(54, 217, 255, .16) !important;
+}
+
+.booking-summary > article span {
+  display: block !important;
+  color: #a9bdd1 !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  line-height: 1.7 !important;
+}
+
+.booking-summary .booking-progress {
+  height: 8px !important;
+  margin: 14px 0 10px !important;
+  overflow: hidden !important;
+  border-radius: 20px !important;
+  background: rgba(255, 255, 255, .09) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, .25) !important;
+}
+
+.booking-summary .booking-progress i {
+  display: block !important;
+  height: 100% !important;
+  border-radius: inherit !important;
+  background: linear-gradient(90deg, #087cf0, #39e4ff) !important;
+  box-shadow: 0 0 14px rgba(57, 228, 255, .4) !important;
+  transition: width .6s ease !important;
+}
+
+.booking-summary > article small {
+  display: block !important;
+  color: #8da8bf !important;
+  font-size: 11px !important;
+  line-height: 1.7 !important;
+}
+
+.booking-card {
+  position: relative !important;
+  overflow: hidden !important;
+  margin: 0 0 13px !important;
+  padding: 17px !important;
+  border: 1px solid rgba(130, 164, 198, .18) !important;
+  border-radius: 18px !important;
+  background: linear-gradient(145deg, #162335, #0c1522 78%) !important;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .2),
+              inset 0 1px 0 rgba(255, 255, 255, .035) !important;
+  transition: transform .18s ease, border-color .18s ease !important;
+}
+
+.booking-card:hover {
+  transform: translateY(-2px) !important;
+  border-color: rgba(54, 217, 255, .4) !important;
+}
+
+.booking-card-head {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  margin-bottom: 12px !important;
+}
+
+.booking-state {
+  padding: 6px 11px !important;
+  border: 1px solid rgba(54, 217, 255, .25) !important;
+  border-radius: 999px !important;
+  background: rgba(54, 217, 255, .09) !important;
+  color: #62e5ff !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+}
+
+.booking-meta {
+  color: #a9bdd1 !important;
+  font-size: 12px !important;
+  line-height: 1.9 !important;
+}
+
+@media (max-width: 600px) {
+  .booking-summary {
+    gap: 9px !important;
+    margin: 14px 0 20px !important;
+  }
+
+  .booking-summary > article {
+    padding: 15px 11px !important;
+    border-radius: 16px !important;
+  }
+
+  .booking-summary > article strong {
+    font-size: 25px !important;
+  }
+
+  .booking-summary > article span {
+    font-size: 11px !important;
+  }
+
+  .booking-summary > article small {
+    font-size: 10px !important;
+  }
+
+  .booking-card {
+    padding: 14px !important;
+    border-radius: 16px !important;
+  }
+}
+
+/* ALABTAL PREMIUM BOOKING CARDS */
+.booking-summary {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+  margin: 18px 0 24px !important;
+}
+
+.booking-summary > article {
+  position: relative !important;
+  overflow: hidden !important;
+  min-width: 0 !important;
+  padding: 20px 18px !important;
+  border: 1px solid rgba(83, 213, 255, .24) !important;
+  border-radius: 20px !important;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(0, 195, 255, .14), transparent 58%),
+    linear-gradient(145deg, #172538 0%, #0b1422 75%) !important;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, .25),
+              inset 0 1px 0 rgba(255, 255, 255, .07) !important;
+  transition: transform .2s ease, border-color .2s ease,
+              box-shadow .2s ease !important;
+}
+
+.booking-summary > article::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  right: 16px !important;
+  left: 16px !important;
+  height: 3px !important;
+  border-radius: 0 0 8px 8px !important;
+  background: linear-gradient(90deg, transparent, #36d9ff, transparent) !important;
+}
+
+.booking-summary > article strong {
+  display: block !important;
+  margin: 8px 0 10px !important;
+  color: #f4fbff !important;
+  font-size: clamp(25px, 4vw, 36px) !important;
+  font-weight: 900 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -.8px !important;
+  text-shadow: 0 0 18px rgba(54, 217, 255, .16) !important;
+}
+
+.booking-summary > article span {
+  display: block !important;
+  color: #a9bdd1 !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  line-height: 1.7 !important;
+}
+
+.booking-summary .booking-progress {
+  height: 8px !important;
+  margin: 14px 0 10px !important;
+  overflow: hidden !important;
+  border-radius: 20px !important;
+  background: rgba(255, 255, 255, .09) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, .25) !important;
+}
+
+.booking-summary .booking-progress i {
+  display: block !important;
+  height: 100% !important;
+  border-radius: inherit !important;
+  background: linear-gradient(90deg, #087cf0, #39e4ff) !important;
+  box-shadow: 0 0 14px rgba(57, 228, 255, .4) !important;
+  transition: width .6s ease !important;
+}
+
+.booking-summary > article small {
+  display: block !important;
+  color: #8da8bf !important;
+  font-size: 11px !important;
+  line-height: 1.7 !important;
+}
+
+.booking-card {
+  position: relative !important;
+  overflow: hidden !important;
+  margin: 0 0 13px !important;
+  padding: 17px !important;
+  border: 1px solid rgba(130, 164, 198, .18) !important;
+  border-radius: 18px !important;
+  background: linear-gradient(145deg, #162335, #0c1522 78%) !important;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .2),
+              inset 0 1px 0 rgba(255, 255, 255, .035) !important;
+  transition: transform .18s ease, border-color .18s ease !important;
+}
+
+.booking-card:hover {
+  transform: translateY(-2px) !important;
+  border-color: rgba(54, 217, 255, .4) !important;
+}
+
+.booking-card-head {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  margin-bottom: 12px !important;
+}
+
+.booking-state {
+  padding: 6px 11px !important;
+  border: 1px solid rgba(54, 217, 255, .25) !important;
+  border-radius: 999px !important;
+  background: rgba(54, 217, 255, .09) !important;
+  color: #62e5ff !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+}
+
+.booking-meta {
+  color: #a9bdd1 !important;
+  font-size: 12px !important;
+  line-height: 1.9 !important;
+}
+
+@media (max-width: 600px) {
+  .booking-summary {
+    gap: 9px !important;
+    margin: 14px 0 20px !important;
+  }
+
+  .booking-summary > article {
+    padding: 15px 11px !important;
+    border-radius: 16px !important;
+  }
+
+  .booking-summary > article strong {
+    font-size: 25px !important;
+  }
+
+  .booking-summary > article span {
+    font-size: 11px !important;
+  }
+
+  .booking-summary > article small {
+    font-size: 10px !important;
+  }
+
+  .booking-card {
+    padding: 14px !important;
+    border-radius: 16px !important;
+  }
+}
+
+/* ===== TYPEWRITER EFFECT ===== */
+.booking-summary > article strong {
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  border-right: 3px solid #36d9ff !important;
+  animation: typing 2.2s steps(20, end), blink-caret .75s step-end infinite !important;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #36d9ff }
+}
+
+/* تحسين شكل المؤشر */
+.booking-summary > article strong.typing-done {
+  border-right: none !important;
+  animation: none !important;
+  width: auto !important;
+}
+
+/* Typewriter Cursor */
+.booking-summary > article strong {
+  border-right: 3px solid #36d9ff !important;
+  padding-right: 4px !important;
+}
+
+.booking-summary > article strong.typing-done {
+  border-right: none !important;
+}
+
+/* Typewriter Cursor */
+.booking-summary strong {
+  border-right: 2.5px solid #36d9ff !important;
+  padding-right: 3px !important;
+  transition: border-color 0.3s;
+}
+
+.booking-summary strong.typing-done {
+  border-right-color: transparent !important;
+}
+
+/* ===== ALABTAL Typewriter ===== */
+.alabtal-typewriter {
+  display: inline-block !important;
+  border-right: 3px solid #36d9ff !important;
+  padding-right: 4px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+}
+
+.alabtal-typewriter.typing-done {
+  border-right-color: transparent !important;
+}
+
+/* ===== ALABTAL Header Typewriter ===== */
+.brand b {
+  display: inline-block !important;
+  border-right: 3px solid #36d9ff !important;
+  padding-right: 5px !important;
+  white-space: nowrap !important;
+}
+
+.brand b.typing-done {
+  border-right-color: transparent !important;
+}
+
+/* ALABTAL Loop Typewriter */
+.brand b {
+  display: inline-block !important;
+  border-right: 3px solid #36d9ff !important;
+  padding-right: 5px !important;
+  min-width: 110px !important;
+  white-space: nowrap !important;
+}
+
+.brand b.typing-done {
+  border-right-color: transparent !important;
+}
+
+/* ===== تحسين كارت المندوب ===== */
+.rider {
+  background: linear-gradient(145deg, #162335, #0c1522) !important;
+  border: 1px solid rgba(130, 164, 198, .18) !important;
+  border-radius: 18px !important;
+  padding: 16px !important;
+  margin-bottom: 14px !important;
+}
+
+.rider-head {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+  margin-bottom: 12px !important;
+}
+
+.rider-name {
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  color: #f0f7ff !important;
+}
+
+.order-box {
+  background: rgba(0, 0, 0, .25) !important;
+  border: 1px solid rgba(54, 217, 255, .15) !important;
+  border-radius: 14px !important;
+  padding: 12px !important;
+  margin-bottom: 12px !important;
+}
+
+.order-status-badge {
+  display: inline-block !important;
+  padding: 5px 12px !important;
+  border-radius: 999px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  margin-bottom: 10px !important;
+}
+
+.order-status-badge.has-order {
+  background: rgba(54, 217, 255, .15) !important;
+  color: #5ce1ff !important;
+  border: 1px solid rgba(54, 217, 255, .3) !important;
+}
+
+.order-status-badge.no-order {
+  background: rgba(255, 80, 80, .12) !important;
+  color: #ff8b8b !important;
+  border: 1px solid rgba(255, 80, 80, .25) !important;
+}
+
+.order-line {
+  font-size: 13px !important;
+  color: #c5d4e3 !important;
+  margin: 4px 0 !important;
+  line-height: 1.5 !important;
+}
+
+.order-line b {
+  color: #8eb8d9 !important;
+}
+
+.metrics {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 8px !important;
+  margin-bottom: 12px !important;
+}
+
+.metric {
+  background: rgba(255,255,255,.04) !important;
+  border-radius: 12px !important;
+  padding: 10px 6px !important;
+  text-align: center !important;
+}
+
+.metric b {
+  display: block !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  color: #e8f4ff !important;
+}
+
+.metric small {
+  font-size: 11px !important;
+  color: #8aa4bc !important;
+}
+
+/* ===== كارت المندوب الجديد ===== */
+.rider-card {
+  background: #121a24 !important;
+  border: 1px solid rgba(80, 140, 180, 0.2) !important;
+  border-radius: 18px !important;
+  padding: 14px !important;
+  margin-bottom: 14px !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.rc-header {
+  display: flex !important;
+  gap: 12px !important;
+  align-items: flex-start !important;
+  margin-bottom: 12px !important;
+}
+
+.rc-avatar {
+  width: 48px !important;
+  height: 48px !important;
+  background: linear-gradient(135deg, #1a3a4a, #0d2230) !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 22px !important;
+  flex-shrink: 0 !important;
+  border: 2px solid rgba(54, 217, 255, 0.3) !important;
+}
+
+.rc-info {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.rc-name {
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  color: #f0f7ff !important;
+  margin-bottom: 3px !important;
+}
+
+.rc-meta {
+  font-size: 11.5px !important;
+  color: #8aa4bc !important;
+  line-height: 1.5 !important;
+}
+
+.rc-status {
+  padding: 4px 10px !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+  background: rgba(40, 200, 120, 0.15) !important;
+  color: #3dff9a !important;
+  border: 1px solid rgba(40, 200, 120, 0.3) !important;
+}
+
+.rc-status.متأخر {
+  background: rgba(255, 80, 80, 0.15) !important;
+  color: #ff7b7b !important;
+  border-color: rgba(255, 80, 80, 0.3) !important;
+}
+
+.rc-status.استراحة {
+  background: rgba(255, 180, 40, 0.15) !important;
+  color: #ffc14a !important;
+  border-color: rgba(255, 180, 40, 0.3) !important;
+}
+
+.rc-order {
+  background: rgba(0, 0, 0, 0.28) !important;
+  border-radius: 14px !important;
+  padding: 10px 12px !important;
+  margin-bottom: 12px !important;
+  border: 1px solid rgba(255,255,255,0.05) !important;
+}
+
+.rc-order-badge {
+  display: inline-block !important;
+  padding: 4px 11px !important;
+  border-radius: 999px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  margin-bottom: 8px !important;
+}
+
+.rc-order.has-order .rc-order-badge,
+.rc-order.picked .rc-order-badge {
+  background: rgba(54, 217, 255, 0.15) !important;
+  color: #5ce1ff !important;
+}
+
+.rc-order.to-customer .rc-order-badge {
+  background: rgba(130, 90, 255, 0.18) !important;
+  color: #b794ff !important;
+}
+
+.rc-order.at-restaurant .rc-order-badge {
+  background: rgba(255, 180, 40, 0.15) !important;
+  color: #ffc14a !important;
+}
+
+.rc-order.at-customer .rc-order-badge {
+  background: rgba(40, 200, 120, 0.15) !important;
+  color: #3dff9a !important;
+}
+
+.rc-order.no-order .rc-order-badge {
+  background: rgba(255, 80, 80, 0.12) !important;
+  color: #ff8b8b !important;
+}
+
+.rc-order-details {
+  font-size: 12.5px !important;
+  color: #c5d4e3 !important;
+  line-height: 1.6 !important;
+}
+
+.rc-order-details div {
+  margin: 3px 0 !important;
+}
+
+.rc-order-details span {
+  color: #7eb6d9 !important;
+  margin-left: 4px !important;
+}
+
+.rc-stats {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 8px !important;
+  margin-bottom: 12px !important;
+}
+
+.rc-stat {
+  background: rgba(255,255,255,0.04) !important;
+  border-radius: 12px !important;
+  padding: 10px 4px !important;
+  text-align: center !important;
+}
+
+.rc-stat b {
+  display: block !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  color: #e8f4ff !important;
+}
+
+.rc-stat span {
+  font-size: 11px !important;
+  color: #8aa4bc !important;
+}
+
+.rc-actions {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 8px !important;
+}
+
+.rc-actions button {
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  color: #c5d4e3 !important;
+  border-radius: 10px !important;
+  padding: 9px 4px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+/* تخفيف الأداء */
+.rider-card, .rc-header, .rc-order, .rc-stats, .rc-actions {
+  will-change: auto !important;
+  transform: none !important;
+  transition: none !important;
+  box-shadow: none !important;
+}
+
+.brand b {
+  border-right: none !important;
+  animation: none !important;
+}
+
+/* ===== كارت أقرب للصورة المرجعية ===== */
+.rider-card {
+  background: #0f1720 !important;
+  border: 1px solid rgba(70, 130, 160, 0.25) !important;
+  border-radius: 16px !important;
+  padding: 14px !important;
+  margin-bottom: 12px !important;
+}
+
+.rc-top {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+  margin-bottom: 10px !important;
+  gap: 10px !important;
+}
+
+.rc-name {
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  color: #f1f5f9 !important;
+  margin-bottom: 4px !important;
+}
+
+.rc-sub {
+  font-size: 11.5px !important;
+  color: #94a3b8 !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  margin-top: 2px !important;
+}
+
+.rc-right {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 6px !important;
+}
+
+.rc-status {
+  padding: 3px 10px !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  background: rgba(34, 197, 94, 0.15) !important;
+  color: #4ade80 !important;
+  border: 1px solid rgba(34, 197, 94, 0.3) !important;
+}
+
+.rc-status.متأخر {
+  background: rgba(239, 68, 68, 0.15) !important;
+  color: #f87171 !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+}
+
+.rc-status.استراحة {
+  background: rgba(234, 179, 8, 0.15) !important;
+  color: #facc15 !important;
+  border-color: rgba(234, 179, 8, 0.3) !important;
+}
+
+.rc-avatar {
+  width: 42px !important;
+  height: 42px !important;
+  background: #1e293b !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 20px !important;
+  border: 2px solid rgba(56, 189, 248, 0.3) !important;
+}
+
+.rc-badges {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  margin-bottom: 10px !important;
+}
+
+.badge {
+  padding: 4px 10px !important;
+  border-radius: 999px !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+}
+
+.badge.store {
+  background: rgba(249, 115, 22, 0.15) !important;
+  color: #fb923c !important;
+  border: 1px solid rgba(249, 115, 22, 0.25) !important;
+}
+
+.badge.has-order, .badge.to-customer {
+  background: rgba(56, 189, 248, 0.15) !important;
+  color: #38bdf8 !important;
+  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+}
+
+.badge.at-restaurant {
+  background: rgba(234, 179, 8, 0.15) !important;
+  color: #facc15 !important;
+  border: 1px solid rgba(234, 179, 8, 0.25) !important;
+}
+
+.badge.at-customer {
+  background: rgba(34, 197, 94, 0.15) !important;
+  color: #4ade80 !important;
+  border: 1px solid rgba(34, 197, 94, 0.25) !important;
+}
+
+.badge.no-order {
+  background: rgba(239, 68, 68, 0.12) !important;
+  color: #f87171 !important;
+  border: 1px solid rgba(239, 68, 68, 0.2) !important;
+}
+
+.badge.id {
+  background: rgba(148, 163, 184, 0.12) !important;
+  color: #94a3b8 !important;
+  border: 1px solid rgba(148, 163, 184, 0.2) !important;
+}
+
+.rc-route {
+  background: rgba(0,0,0,0.25) !important;
+  border-radius: 10px !important;
+  padding: 8px 10px !important;
+  margin-bottom: 10px !important;
+  font-size: 12px !important;
+  color: #cbd5e1 !important;
+  line-height: 1.6 !important;
+}
+
+.rc-route .label {
+  color: #64748b !important;
+  margin-left: 4px !important;
+}
+
+.rc-stats {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 6px !important;
+  margin-bottom: 10px !important;
+}
+
+.rc-stat {
+  background: rgba(255,255,255,0.04) !important;
+  border-radius: 10px !important;
+  padding: 8px 4px !important;
+  text-align: center !important;
+}
+
+.rc-stat b {
+  display: block !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  color: #f1f5f9 !important;
+}
+
+.rc-stat span {
+  font-size: 10.5px !important;
+  color: #94a3b8 !important;
+}
+
+.rc-actions {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 6px !important;
+}
+
+.rc-actions button {
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  color: #cbd5e1 !important;
+  border-radius: 8px !important;
+  padding: 8px 2px !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+}
+
+/* ALABTAL - NEON ORBIT ORDER CARD */
+.live-card {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(67, 218, 255, .38) !important;
+  border-radius: 22px !important;
+  background:
+    radial-gradient(circle at 8% 12%, rgba(0, 225, 255, .17), transparent 28%),
+    radial-gradient(circle at 95% 88%, rgba(153, 74, 255, .17), transparent 32%),
+    linear-gradient(145deg, #17283d 0%, #0c1525 58%, #111629 100%) !important;
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, .35),
+    inset 0 1px 0 rgba(255, 255, 255, .10),
+    0 0 16px rgba(0, 201, 255, .08) !important;
+  transition: border-color .25s ease, box-shadow .25s ease,
+              transform .25s ease !important;
+}
+
+/* دوائر نيون مضيئة */
+.live-card::before,
+.live-card::after {
+  content: "" !important;
+  position: absolute !important;
+  z-index: -1 !important;
+  display: block !important;
+  width: 112px !important;
+  height: 112px !important;
+  border-radius: 50% !important;
+  pointer-events: none !important;
+}
+
+.live-card::before {
+  top: -43px !important;
+  left: -35px !important;
+  border: 2px solid rgba(53, 224, 255, .58) !important;
+  box-shadow:
+    0 0 8px rgba(53, 224, 255, .5),
+    inset 0 0 13px rgba(53, 224, 255, .18),
+    0 0 28px rgba(53, 224, 255, .16) !important;
+}
+
+.live-card::after {
+  right: -45px !important;
+  bottom: -48px !important;
+  width: 135px !important;
+  height: 135px !important;
+  border: 2px solid rgba(168, 105, 255, .48) !important;
+  box-shadow:
+    0 0 10px rgba(168, 105, 255, .45),
+    inset 0 0 16px rgba(168, 105, 255, .15),
+    0 0 30px rgba(168, 105, 255, .14) !important;
+}
+
+.live-card .live-card-top {
+  position: relative !important;
+}
+
+.live-card .live-pill {
+  border-radius: 999px !important;
+  box-shadow: 0 0 12px rgba(53, 224, 255, .12) !important;
+}
+
+.live-card .live-actions {
+  position: relative !important;
+}
+
+.live-card:hover {
+  transform: translateY(-3px) !important;
+  border-color: rgba(53, 224, 255, .7) !important;
+  box-shadow:
+    0 16px 34px rgba(0, 0, 0, .4),
+    0 0 22px rgba(53, 224, 255, .16),
+    inset 0 1px 0 rgba(255, 255, 255, .12) !important;
+}
+
+/* نقاط ضوء زخرفية في الخلفية */
+.live-card .live-grid {
+  position: relative !important;
+}
+
+@media (max-width: 600px) {
+  .live-card {
+    border-radius: 18px !important;
+  }
+
+  .live-card::before {
+    width: 88px !important;
+    height: 88px !important;
+    top: -35px !important;
+    left: -30px !important;
+  }
+
+  .live-card::after {
+    width: 100px !important;
+    height: 100px !important;
+    right: -35px !important;
+    bottom: -38px !important;
+  }
+}
+
+/* ALABTAL - GLOWING STATUS BADGES */
+.live-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  padding: 8px 14px !important;
+  min-height: 36px !important;
+  border-radius: 999px !important;
+  font-weight: 900 !important;
+  font-size: 12px !important;
+  background: rgba(12, 22, 39, .92) !important;
+  position: relative !important;
+  isolation: isolate !important;
+  box-shadow: inset 0 0 12px rgba(255,255,255,.035) !important;
+}
+
+/* الدائرة المضيئة */
+.live-pill::before {
+  content: "" !important;
+  display: inline-block !important;
+  flex: 0 0 10px !important;
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  background: var(--status-neon, #35e7ff) !important;
+  box-shadow:
+    0 0 5px var(--status-neon, #35e7ff),
+    0 0 12px var(--status-neon, #35e7ff),
+    0 0 20px var(--status-neon, #35e7ff) !important;
+}
+
+/* معاه أوردر - سماوي */
+.live-pill:has(+ *) {
+  --status-neon: #35e7ff;
+}
+
+.live-card:has(.live-pill) {
+  --status-neon: #35e7ff;
+}
+
+/* تطبيق الألوان حسب نص الحالة */
+.live-pill {
+  border: 1px solid rgba(53, 231, 255, .48) !important;
+  color: #71efff !important;
+}
+
+/* في الطريق للعميل - أخضر */
+.live-pill:has(*) {
+  --status-neon: #39e58c;
+}
+
+/* التمييز من فئة الحالة الموجودة في الكارت */
+.live-card.st-working .live-pill {
+  --status-neon: #39e58c;
+  color: #65f5a8 !important;
+  border-color: rgba(57, 229, 140, .55) !important;
+  box-shadow: 0 0 13px rgba(57, 229, 140, .10) !important;
+}
+
+/* معاه أوردر - سماوي */
+.live-card:has(.live-pill) .live-pill {
+  color: #71efff !important;
+  border-color: rgba(53, 231, 255, .5) !important;
+}
+
+/* تأثير نيون إضافي للكارت */
+.live-card .live-pill::before {
+  animation: alabtalStatusGlow 1.8s ease-in-out infinite alternate !important;
+}
+
+@keyframes alabtalStatusGlow {
+  from {
+    opacity: .72;
+    filter: brightness(.9);
+  }
+  to {
+    opacity: 1;
+    filter: brightness(1.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-card .live-pill::before {
+    animation: none !important;
+  }
+}
+
+
+/* ALABTAL - ORDER STATUS NEON COLORS */
+.live-pill.has-order {
+  --status-neon: #35e7ff !important;
+  color: #71efff !important;
+  border-color: rgba(53,231,255,.65) !important;
+  background: rgba(10,65,85,.30) !important;
+  box-shadow: 0 0 15px rgba(53,231,255,.14) !important;
+}
+
+.live-pill.to-customer {
+  --status-neon: #39e58c !important;
+  color: #70f7ad !important;
+  border-color: rgba(57,229,140,.65) !important;
+  background: rgba(10,75,45,.30) !important;
+  box-shadow: 0 0 15px rgba(57,229,140,.14) !important;
+}
+
+.live-pill.at-restaurant {
+  --status-neon: #b78aff !important;
+  color: #d0adff !important;
+  border-color: rgba(183,138,255,.7) !important;
+  background: rgba(66,35,100,.30) !important;
+  box-shadow: 0 0 15px rgba(183,138,255,.16) !important;
+}
+
+.live-pill.at-customer {
+  --status-neon: #ffd166 !important;
+  color: #ffe09a !important;
+  border-color: rgba(255,209,102,.7) !important;
+  background: rgba(100,72,15,.28) !important;
+}
+
+/* ALABTAL - ORDER STATUS NEON ORBS */
+.order-status-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 9px !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+  padding: 9px 15px !important;
+  border-radius: 999px !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  background: rgba(10, 20, 37, .92) !important;
+  border: 1px solid var(--orb-color, #35e7ff) !important;
+  box-shadow: 0 0 16px color-mix(in srgb, var(--orb-color, #35e7ff) 20%, transparent),
+              inset 0 0 12px rgba(255,255,255,.035) !important;
+}
+
+.status-orb {
+  display: inline-block !important;
+  flex: 0 0 11px !important;
+  width: 11px !important;
+  height: 11px !important;
+  border-radius: 50% !important;
+  background: var(--orb-color, #35e7ff) !important;
+  box-shadow: 0 0 6px var(--orb-color, #35e7ff),
+              0 0 13px var(--orb-color, #35e7ff),
+              0 0 24px var(--orb-color, #35e7ff) !important;
+  animation: orderOrbPulse 1.7s ease-in-out infinite alternate !important;
+}
+
+.order-status-badge.has-order {
+  --orb-color: #35e7ff;
+  color: #76efff !important;
+}
+
+.order-status-badge.to-customer {
+  --orb-color: #39e58c;
+  color: #70f7ad !important;
+}
+
+.order-status-badge.at-restaurant {
+  --orb-color: #b78aff;
+  color: #d4b6ff !important;
+}
+
+.order-status-badge.at-customer {
+  --orb-color: #ffd166;
+  color: #ffe09a !important;
+}
+
+.order-status-badge.no-order {
+  --orb-color: #94a3b8;
+  color: #cbd5e1 !important;
+}
+
+@keyframes orderOrbPulse {
+  from { transform: scale(.88); opacity: .75; }
+  to { transform: scale(1.12); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-orb { animation: none !important; }
+}
+
+/* ALABTAL - ANIMATED NEON ORBS */
+.order-status-badge {
+  position: relative !important;
+  overflow: visible !important;
+  animation: orderBadgeGlow 2.4s ease-in-out infinite !important;
+}
+
+.order-status-badge .status-orb {
+  position: relative !important;
+  isolation: isolate !important;
+  animation: orderOrbBeat 1.15s ease-in-out infinite !important;
+}
+
+.order-status-badge .status-orb::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: -5px !important;
+  border: 1px solid var(--orb-color, #35e7ff) !important;
+  border-radius: 50% !important;
+  animation: orderOrbWave 1.8s ease-out infinite !important;
+}
+
+@keyframes orderOrbBeat {
+  0%, 100% {
+    transform: scale(.85);
+    filter: brightness(.9);
+  }
+  50% {
+    transform: scale(1.18);
+    filter: brightness(1.6);
+  }
+}
+
+@keyframes orderOrbWave {
+  0% {
+    transform: scale(.7);
+    opacity: .85;
+  }
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+
+@keyframes orderBadgeGlow {
+  0%, 100% {
+    box-shadow: 0 0 9px color-mix(in srgb, var(--orb-color, #35e7ff) 12%, transparent),
+                inset 0 0 10px rgba(255,255,255,.025);
+  }
+  50% {
+    box-shadow: 0 0 20px color-mix(in srgb, var(--orb-color, #35e7ff) 28%, transparent),
+                inset 0 0 13px rgba(255,255,255,.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .order-status-badge,
+  .order-status-badge .status-orb,
+  .order-status-badge .status-orb::after {
+    animation: none !important;
+  }
+}
+
+/* ALABTAL - ANIMATED STATUS TEXT */
+.order-status-badge {
+  background-size: 200% 100% !important;
+  animation: orderTextShimmer 3s linear infinite,
+             orderBadgeGlow 2.4s ease-in-out infinite !important;
+}
+
+.order-status-badge:not(.no-order) {
+  text-shadow: 0 0 7px currentColor,
+               0 0 15px rgba(255,255,255,.13) !important;
+}
+
+.order-status-badge:not(.no-order)::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: inherit !important;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgba(255,255,255,.12) 45%,
+    rgba(255,255,255,.30) 50%,
+    rgba(255,255,255,.10) 55%,
+    transparent 80%
+  ) !important;
+  background-size: 250% 100% !important;
+  animation: orderTextSweep 2.8s linear infinite !important;
+  pointer-events: none !important;
+}
+
+.order-status-badge .status-orb {
+  flex-shrink: 0 !important;
+}
+
+@keyframes orderTextSweep {
+  from { background-position: 120% 0; }
+  to   { background-position: -120% 0; }
+}
+
+@keyframes orderTextShimmer {
+  0%, 100% { filter: brightness(1); }
+  50%      { filter: brightness(1.22); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .order-status-badge,
+  .order-status-badge::before {
+    animation: none !important;
+  }
+}
+
+/* ALABTAL - MOVING STATUS LABEL TEXT */
+.order-status-badge.has-order,
+.order-status-badge.to-customer,
+.order-status-badge.at-restaurant,
+.order-status-badge.at-customer {
+  background-image: linear-gradient(
+    100deg,
+    currentColor 0%,
+    #ffffff 48%,
+    currentColor 58%,
+    currentColor 100%
+  ) !important;
+  background-size: 220% auto !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  animation: movingStatusWords 3s linear infinite !important;
+}
+
+@keyframes movingStatusWords {
+  0% {
+    background-position: 100% center;
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.5);
+  }
+  100% {
+    background-position: -120% center;
+    filter: brightness(1);
+  }
+}
+
+.order-status-badge .status-orb {
+  -webkit-text-fill-color: initial !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .order-status-badge.has-order,
+  .order-status-badge.to-customer,
+  .order-status-badge.at-restaurant,
+  .order-status-badge.at-customer {
+    animation: none !important;
+  }
+}
+
+
+/* ALABTAL - ARABIC TYPEWRITER STATUS */
+.order-status-badge .status-text {
+  display: inline-block !important;
+  direction: rtl !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  vertical-align: middle !important;
+  clip-path: inset(0 0 0 100%) !important;
+  animation: alabtalTypeLetters 1.8s steps(22, end) forwards !important;
+}
+
+.order-status-badge .status-text::after {
+  content: "" !important;
+}
+
+@keyframes alabtalTypeLetters {
+  from { clip-path: inset(0 0 0 100%); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .order-status-badge .status-text {
+    animation: none !important;
+    clip-path: none !important;
+  }
+}
+
+/* EMERGENCY FIX: RESTORE ORDER STATUS TEXT */
+.order-status-badge .status-text {
+  display: inline !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+  clip-path: none !important;
+  animation: none !important;
+  width: auto !important;
+  max-width: none !important;
+  overflow: visible !important;
+}
+
+/* ALABTAL - SAFE RTL TYPEWRITER */
+.order-status-badge .status-text {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  direction: rtl !important;
+  text-align: right !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  width: auto !important;
+  max-width: none !important;
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+  clip-path: inset(0 0 0 100%) !important;
+  animation: alabtalTypeLettersSafe 1.8s steps(22, end) forwards !important;
+}
+
+@keyframes alabtalTypeLettersSafe {
+  from { clip-path: inset(0 0 0 100%); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .order-status-badge .status-text {
+    animation: none !important;
+    clip-path: none !important;
+  }
+}
+
+/* FIX: KEEP ORDER STATUS VISIBLE */
+.order-status-badge .status-text {
+  display: inline !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  clip-path: none !important;
+  animation: none !important;
+  width: auto !important;
+  max-width: none !important;
+  overflow: visible !important;
+  white-space: normal !important;
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+
+/* ALABTAL - GLOWING STATUS BADGES */
+.live-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  padding: 8px 14px !important;
+  min-height: 36px !important;
+  border-radius: 999px !important;
+  font-weight: 900 !important;
+  font-size: 12px !important;
+  background: rgba(12, 22, 39, .92) !important;
+  position: relative !important;
+  isolation: isolate !important;
+  box-shadow: inset 0 0 12px rgba(255,255,255,.035) !important;
+}
+
+/* الدائرة المضيئة */
+.live-pill::before {
+  content: "" !important;
+  display: inline-block !important;
+  flex: 0 0 10px !important;
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  background: var(--status-neon, #35e7ff) !important;
+  box-shadow:
+    0 0 5px var(--status-neon, #35e7ff),
+    0 0 12px var(--status-neon, #35e7ff),
+    0 0 20px var(--status-neon, #35e7ff) !important;
+}
+
+/* معاه أوردر - سماوي */
+.live-pill:has(+ *) {
+  --status-neon: #35e7ff;
+}
+
+.live-card:has(.live-pill) {
+  --status-neon: #35e7ff;
+}
+
+/* تطبيق الألوان حسب نص الحالة */
+.live-pill {
+  border: 1px solid rgba(53, 231, 255, .48) !important;
+  color: #71efff !important;
+}
+
+/* في الطريق للعميل - أخضر */
+.live-pill:has(*) {
+  --status-neon: #39e58c;
+}
+
+/* التمييز من فئة الحالة الموجودة في الكارت */
+.live-card.st-working .live-pill {
+  --status-neon: #39e58c;
+  color: #65f5a8 !important;
+  border-color: rgba(57, 229, 140, .55) !important;
+  box-shadow: 0 0 13px rgba(57, 229, 140, .10) !important;
+}
+
+/* معاه أوردر - سماوي */
+.live-card:has(.live-pill) .live-pill {
+  color: #71efff !important;
+  border-color: rgba(53, 231, 255, .5) !important;
+}
+
+/* تأثير نيون إضافي للكارت */
+.live-card .live-pill::before {
+  animation: alabtalStatusGlow 1.8s ease-in-out infinite alternate !important;
+}
+
+@keyframes alabtalStatusGlow {
+  from {
+    opacity: .72;
+    filter: brightness(.9);
+  }
+  to {
+    opacity: 1;
+    filter: brightness(1.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-card .live-pill::before {
+    animation: none !important;
+  }
+}
+
+/* ALABTAL - ORDER STATUS NEON ORBS */
+.order-status-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 9px !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+  padding: 9px 15px !important;
+  border-radius: 999px !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  background: rgba(10, 20, 37, .92) !important;
+  border: 1px solid var(--orb-color, #35e7ff) !important;
+  box-shadow: 0 0 16px color-mix(in srgb, var(--orb-color, #35e7ff) 20%, transparent),
+              inset 0 0 12px rgba(255,255,255,.035) !important;
+}
+
+.status-orb {
+  display: inline-block !important;
+  flex: 0 0 11px !important;
+  width: 11px !important;
+  height: 11px !important;
+  border-radius: 50% !important;
+  background: var(--orb-color, #35e7ff) !important;
+  box-shadow: 0 0 6px var(--orb-color, #35e7ff),
+              0 0 13px var(--orb-color, #35e7ff),
+              0 0 24px var(--orb-color, #35e7ff) !important;
+  animation: orderOrbPulse 1.7s ease-in-out infinite alternate !important;
+}
+
+.order-status-badge.has-order {
+  --orb-color: #35e7ff;
+  color: #76efff !important;
+}
+
+.order-status-badge.to-customer {
+  --orb-color: #39e58c;
+  color: #70f7ad !important;
+}
+
+.order-status-badge.at-restaurant {
+  --orb-color: #b78aff;
+  color: #d4b6ff !important;
+}
+
+.order-status-badge.at-customer {
+  --orb-color: #ffd166;
+  color: #ffe09a !important;
+}
+
+.order-status-badge.no-order {
+  --orb-color: #94a3b8;
+  color: #cbd5e1 !important;
+}
+
+@keyframes orderOrbPulse {
+  from { transform: scale(.88); opacity: .75; }
+  to { transform: scale(1.12); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-orb { animation: none !important; }
+}
+
+/* ALABTAL - ANIMATED NEON ORBS */
+.order-status-badge {
+  position: relative !important;
+  overflow: visible !important;
+  animation: orderBadgeGlow 2.4s ease-in-out infinite !important;
+}
+
+.order-status-badge .status-orb {
+  position: relative !important;
+  isolation: isolate !important;
+  animation: orderOrbBeat 1.15s ease-in-out infinite !important;
+}
+
+.order-status-badge .status-orb::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: -5px !important;
+  border: 1px solid var(--orb-color, #35e7ff) !important;
+  border-radius: 50% !important;
+  animation: orderOrbWave 1.8s ease-out infinite !important;
+}
+
+@keyframes orderOrbBeat {
+  0%, 100% {
+    transform: scale(.85);
+    filter: brightness(.9);
+  }
+  50% {
+    transform: scale(1.18);
+    filter: brightness(1.6);
+  }
+}
+
+@keyframes orderOrbWave {
+  0% {
+    transform: scale(.7);
+    opacity: .85;
+  }
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+
+@keyframes orderBadgeGlow {
+  0%, 100% {
+    box-shadow: 0 0 9px color-mix(in srgb, var(--orb-color, #35e7ff) 12%, transparent),
+                inset 0 0 10px rgba(255,255,255,.025);
+  }
+  50% {
+    box-shadow: 0 0 20px color-mix(in srgb, var(--orb-color, #35e7ff) 28%, transparent),
+                inset 0 0 13px rgba(255,255,255,.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .order-status-badge,
+  .order-status-badge .status-orb,
+  .order-status-badge .status-orb::after {
+    animation: none !important;
+  }
+}
+
+
+/* ALABTAL LUXURY EMERALD 3D — VISUAL ONLY */
+:root {
+  color-scheme: dark;
+  --ab-bg: #070a08;
+  --ab-surface: #101712;
+  --ab-surface-2: #151f18;
+  --ab-emerald: #00d98b;
+  --ab-emerald-soft: #00a86b;
+  --ab-text: #f1f8f3;
+  --ab-muted: #9aada1;
+  --ab-border: rgba(0, 217, 139, .22);
+  --ab-shadow: 0 12px 28px rgba(0,0,0,.48),
+               inset 0 1px 0 rgba(255,255,255,.045);
+}
+
+html { background: var(--ab-bg); }
+body {
+  background:
+    radial-gradient(ellipse at 12% 0%, rgba(0,217,139,.09), transparent 38%),
+    radial-gradient(ellipse at 90% 85%, rgba(0,120,72,.09), transparent 36%),
+    var(--ab-bg) !important;
+  color: var(--ab-text);
+}
+
+header, .header, .topbar, .top-bar, .navbar, nav,
+.sidebar, .side-nav, aside {
+  background: linear-gradient(145deg, #131c16, #090d0a) !important;
+  border-color: var(--ab-border) !important;
+}
+
+.card, .stat-card, .metric-card, .dashboard-card,
+.panel, .widget, .stat-box, .summary-card,
+.live-card, .shift-card, .rider-card,
+[class*="stat-card"], [class*="dashboard-card"] {
+  background: linear-gradient(145deg, #19251d 0%, #101712 48%, #0b100d 100%) !important;
+  color: var(--ab-text) !important;
+  border: 1px solid var(--ab-border) !important;
+  border-radius: 18px !important;
+  box-shadow:
+    0 12px 0 #070b08,
+    0 15px 24px rgba(0,0,0,.42),
+    inset 0 1px 0 rgba(255,255,255,.07),
+    inset 0 -1px 0 rgba(0,217,139,.08) !important;
+  transition: transform .22s ease, box-shadow .22s ease,
+              border-color .22s ease !important;
+}
+
+.live-card, .rider-card {
+  position: relative;
+  overflow: hidden;
+  border-top: 2px solid rgba(0,217,139,.58) !important;
+}
+
+.card:hover, .stat-card:hover, .metric-card:hover,
+.dashboard-card:hover, .panel:hover, .widget:hover,
+.live-card:hover, .shift-card:hover, .rider-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0,255,160,.55) !important;
+  box-shadow:
+    0 15px 0 #060907,
+    0 22px 34px rgba(0,0,0,.48),
+    0 0 22px rgba(0,217,139,.09),
+    inset 0 1px 0 rgba(255,255,255,.09) !important;
+}
+
+h1, h2, h3, h4, .section-title, .card-title {
+  color: var(--ab-text);
+}
+small, .muted, .subtitle, .text-muted {
+  color: var(--ab-muted);
+}
+
+button, .btn, input[type="button"], input[type="submit"],
+[role="button"] {
+  border-radius: 12px;
+  transition: transform .18s ease, filter .18s ease,
+              box-shadow .18s ease;
+}
+
+button:not(:disabled):hover, .btn:hover,
+input[type="button"]:hover, input[type="submit"]:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+button.primary, .btn-primary, .btn-success,
+button[type="submit"], input[type="submit"] {
+  background: linear-gradient(145deg, #00e69a, #008c59);
+  color: #03150c;
+  border: 1px solid rgba(125,255,197,.45);
+  box-shadow: 0 4px 0 #075438, 0 8px 18px rgba(0,217,139,.13);
+  font-weight: 800;
+}
+
+input, select, textarea {
+  background-color: #0b120d !important;
+  color: var(--ab-text) !important;
+  border-color: rgba(0,217,139,.24) !important;
+  border-radius: 10px;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--ab-emerald) !important;
+  box-shadow: 0 0 0 3px rgba(0,217,139,.12) !important;
+  outline: none;
+}
+
+table {
+  color: var(--ab-text);
+  border-color: rgba(0,217,139,.15);
+}
+th {
+  background: #142019;
+  color: #7cf4bd;
+}
+td, th {
+  border-color: rgba(0,217,139,.12);
+}
+tr:hover td {
+  background: rgba(0,217,139,.045);
+}
+
+.badge, .pill, .live-pill {
+  border-radius: 999px;
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #080c09; }
+::-webkit-scrollbar-thumb {
+  background: #176b49;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover { background: #00a86b; }
+
+@media (max-width: 600px) {
+  .card, .stat-card, .metric-card, .dashboard-card,
+  .panel, .widget, .live-card, .shift-card, .rider-card {
+    border-radius: 15px !important;
+    box-shadow:
+      0 7px 0 #070b08,
+      0 10px 18px rgba(0,0,0,.4),
+      inset 0 1px 0 rgba(255,255,255,.05) !important;
+  }
+  .live-card:hover, .card:hover, .panel:hover {
+    transform: none;
+  }
+}
+
+/* ALABTAL PREMIUM CARDS V2 — visual-only overrides */
+.rider {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgba(55, 226, 165, .32);
+  border-radius: 24px;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(19, 180, 127, .13), transparent 48%),
+    linear-gradient(145deg, #151d1c 0%, #0b1011 52%, #080a0c 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    inset 0 -1px 0 rgba(0,0,0,.6),
+    0 5px 0 #050707,
+    0 13px 28px rgba(0,0,0,.38),
+    0 0 18px rgba(21,205,145,.06);
+  transition: border-color .22s ease, box-shadow .22s ease,
+              transform .22s ease;
+}
+
+.rider:before {
+  width: 4px;
+  background: linear-gradient(180deg, #53f5bd, #13b982 55%, #087455);
+  opacity: .95;
+}
+
+.rider:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06),
+              0 3px 0 #050707, 0 8px 18px rgba(0,0,0,.35);
+}
+
+.rider-head {
+  position: relative;
+  z-index: 1;
+}
+
+.avatar {
+  border-color: rgba(70,238,185,.72);
+  background: radial-gradient(circle at 30% 20%, #25483d, #101716 68%);
+  box-shadow: inset 0 2px 5px rgba(255,255,255,.08),
+              0 4px 12px rgba(0,0,0,.3),
+              0 0 12px rgba(40,220,160,.09);
+}
+
+.rider-name {
+  color: #f3fff9;
+  letter-spacing: .1px;
+}
+
+.status {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.07);
+}
+
+.rider-tags .tag {
+  border-color: rgba(163,185,179,.17);
+  background: linear-gradient(145deg, #171e20, #101416);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035);
+}
+
+.metrics .metric {
+  border-color: rgba(154,190,178,.15);
+  border-radius: 14px;
+  background: linear-gradient(145deg, #18201f, #0d1213);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.055),
+              0 3px 8px rgba(0,0,0,.16);
+}
+
+.metrics .metric b {
+  color: #eafff5;
+  font-variant-numeric: tabular-nums;
+}
+
+.actions .action {
+  transition: filter .15s ease, transform .15s ease;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.055);
+}
+
+.actions .action:active {
+  transform: translateY(1px);
+  filter: brightness(1.12);
+}
+
+/* Shift / booking cards */
+.booking-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(63,220,169,.24);
+  border-radius: 20px;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(22,178,126,.11), transparent 52%),
+    linear-gradient(145deg, #17201f, #0c1112 72%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.065),
+              0 4px 0 #070a0a,
+              0 12px 24px rgba(0,0,0,.24);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.booking-card-head strong {
+  color: #f0fff8;
+}
+
+.booking-card-head small,
+.booking-times small {
+  color: #a4b9b0;
+}
+
+.booking-times strong {
+  color: #54e7b2;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rider, .actions .action, .booking-card {
+    transition: none !important;
+  }
+}
+
+
+
+/* ALABTAL COMPACT RIDER CARDS V3 */
+.rider {
+  position: relative;
+  padding: 10px 12px !important;
+  margin: 0 0 9px !important;
+  border-radius: 15px !important;
+  border: 1px solid rgba(65, 210, 190, .18) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .20) !important;
+  overflow: hidden;
+}
+
+.rider:before {
+  width: 3px !important;
+  opacity: .75;
+}
+
+.rider-head {
+  display: flex;
+  align-items: center;
+  gap: 8px !important;
+  margin-bottom: 7px !important;
+}
+
+.avatar {
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  border-radius: 11px !important;
+  font-size: 14px !important;
+}
+
+.rider-name {
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+  font-weight: 800 !important;
+  overflow-wrap: anywhere;
+}
+
+.status {
+  padding: 3px 7px !important;
+  border-radius: 7px !important;
+  font-size: 10px !important;
+  line-height: 1.4 !important;
+  white-space: nowrap;
+}
+
+.rider-tags {
+  gap: 4px !important;
+  margin-top: 4px !important;
+}
+
+.rider-tags .tag {
+  padding: 3px 6px !important;
+  border-radius: 6px !important;
+  font-size: 10px !important;
+  line-height: 1.35 !important;
+}
+
+.metrics {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 5px !important;
+  margin: 7px 0 !important;
+}
+
+.metrics .metric {
+  min-width: 0 !important;
+  padding: 6px 5px !important;
+  border-radius: 9px !important;
+  text-align: center;
+}
+
+.metrics .metric b {
+  display: block;
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+  margin-bottom: 2px !important;
+}
+
+.metrics .metric span,
+.metrics .metric small,
+.metrics .metric label {
+  font-size: 9px !important;
+  line-height: 1.35 !important;
+  overflow-wrap: anywhere;
+}
+
+.actions {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 5px !important;
+  margin-top: 6px !important;
+}
+
+.actions .action {
+  min-height: 29px !important;
+  padding: 5px 8px !important;
+  border-radius: 8px !important;
+  font-size: 10px !important;
+  line-height: 1.35 !important;
+}
+
+.booking-card {
+  padding: 10px 12px !important;
+  margin-bottom: 8px !important;
+  border-radius: 14px !important;
+}
+
+.booking-card-head {
+  gap: 6px !important;
+  margin-bottom: 6px !important;
+}
+
+.booking-card-head strong {
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+}
+
+.booking-card-head small,
+.booking-times small {
+  font-size: 10px !important;
+  line-height: 1.4 !important;
+}
+
+.booking-times {
+  gap: 6px !important;
+}
+
+.booking-times strong {
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}
+
+@media (max-width: 420px) {
+  .rider {
+    padding: 9px 10px !important;
+  }
+
+  .rider-name {
+    font-size: 12px !important;
+  }
+
+  .metrics {
+    gap: 4px !important;
+  }
+
+  .metrics .metric {
+    padding: 5px 3px !important;
+  }
+
+  .actions .action {
+    padding: 5px 6px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rider,
+  .booking-card {
+    transition: none !important;
+  }
+}

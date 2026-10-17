@@ -2727,3 +2727,332 @@ html, body {
       inset 0 2px 0 rgba(255,244,225,.18) !important;
   }
 }
+
+/* ALABTAL PREMIUM LOGIN + RIDER CARDS */
+#alabtalLogin {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 22px !important;
+  overflow-y: auto !important;
+  background:
+    radial-gradient(ellipse at 50% 35%, #382312 0%, transparent 52%),
+    linear-gradient(145deg, #080a0c, #111315 55%, #090909) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+#alabtalLogin form {
+  width: min(100%, 390px) !important;
+  box-sizing: border-box !important;
+  padding: 32px 24px !important;
+  border: 1px solid rgba(255,181,79,.65) !important;
+  border-radius: 26px !important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.055), transparent 38%),
+    linear-gradient(155deg, #24201b, #101213 65%, #17130f) !important;
+  box-shadow:
+    0 3px 0 #8b5525,
+    0 12px 0 #080909,
+    0 28px 65px #000c,
+    0 0 35px rgba(255,145,35,.12),
+    inset 0 1px 0 rgba(255,255,255,.16) !important;
+}
+
+#alabtalLogin form input {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-height: 49px !important;
+  padding: 12px 14px !important;
+  border: 1px solid #51402e !important;
+  border-radius: 13px !important;
+  outline: none !important;
+  background: #0c0f10 !important;
+  color: #fff !important;
+}
+
+#alabtalLogin form input:focus {
+  border-color: #ffb45e !important;
+  box-shadow: 0 0 0 3px #ffae3020 !important;
+}
+
+#alabtalLogin #alabtalLoginBtn {
+  min-height: 49px !important;
+  margin-top: 10px !important;
+  border: 1px solid #ffcb83 !important;
+  border-radius: 13px !important;
+  background: linear-gradient(135deg,#ffe0a6,#ff9c36 55%,#d76a16) !important;
+  color: #211307 !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  box-shadow: 0 4px 0 #75401b, 0 8px 18px #0007 !important;
+}
+
+#alabtalLogin #alabtalLoginBtn:active {
+  transform: translateY(2px) !important;
+  box-shadow: 0 2px 0 #75401b !important;
+}
+
+.riders .rider {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(255,174,82,.62) !important;
+  border-radius: 25px !important;
+  padding: 16px !important;
+  background:
+    radial-gradient(ellipse at 90% 0%, rgba(255,157,55,.13), transparent 48%),
+    linear-gradient(145deg,#25211c 0%,#141718 42%,#090c0d 100%) !important;
+  box-shadow:
+    0 2px 0 #ffca83,
+    0 5px 0 #704322,
+    0 8px 0 #080909,
+    0 18px 30px rgba(0,0,0,.58),
+    inset 0 1px 0 rgba(255,255,255,.17) !important;
+  transform: translateY(-1px);
+}
+
+.riders .rider::after {
+  content: "" !important;
+  position: absolute !important;
+  z-index: -1 !important;
+  pointer-events: none !important;
+  top: 0 !important;
+  left: 12% !important;
+  right: 12% !important;
+  height: 2px !important;
+  background: linear-gradient(90deg,transparent,#ffe3b6,#fff,#ff9e42,transparent) !important;
+}
+
+.riders .rider-head {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.riders .avatar {
+  border: 2px solid #f5b866 !important;
+  background: linear-gradient(145deg,#49301c,#101315 75%) !important;
+  box-shadow: 0 4px 0 #090909, 0 7px 15px #0008,
+    inset 0 1px 0 #ffffff35 !important;
+}
+
+.riders .rider-name {
+  color: #fff2df !important;
+  font-weight: 900 !important;
+}
+
+.riders .metrics .metric {
+  border: 1px solid rgba(232,169,99,.35) !important;
+  border-radius: 15px !important;
+  background: linear-gradient(145deg,#191b1b,#0b0e0f) !important;
+  box-shadow: inset 0 1px 0 #ffffff0b, 0 3px 0 #080909 !important;
+}
+
+.riders .metrics .metric b {
+  color: #ffe0ae !important;
+}
+
+.riders .rider-tags .tag {
+  border-color: #51402f !important;
+  background: #111414 !important;
+}
+
+.riders .actions .action {
+  border-radius: 12px !important;
+  box-shadow: 0 3px 0 #070808, inset 0 1px 0 #ffffff18 !important;
+}
+
+.riders .actions .action:active {
+  transform: translateY(2px) !important;
+  box-shadow: 0 1px 0 #070808 !important;
+}
+
+@media(max-width:600px) {
+  .riders .rider {
+    padding: 13px !important;
+    border-radius: 22px !important;
+  }
+}
+
+/* ALABTAL RIDER CARD - FINAL VISUAL PASS */
+html body #riders .rider {
+  border: 2px solid #d98b43 !important;
+  border-radius: 27px !important;
+  padding: 17px !important;
+  background:
+    radial-gradient(ellipse at 100% 0%,rgba(255,165,77,.10),transparent 43%),
+    linear-gradient(145deg,#222321 0%,#151718 48%,#0b0d0e 100%) !important;
+  box-shadow:
+    0 0 0 1px #60391f,
+    0 3px 0 #ffbd78,
+    0 6px 0 #70401f,
+    0 14px 30px #000a,
+    inset 0 1px 0 #ffffff20 !important;
+}
+
+html body #riders .rider::before {
+  width: 6px !important;
+  background: linear-gradient(180deg,#ffb24f,#f0782d,#20d4a0) !important;
+}
+
+html body #riders .rider-head {
+  grid-template-columns: 58px minmax(0,1fr) auto !important;
+  gap: 12px !important;
+  align-items: start !important;
+  padding: 8px 0 14px !important;
+}
+
+html body #riders .avatar {
+  width: 58px !important;
+  height: 58px !important;
+  box-sizing: border-box !important;
+  border: 2px solid #35bd9c !important;
+  border-radius: 19px !important;
+  font-size: 28px !important;
+  box-shadow: 0 3px 0 #075443,0 0 15px #20c99b20 !important;
+}
+
+html body #riders .rider-name {
+  font-size: clamp(16px,4vw,23px) !important;
+  line-height: 1.55 !important;
+  color: #fff !important;
+  overflow-wrap: anywhere !important;
+}
+
+html body #riders .rider-info .sub {
+  margin-top: 8px !important;
+  line-height: 1.65 !important;
+  color: #aeb4c0 !important;
+  font-size: 14px !important;
+}
+
+html body #riders .status {
+  border: 2px solid #159a79 !important;
+  border-radius: 13px !important;
+  padding: 8px 12px !important;
+  background: linear-gradient(145deg,#103d31,#091e19) !important;
+  color: #35e1b2 !important;
+  white-space: nowrap !important;
+}
+
+html body #riders .order-box {
+  margin: 0 0 16px !important;
+  padding: 17px 15px !important;
+  border: 1px solid #263c40 !important;
+  border-radius: 25px !important;
+  background:
+    radial-gradient(ellipse at 100% 0%,#14212270,transparent 55%),
+    linear-gradient(145deg,#111414,#090b0c) !important;
+  box-shadow: inset 0 1px 0 #ffffff09,0 2px 0 #050606 !important;
+}
+
+html body #riders .order-status-badge {
+  width: fit-content !important;
+  max-width: 100% !important;
+  margin: 0 0 20px auto !important;
+  padding: 13px 22px !important;
+  border-radius: 50px !important;
+  font-weight: 900 !important;
+}
+
+html body #riders .order-status-badge.has-order {
+  border: 1px solid #277f79 !important;
+  background: linear-gradient(135deg,#162e2e,#101819) !important;
+  color: #9ff9f1 !important;
+  box-shadow: 0 0 0 3px #24d9d015,0 0 20px #24d9d02b !important;
+}
+
+html body #riders .order-line {
+  margin: 12px 0 !important;
+  color: #c7cbd3 !important;
+  font-size: 15px !important;
+  line-height: 1.9 !important;
+  overflow-wrap: anywhere !important;
+}
+
+html body #riders .order-line b {
+  color: #d6e7f4 !important;
+}
+
+html body #riders .metrics {
+  grid-template-columns: repeat(3,minmax(0,1fr)) !important;
+  gap: 9px !important;
+  margin: 16px 0 !important;
+}
+
+html body #riders .metric {
+  min-width: 0 !important;
+  min-height: 76px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  border: 1px solid #80512f !important;
+  border-radius: 20px !important;
+  background: linear-gradient(145deg,#30241a,#171513) !important;
+  box-shadow: 0 3px 0 #080909,inset 0 1px 0 #ffffff12 !important;
+}
+
+html body #riders .metric b {
+  color: #ffb66f !important;
+  font-size: 25px !important;
+}
+
+html body #riders .metric small {
+  color: #aeb4c0 !important;
+}
+
+html body #riders .actions {
+  display: grid !important;
+  grid-template-columns: repeat(4,minmax(0,1fr)) !important;
+  gap: 7px !important;
+  margin-top: 14px !important;
+}
+
+html body #riders .actions .action {
+  min-width: 0 !important;
+  padding: 11px 3px !important;
+  border: 1px solid #414853 !important;
+  border-radius: 15px !important;
+  background: linear-gradient(145deg,#20242b,#111419) !important;
+  color: #e4e7ee !important;
+  font-size: 12px !important;
+  overflow-wrap: anywhere !important;
+}
+
+html body #riders .actions .action:disabled {
+  opacity: 1 !important;
+}
+
+@media(max-width:420px) {
+  html body #riders .rider {
+    padding: 12px !important;
+    border-radius: 22px !important;
+  }
+
+  html body #riders .rider-head {
+    grid-template-columns: 46px minmax(0,1fr) !important;
+    gap: 9px !important;
+  }
+
+  html body #riders .avatar {
+    width: 46px !important;
+    height: 46px !important;
+  }
+
+  html body #riders .rider-head .status {
+    grid-column: 2 !important;
+    justify-self: start !important;
+  }
+
+  html body #riders .metric b {
+    font-size: 21px !important;
+  }
+
+  html body #riders .actions {
+    grid-template-columns: repeat(4,minmax(0,1fr)) !important;
+  }
+}
