@@ -20,8 +20,53 @@ HOST = "127.0.0.1"
 PORT = int(os.environ.get("PORT", "8765"))
 SESSION_TTL = 8 * 60 * 60
 
-sessions = {}
+# Stored in Android app-private internal storage.
+SESSION_FILE = Path.cwd() / ".alabtal_sessions.json"
 sessions_lock = threading.Lock()
+
+def _load_sessions():
+    loaded = {}
+    try:
+        if SESSION_FILE.is_file():
+            data = json.loads(SESSION_FILE.read_text(encoding="utf-8"))
+            if isinstance(data, dict):
+                now = time.time()
+                for key, value in data.items():
+                    if (isinstance(key, str) and isinstance(value, dict)
+                        and float(value.get("expires", 0)) > now
+                        and value.get("desktop_token")
+                        and value.get("username")):
+                        loaded[key] = value
+            try:
+                os.chmod(SESSION_FILE, 0o600)
+            except OSError:
+                pass
+    except Exception as exc:
+        print("[SESSION STORAGE] load failed:", type(exc).__name__)
+    return loaded
+
+def _save_sessions_locked():
+    temp = SESSION_FILE.with_name(SESSION_FILE.name + ".tmp")
+    try:
+        SESSION_FILE.parent.mkdir(parents=True, exist_ok=True)
+        temp.write_text(json.dumps(sessions), encoding="utf-8")
+        try:
+            os.chmod(temp, 0o600)
+        except OSError:
+            pass
+        os.replace(temp, SESSION_FILE)
+        try:
+            os.chmod(SESSION_FILE, 0o600)
+        except OSError:
+            pass
+    except Exception as exc:
+        print("[SESSION STORAGE] save failed:", type(exc).__name__)
+        try:
+            temp.unlink(missing_ok=True)
+        except OSError:
+            pass
+
+sessions = _load_sessions()
 
 
 def desktop_request(path, method="GET", payload=None, token=None):
@@ -142,6 +187,7 @@ class Handler(SimpleHTTPRequestHandler):
                 return None
             if session["expires"] < time.time():
                 sessions.pop(token, None)
+                _save_sessions_locked()
                 return None
             return session
 
@@ -222,6 +268,7 @@ class Handler(SimpleHTTPRequestHandler):
                 if sep and key == "alabtal_session":
                     with sessions_lock:
                         sessions.pop(value, None)
+                        _save_sessions_locked()
             self.send_json(
                 200,
                 {"ok": True},
@@ -280,6 +327,7 @@ class Handler(SimpleHTTPRequestHandler):
         }
         with sessions_lock:
             sessions[local_token] = session
+            _save_sessions_locked()
 
         self.send_json(
             200,
