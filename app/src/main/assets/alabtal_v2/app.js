@@ -684,6 +684,15 @@
       if (!availableCities.some(item => item.value === selectedCity)) {
         selectedCity = availableCities[0]?.value || "tanta";
       }
+
+      // إظهار أزرار المدن قبل انتظار نجاح تحميل اللايف.
+      const cityTabs = $("#cityTabs");
+      if (cityTabs) {
+        cityTabs.innerHTML = availableCities.map(city =>
+          `<button type="button" class="chip ${selectedCity === city.value ? "active" : ""}" data-city="${esc(city.value)}">${esc(city.label)}</button>`
+        ).join("");
+      }
+
       const city = selectedCity;
       if (!city || !String(city).trim()) {
         list.innerHTML = '<div class="empty">لم يتم اختيار مدينة</div>';
