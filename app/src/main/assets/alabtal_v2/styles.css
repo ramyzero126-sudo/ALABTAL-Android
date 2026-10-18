@@ -4577,3 +4577,88 @@ html body #riderDetailContent .detail-wallet b {
   #riders .order-lane-led,
   #riders .rider-led-strip {animation-duration:6s}
 }
+
+
+/* ALABTAL_BOOKING_COPY_NAME_V1 */
+body.bookings-mode #bookingDayTabs {
+  display:flex !important;
+  align-items:stretch !important;
+  gap:8px !important;
+  overflow-x:auto !important;
+  overscroll-behavior-x:contain;
+  scrollbar-width:none;
+  padding:7px 2px 12px !important;
+}
+body.bookings-mode #bookingDayTabs::-webkit-scrollbar { display:none; }
+body.bookings-mode #bookingDayTabs .chip {
+  flex:0 0 auto !important;
+  min-width:76px !important;
+  min-height:52px !important;
+  padding:9px 12px !important;
+  border-radius:13px !important;
+  border:1px solid #293b32 !important;
+  background:linear-gradient(145deg,#151c18,#0b100d) !important;
+  color:#d8e5dd !important;
+  font-size:12px !important;
+  font-weight:750 !important;
+  line-height:1.5 !important;
+}
+body.bookings-mode #bookingDayTabs .chip.active {
+  border-color:#22c477 !important;
+  background:linear-gradient(145deg,#145d3a,#0c3925) !important;
+  color:#fff !important;
+  box-shadow:0 0 0 1px #22c47725,0 5px 14px #0005 !important;
+}
+body.bookings-mode #bookingList .booking-card {
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) auto !important;
+  align-items:center !important;
+  gap:10px 8px !important;
+  padding:14px !important;
+  margin:0 0 10px !important;
+  border:1px solid #234535 !important;
+  border-radius:16px !important;
+  background:linear-gradient(145deg,#121b16,#090d0b) !important;
+  box-shadow:0 6px 18px #0004,inset 0 1px #ffffff08 !important;
+}
+body.bookings-mode #bookingList .booking-card-head { display:contents !important; }
+body.bookings-mode #bookingList .booking-person {
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+body.bookings-mode #bookingList .booking-person strong {
+  color:#f1fff6 !important;
+  font-size:14px !important;
+  font-weight:800 !important;
+  line-height:1.55 !important;
+}
+body.bookings-mode #bookingList .booking-person small {
+  color:#a9b9af !important;
+  font-size:11px !important;
+}
+body.bookings-mode #bookingList .booking-copy-name {
+  align-self:start;
+  border:1px solid #287b50;
+  border-radius:9px;
+  padding:7px 9px;
+  background:#102b1d;
+  color:#83efae;
+  font:inherit;
+  font-size:11px;
+  font-weight:800;
+  white-space:nowrap;
+}
+body.bookings-mode #bookingList .booking-state { justify-self:start; }
+body.bookings-mode #bookingList .booking-meta {
+  grid-column:1 / -1;
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px 14px;
+  padding-top:9px;
+  border-top:1px solid #ffffff0d;
+  color:#b5c4bb;
+  font-size:11px;
+}

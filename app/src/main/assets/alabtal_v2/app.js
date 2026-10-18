@@ -873,6 +873,44 @@
     if (!target) return;
     const parent = target.parentElement;
 
+    // ALABTAL_BOOKING_COPY_NAME_V1
+    if (!target.dataset.bookingCopyBound) {
+      target.dataset.bookingCopyBound = "1";
+      target.addEventListener("click", async event => {
+        const button = event.target.closest("[data-copy-booking-name]");
+        if (!button) return;
+        event.preventDefault();
+        const card = button.closest(".booking-card");
+        const name = card?.querySelector(".booking-person strong")?.textContent?.trim();
+        if (!name) return;
+
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(name);
+          } else {
+            const field = document.createElement("textarea");
+            field.value = name;
+            field.setAttribute("readonly", "");
+            field.style.cssText = "position:fixed;left:-9999px;top:0";
+            document.body.appendChild(field);
+            field.select();
+            const ok = document.execCommand("copy");
+            field.remove();
+            if (!ok) throw new Error("Copy failed");
+          }
+          button.textContent = "✓ تم النسخ";
+          setTimeout(() => {
+            if (button.isConnected) button.textContent = "نسخ الاسم";
+          }, 1400);
+        } catch (_) {
+          button.textContent = "تعذر النسخ";
+          setTimeout(() => {
+            if (button.isConnected) button.textContent = "نسخ الاسم";
+          }, 1600);
+        }
+      });
+    }
+
     if (!document.getElementById("bookingTools")) {
       const tools = document.createElement("div");
       tools.id = "bookingTools";
@@ -966,7 +1004,8 @@
     target.innerHTML = rows.map(r => `
       <article class="booking-card">
         <div class="booking-card-head">
-          <div><strong>${esc(r.name)}</strong><small>كود المندوب: ${esc(r.id)}</small></div>
+          <div class="booking-person"><strong>${esc(r.name)}</strong><small>كود المندوب: ${esc(r.id)}</small></div>
+          <button type="button" class="booking-copy-name" data-copy-booking-name>نسخ الاسم</button>
           <span class="booking-state ${r.booked ? "is-booked" : "not-booked"}">
             ${r.booked ? "حاجز" : "لسه ما حجزش"}
           </span>
