@@ -6,8 +6,10 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.net.Uri;
 import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
@@ -47,6 +49,26 @@ public class MainActivity extends Activity {
             @JavascriptInterface
             public void show(String title, String message) {
                 runOnUiThread(() -> showNativeNotification(title, message));
+            }
+
+            @JavascriptInterface
+            public void openExternal(String targetUrl) {
+                try {
+                    Uri uri = Uri.parse(targetUrl);
+                    if (!"https".equalsIgnoreCase(uri.getScheme())) return;
+                    runOnUiThread(() -> {
+                        try {
+                            startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                        } catch (Exception e) {
+                            Log.e(TAG, "Cannot open external URL", e);
+                            Toast.makeText(MainActivity.this,
+                                "تعذر فتح الفورم في المتصفح",
+                                Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } catch (Exception e) {
+                    Log.e(TAG, "Invalid external URL", e);
+                }
             }
         }, "AndroidNotifications");
 
@@ -239,7 +261,12 @@ public class MainActivity extends Activity {
         if (web != null && web.canGoBack()) {
             web.goBack();
         } else {
-            super.onBackPressed();
+            // Keep the live dashboard open when there is no page to return to.
+            Toast.makeText(
+                MainActivity.this,
+                "أنت في صفحة اللايف",
+                Toast.LENGTH_SHORT
+            ).show();
         }
     }
 }

@@ -4433,3 +4433,49 @@ html body #riderDetailContent .detail-wallet b {
 .supply-hour-option span{font-size:12px;font-weight:800}
 .supply-hour-option:active{transform:scale(.96);background:#15528a}
 @media(max-width:380px){.rider .rider-name{font-size:19px!important}.supply-dialog{padding:14px}.supply-hours-grid{gap:6px}}
+
+/* ALABTAL compact green order progress */
+#riders .order-progress {
+  margin: 6px 0 8px !important;
+  padding: 7px 9px !important;
+  border-color: #20c87844 !important;
+  border-radius: 10px !important;
+  background: #07130d !important;
+  box-shadow: none !important;
+}
+#riders .order-progress-title {
+  font-size: 11px !important;
+  margin-bottom: 7px !important;
+}
+#riders .order-progress-title span { font-size: 10px !important; }
+#riders .order-progress-track {
+  height: 4px !important;
+  margin: 5px 10px 8px !important;
+  background: #20372a !important;
+}
+#riders .order-progress-fill {
+  background: linear-gradient(90deg,#079447,#36e982) !important;
+  box-shadow: 0 0 5px #20d87855 !important;
+}
+#riders .order-scooter {
+  font-size: 15px !important;
+  top: -13px !important;
+  filter: none !important;
+}
+#riders .order-progress-labels {
+  font-size: 9px !important;
+  color: #b7c9bc !important;
+}
+#riders .order-progress-current {
+  margin-top: 5px !important;
+  padding: 4px 6px !important;
+  font-size: 10px !important;
+  border-radius: 7px !important;
+  background: #0c2818 !important;
+  color: #62efa0 !important;
+}
+#riders .rider-phone-line { display: none !important; }
+#riders [data-rider-action="call"] {
+  overflow-wrap: anywhere;
+  direction: rtl;
+}

@@ -338,7 +338,7 @@
               <span class="order-status-badge ${statusClass}"><i class="order-led"></i>${order ? esc(statusLabel) : "مفيش أوردر"}</span>
             </div>
             <div class="sub">#${esc(r.id)} · 📍 ${esc(r.city)}</div>
-            <div class="rider-phone-line">${riderPhone ? `📞 <b dir="ltr">${esc(riderPhone)}</b>` : "📞 رقم الهاتف غير متاح"}</div>
+
             <div class="sub">♙ ${esc(r.supervisor)}</div>
             <div class="sub">🕒 ${esc(formatShiftTime(r.shiftStart))} → ${esc(formatShiftTime(r.shiftEnd))}</div>
           </div>
@@ -364,7 +364,7 @@
 
         <div class="actions">
           <button type="button" class="action" data-rider-action="whatsapp">واتساب</button>
-          <button type="button" class="action" data-rider-action="call">اتصال</button>
+          <button type="button" class="action" data-rider-action="call">${riderPhone ? `اتصال ${esc(riderPhone)}` : "اتصال"}</button>
           <button type="button" class="action" data-rider-action="lock">قفل</button>
           <button type="button" class="action" data-rider-action="break">فك بريك</button>
           <button type="button" class="action" data-rider-action="supply">تزويد</button>
@@ -517,7 +517,12 @@
         riderActionMessage("رابط فورم المدير غير صالح");
         return;
       }
-      window.location.href = url;
+      if (window.AndroidNotifications &&
+          typeof window.AndroidNotifications.openExternal === "function") {
+        window.AndroidNotifications.openExternal(url);
+      } else {
+        window.open(url, "_blank");
+      }
     } catch (err) {
       riderActionMessage(err.message || "تعذر تحميل فورم مدير المنطقة");
     }
@@ -537,15 +542,28 @@
         </div>
       </section>`;
     document.body.appendChild(overlay);
+    const closeSupplyDialog = () => {
+      overlay.remove();
+      window.removeEventListener("keydown", onSupplyKeydown);
+      window.removeEventListener("popstate", onSupplyBack);
+    };
+    const onSupplyKeydown = event => {
+      if (event.key === "Escape" && overlay.isConnected) closeSupplyDialog();
+    };
+    const onSupplyBack = () => {
+      if (overlay.isConnected) closeSupplyDialog();
+    };
+    window.addEventListener("keydown", onSupplyKeydown);
+    window.addEventListener("popstate", onSupplyBack);
     overlay.addEventListener("click", event => {
       if (event.target === overlay || event.target.closest("[data-supply-close]")) {
-        overlay.remove();
+        closeSupplyDialog();
         return;
       }
       const option = event.target.closest("[data-hours-index]");
       if (!option) return;
       const index = Number(option.dataset.hoursIndex);
-      overlay.remove();
+      closeSupplyDialog();
       if (index >= 1 && index <= 8) runRiderManagerAction(rider, "supply", supplyOptions[index - 1]);
     });
   }
