@@ -145,17 +145,20 @@
     if (!box) {
       box = document.createElement("div");
       box.id = "alabtalLogin";
-      box.style.cssText = "position:fixed;inset:0;z-index:9999;background:#090909f5;display:grid;place-items:center;padding:20px";
+      box.style.cssText = "position:fixed;inset:0;z-index:9999;background:radial-gradient(ellipse at 50% 20%,#3a1808 0%,#0a0a0c 55%,#000 100%);display:grid;place-items:center;padding:20px";
       box.innerHTML = `
-        <form id="alabtalLoginForm" style="width:min(100%,390px);background:#171717;border:1px solid #ff7900;border-radius:18px;padding:24px;color:#fff;font-family:inherit">
-          <h2 style="color:#ff7900;margin:0 0 8px">ALABTAL LIVE</h2>
-          <p style="color:#bbb">سجّل دخولك بحساب لوحة Desktop</p>
-          <label style="display:block;margin:16px 0 6px">اسم المستخدم</label>
-          <input name="username" autocomplete="username" required style="box-sizing:border-box;width:100%;padding:13px;border-radius:9px;border:1px solid #444;background:#222;color:white">
-          <label style="display:block;margin:14px 0 6px">كلمة المرور</label>
-          <input name="password" type="password" autocomplete="current-password" required style="box-sizing:border-box;width:100%;padding:13px;border-radius:9px;border:1px solid #444;background:#222;color:white">
-          <p id="alabtalLoginError" style="color:#ff8b72;font-size:13px"></p>
-          <button id="alabtalLoginBtn" style="width:100%;padding:13px;border:0;border-radius:9px;background:#ff7900;color:#111;font-weight:bold">تسجيل الدخول</button>
+        <form id="alabtalLoginForm" style="width:min(100%,380px);background:linear-gradient(160deg,#1a1a1e 0%,#0e0e12 100%);border:1px solid rgba(255,120,40,0.45);border-radius:24px;padding:28px 24px 26px;color:#fff;font-family:inherit;box-shadow:0 0 40px rgba(255,100,30,0.18),0 20px 50px rgba(0,0,0,0.55);text-align:center">
+          <img src="icon-192.png" alt="AL ABTAL" style="width:110px;height:110px;border-radius:50%;object-fit:cover;margin:0 auto 14px;display:block;box-shadow:0 0 24px rgba(255,140,40,0.45);border:3px solid rgba(255,160,50,0.5)">
+          <h2 style="color:#ff8c2b;margin:0 0 4px;font-size:26px;font-weight:900;letter-spacing:2px">AL ABTAL</h2>
+          <p style="color:#ffb86c;margin:0 0 18px;font-size:12px;font-weight:700;letter-spacing:3px;opacity:0.9">OPERATIONS</p>
+          <p style="color:#9ca3af;margin:0 0 20px;font-size:13px">سجّل دخولك للمتابعة المباشرة</p>
+          <label style="display:block;text-align:right;margin:0 0 6px;font-size:13px;color:#d1d5db">اسم المستخدم</label>
+          <input name="username" autocomplete="username" required style="box-sizing:border-box;width:100%;padding:14px 16px;border-radius:12px;border:1px solid #333;background:#16161a;color:white;font-size:15px;margin-bottom:14px;outline:none">
+          <label style="display:block;text-align:right;margin:0 0 6px;font-size:13px;color:#d1d5db">كلمة المرور</label>
+          <input name="password" type="password" autocomplete="current-password" required style="box-sizing:border-box;width:100%;padding:14px 16px;border-radius:12px;border:1px solid #333;background:#16161a;color:white;font-size:15px;margin-bottom:8px;outline:none">
+          <p id="alabtalLoginError" style="color:#ff8b72;font-size:13px;min-height:18px;margin:6px 0 12px"></p>
+          <button id="alabtalLoginBtn" style="width:100%;padding:15px;border:0;border-radius:12px;background:linear-gradient(135deg,#ff9a3c,#ff642f);color:#1a0a00;font-weight:900;font-size:16px;letter-spacing:1px;box-shadow:0 6px 20px rgba(255,100,40,0.35)">تسجيل الدخول</button>
+          <p style="color:#6b7280;font-size:11px;margin:16px 0 0">AL ABTAL — أكثر من مجرد توصيل</p>
         </form>`;
       document.body.appendChild(box);
       $("#alabtalLoginForm").addEventListener("submit", async e => {
