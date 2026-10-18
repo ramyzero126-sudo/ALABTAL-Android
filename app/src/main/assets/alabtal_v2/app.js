@@ -728,15 +728,12 @@
       window.alabtalRiderData = data;
       notifyRiderStatusChanges(data);
 
-      // مصدر الحجوزات الأصلي، مستقل عن بيانات اللايف.
+      // الحجوزات لليوم المختار، من المصدر الأصلي.
       try {
-        const parts = new Intl.DateTimeFormat("en-CA", {
-          timeZone: "Africa/Cairo", year: "numeric", month: "2-digit", day: "2-digit"
-        }).formatToParts(new Date());
-        const part = key => parts.find(x => x.type === key)?.value || "";
-        const day = `${part("year")}-${part("month")}-${part("day")}`;
+        selectedBookingDay = selectedBookingDay || cairoBookingDay(0);
         const bookingRes = await fetch(
-          "/api/notbooked?city=" + encodeURIComponent(city.trim()) + "&day=" + day,
+          "/api/notbooked?city=" + encodeURIComponent(city.trim()) +
+          "&day=" + encodeURIComponent(selectedBookingDay),
           { cache: "no-store", credentials: "same-origin" }
         );
         const bookingJson = await bookingRes.json();
@@ -813,6 +810,63 @@
   menuBackdrop?.addEventListener("click", closeMenu);
 
   let officialBookingData = null;
+  let selectedBookingDay = null;
+
+  function cairoBookingDay(offset = 0) {
+    const parts = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Africa/Cairo", year: "numeric",
+      month: "2-digit", day: "2-digit"
+    }).formatToParts(new Date());
+    const part = key => parts.find(x => x.type === key)?.value || "";
+    const d = new Date(Date.UTC(
+      Number(part("year")), Number(part("month")) - 1,
+      Number(part("day")) + offset
+    ));
+    return `${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,"0")}-${String(d.getUTCDate()).padStart(2,"0")}`;
+  }
+
+  function renderBookingDayTabs() {
+    const tabs = document.getElementById("bookingDayTabs");
+    if (!tabs) return;
+    const labels = ["النهارده", "بكرة", "بعد بكرة", "بعد 3 أيام",
+                    "بعد 4 أيام", "بعد 5 أيام", "بعد 6 أيام"];
+    tabs.innerHTML = labels.map((label, offset) => {
+      const day = cairoBookingDay(offset);
+      const active = (selectedBookingDay || cairoBookingDay(0)) === day;
+      return `<button type="button" class="chip ${active ? "active" : ""}"
+        data-booking-day="${day}" style="white-space:nowrap">
+        ${label}<small style="display:block;font-size:10px;opacity:.8">${day.slice(5).replace("-", "/")}</small>
+      </button>`;
+    }).join("");
+  }
+
+  async function loadBookingDay(day) {
+    if (!day) return;
+    selectedBookingDay = day;
+    officialBookingData = null;
+    renderBookingDayTabs();
+    const target = document.getElementById("bookingList");
+    if (target) target.innerHTML = '<div class="empty">جارٍ تحميل حجوزات اليوم...</div>';
+    try {
+      const response = await fetch(
+        "/api/notbooked?city=" + encodeURIComponent(String(selectedCity || "").trim()) +
+        "&day=" + encodeURIComponent(day),
+        { cache: "no-store", credentials: "same-origin" }
+      );
+      const json = await response.json();
+      if (response.status === 401) {
+        showLogin("انتهت الجلسة؛ سجّل الدخول مرة أخرى");
+        return;
+      }
+      if (!response.ok || json.ok === false)
+        throw new Error(json.error || "تعذر تحميل حجوزات اليوم");
+      officialBookingData = json;
+      renderBookings();
+    } catch (error) {
+      if (target) target.innerHTML =
+        '<div class="empty">' + esc(error.message || "تعذر تحميل الحجوزات") + '</div>';
+    }
+  }
 
   function renderBookings() {
     const target = document.getElementById("bookingList");
@@ -824,7 +878,10 @@
       tools.id = "bookingTools";
       tools.style.cssText =
         "display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:16px 0";
+      tools.style.gridColumn = "1 / -1";
       tools.innerHTML = `
+        <div id="bookingDayTabs" class="chips"
+          style="grid-column:1/-1;display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px"></div>
         <select id="bookingFilter"
           style="width:100%;padding:12px;border-radius:10px;border:1px solid #444;background:#171717;color:#fff">
           <option value="all">كل المناديب</option>
@@ -833,8 +890,14 @@
         </select>`;
       parent.insertBefore(tools, target);
       document.getElementById("bookingFilter").addEventListener("change", renderBookings);
+      document.getElementById("bookingDayTabs").addEventListener("click", async event => {
+        const button = event.target.closest("button[data-booking-day]");
+        if (!button || button.dataset.bookingDay === selectedBookingDay) return;
+        await loadBookingDay(button.dataset.bookingDay);
+      });
     }
 
+    renderBookingDayTabs();
     const res = officialBookingData;
     if (!res || !Array.isArray(res.booked) || !Array.isArray(res.notBooked)) {
       target.innerHTML = '<div class="empty">جارٍ تحميل بيانات الحجوزات الأصلية...</div>';
