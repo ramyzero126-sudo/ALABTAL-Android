@@ -3954,3 +3954,121 @@ html body #riders article.rider .actions .action {
   line-height: 1.1 !important;
   border-radius: 6px !important;
 }
+
+
+/* ALABTAL RIDER READABILITY + NOTIFICATIONS V6 */
+html body #riders article.rider .rider-head {
+  display: grid !important;
+  grid-template-columns: 34px minmax(0,1fr) !important;
+  align-items: start !important;
+  gap: 7px !important;
+}
+html body #riders article.rider .rider-info { min-width: 0 !important; }
+html body #riders article.rider .rider-name-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 7px !important;
+  margin-bottom: 4px !important;
+}
+html body #riders article.rider .rider-name {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  line-height: 1.35 !important;
+  overflow-wrap: anywhere !important;
+}
+html body #riders article.rider .rider-name-row .status {
+  position: static !important;
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+  opacity: 1 !important;
+  filter: none !important;
+  font-size: 10px !important;
+  padding: 4px 7px !important;
+}
+html body #riders article.rider .sub {
+  font-size: 10px !important;
+  line-height: 1.45 !important;
+  margin-top: 3px !important;
+  opacity: 1 !important;
+}
+html body #riders article.rider .rider-status-line {
+  margin: 6px 0 !important;
+  opacity: 1 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+html body #riders article.rider .order-status-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  max-width: 100% !important;
+  padding: 6px 9px !important;
+  font-size: 11px !important;
+  line-height: 1.35 !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  text-shadow: none !important;
+}
+html body #riders article.rider .order-status-badge.has-order {
+  color: #ffd08a !important;
+  background: #3b250f !important;
+  border: 1px solid #ffad48 !important;
+}
+#notificationsPanel {
+  position: fixed;
+  z-index: 10000;
+  top: 68px;
+  right: 12px;
+  width: min(340px, calc(100vw - 24px));
+  max-height: 65vh;
+  overflow: auto;
+  padding: 12px;
+  color: #f5fff8;
+  background: #101b14;
+  border: 1px solid #36d985;
+  border-radius: 14px;
+  box-shadow: 0 12px 32px #000c;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+#notificationsPanel[hidden] { display: none !important; }
+#notificationsPanel .notifications-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #31533d;
+}
+#notificationsPanel button {
+  padding: 6px 9px;
+  color: #eafff1;
+  background: #1c3826;
+  border: 1px solid #3b8558;
+  border-radius: 8px;
+}
+#notificationsPanel .notification-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 2px;
+  border-bottom: 1px solid #263b2d;
+  font-size: 13px;
+}
+#notificationsPanel .notification-item small,
+#notificationsPanel .notification-empty {
+  color: #b9d4c2;
+  font-size: 11px;
+}
+@media(max-width:380px) {
+  html body #riders article.rider .rider-name { font-size: 12px !important; }
+  html body #riders article.rider .sub { font-size: 9px !important; }
+  html body #riders article.rider .order-status-badge { font-size: 10px !important; }
+}

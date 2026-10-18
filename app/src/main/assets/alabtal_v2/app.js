@@ -70,7 +70,24 @@
 
   let notificationBaseline = null;
 
-  window.alabtalNotifications = window.alabtalNotifications || [];
+  try {
+    window.alabtalNotifications = JSON.parse(
+      localStorage.getItem("alabtal_notifications") || "[]"
+    );
+    if (!Array.isArray(window.alabtalNotifications))
+      window.alabtalNotifications = [];
+  } catch (_) {
+    window.alabtalNotifications = [];
+  }
+
+  function saveAlabtalNotifications() {
+    try {
+      localStorage.setItem(
+        "alabtal_notifications",
+        JSON.stringify((window.alabtalNotifications || []).slice(0, 30))
+      );
+    } catch (_) {}
+  }
 
   function notifyRiderStatusChanges(rows) {
     const current = new Map();
@@ -93,13 +110,14 @@
 
       const item = {
         id: key + ":" + Date.now(),
-        text: `${rider.name}: ${old.status} ← ${rider.status}`,
+        text: `${rider.name}: ${old.status} → ${rider.status}`,
         time: new Date().toLocaleTimeString("ar-EG", {
           hour: "2-digit", minute: "2-digit"
         })
       };
       window.alabtalNotifications.unshift(item);
       window.alabtalNotifications = window.alabtalNotifications.slice(0, 30);
+      saveAlabtalNotifications();
       window.dispatchEvent(new CustomEvent("alabtal-notifications-updated"));
 
       try {
@@ -301,12 +319,14 @@
         <div class="rider-head">
           <div class="avatar">🛵</div>
           <div class="rider-info">
-            <div class="rider-name">${esc(r.name)}</div>
+            <div class="rider-name-row">
+              <div class="rider-name">${esc(r.name)}</div>
+              <span class="status">${esc(r.status)}</span>
+            </div>
             <div class="sub">#${esc(r.id)} · 📍 ${esc(r.city)}</div>
             <div class="sub">♙ ${esc(r.supervisor)}</div>
             <div class="sub">🕒 ${esc(formatShiftTime(r.shiftStart))} → ${esc(formatShiftTime(r.shiftEnd))}</div>
           </div>
-          <span class="status">${esc(r.status)}</span>
         </div>
 
         <div class="rider-status-line">
@@ -708,6 +728,7 @@
     });
     $("clearNotificationsBtn")?.addEventListener("click", () => {
       window.alabtalNotifications = [];
+      saveAlabtalNotifications();
       renderNotifications();
     });
     window.addEventListener("alabtal-notifications-updated", renderNotifications);
@@ -719,7 +740,6 @@
 
   // تسجيل الخروج من جلسة البروكسي الفعلية
   $("alabtalLogoutBtn")?.addEventListener("click", async () => {
-    if (!confirm("هل تريد تسجيل الخروج؟")) return;
     const btn = $("alabtalLogoutBtn");
     btn.disabled = true;
     const oldText = btn.textContent;
