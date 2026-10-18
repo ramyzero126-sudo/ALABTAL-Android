@@ -4479,3 +4479,101 @@ html body #riderDetailContent .detail-wallet b {
   overflow-wrap: anywhere;
   direction: rtl;
 }
+
+
+
+/* ALABTAL status tabs */
+#filters .status-tabs {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:7px;
+  margin:0 0 12px;
+}
+#filters .status-tabs .chip {
+  min-height:34px;
+  padding:7px 12px;
+  border:1px solid #ffffff20;
+  border-radius:999px;
+  background:#101923;
+  color:#dce8f3;
+  font-size:12px;
+  font-weight:800;
+  transition:background .2s,border-color .2s,box-shadow .2s;
+}
+#filters .status-tabs [data-status="Starting"] {--status-color:#ff4545}
+#filters .status-tabs [data-status="Ready"] {--status-color:#3695ff}
+#filters .status-tabs [data-status="Working"] {--status-color:#24e783}
+#filters .status-tabs [data-status="Break"] {--status-color:#ffd23f}
+#filters .status-tabs [data-status="Tamp"] {--status-color:#ff922e}
+#filters .status-tabs .chip[data-status]:not([data-status="الكل"]) {
+  border-color:color-mix(in srgb,var(--status-color) 48%,transparent);
+}
+#filters .status-tabs .chip[data-status]:not([data-status="الكل"]).active {
+  color:var(--status-color);
+  background:color-mix(in srgb,var(--status-color) 13%,#101923);
+  border-color:var(--status-color);
+  box-shadow:0 0 10px color-mix(in srgb,var(--status-color) 25%,transparent);
+}
+#filters .status-tabs [data-status="الكل"].active {
+  color:#fff;
+  border-color:#8ca3b8;
+  background:#293847;
+}
+
+/* Compact green LED on each rider card */
+#riders .rider {position:relative}
+#riders .rider-led-strip {
+  position:absolute;
+  z-index:5;
+  top:0;
+  left:10px;
+  right:10px;
+  height:3px;
+  border-radius:0 0 5px 5px;
+  pointer-events:none;
+  background:linear-gradient(90deg,transparent,#00ff79 20%,#d7ffe8 48%,#00ff79 72%,transparent);
+  background-size:220% 100%;
+  animation:alabtalCardLed 2.2s linear infinite;
+  box-shadow:0 0 7px #00ff7966;
+}
+@keyframes alabtalCardLed {
+  from {background-position:100% 0}
+  to {background-position:-120% 0}
+}
+
+/* Green restaurant-to-customer order lane */
+#riders .order-progress-track {
+  background:#10271c!important;
+  box-shadow:inset 0 1px 4px #0009,0 0 5px #00ff781c!important;
+}
+#riders .order-progress-fill {
+  background:linear-gradient(90deg,#008c43,#00f477,#8dffc0)!important;
+  box-shadow:0 0 9px #00ff7866!important;
+  z-index:1;
+}
+#riders .order-lane-led {
+  position:absolute;
+  z-index:2;
+  top:0;
+  bottom:0;
+  left:-35%;
+  width:35%;
+  border-radius:8px;
+  pointer-events:none;
+  background:linear-gradient(90deg,transparent,#00ff78 30%,#d8ffe8 52%,#00ff78 74%,transparent);
+  filter:drop-shadow(0 0 4px #00ff78);
+  animation:alabtalOrderLane 1.8s linear infinite;
+}
+#riders .order-scooter {
+  z-index:3;
+  filter:drop-shadow(0 0 6px #00ff78)!important;
+}
+@keyframes alabtalOrderLane {
+  from {left:-35%}
+  to {left:100%}
+}
+@media(prefers-reduced-motion:reduce) {
+  #riders .order-lane-led,
+  #riders .rider-led-strip {animation-duration:6s}
+}

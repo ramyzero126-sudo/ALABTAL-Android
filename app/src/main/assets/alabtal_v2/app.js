@@ -327,6 +327,7 @@
 
       return `
       <article class="rider" data-rider-name="${esc(r.name)}" data-rider-id="${esc(r.id)}">
+        <div class="rider-led-strip" aria-hidden="true"></div>
         <div class="rider-head">
           <div class="avatar">🛵</div>
           <div class="rider-info">
@@ -346,7 +347,7 @@
 
         ${order ? `<div class="order-progress" aria-label="تقدم الأوردر">
           <div class="order-progress-title"><b>🚚 رحلة الأوردر</b><span>#${esc(orderId)}</span></div>
-          <div class="order-progress-track"><span class="order-progress-fill step-${orderStep}"></span><span class="order-scooter">🛵</span></div>
+          <div class="order-progress-track"><span class="order-progress-fill step-${orderStep}"></span><span class="order-lane-led" aria-hidden="true"></span><span class="order-scooter">🛵</span></div>
           <div class="order-progress-labels"><span class="${orderStep>=1?'done':''}">المطعم</span><span class="${orderStep>=2?'done':''}">استلام</span><span class="${orderStep>=3?'done':''}">في الطريق</span><span class="${orderStep>=4?'done':''}">العميل</span></div>
           <div class="order-progress-current">${esc(statusLabel)}</div>
         </div>` : ""}
@@ -364,7 +365,7 @@
 
         <div class="actions">
           <button type="button" class="action" data-rider-action="whatsapp">واتساب</button>
-          <button type="button" class="action" data-rider-action="call">${riderPhone ? `اتصال ${esc(riderPhone)}` : "اتصال"}</button>
+          <button type="button" class="action" data-rider-action="call">اتصال</button>
           <button type="button" class="action" data-rider-action="lock">قفل</button>
           <button type="button" class="action" data-rider-action="break">فك بريك</button>
           <button type="button" class="action" data-rider-action="supply">تزويد</button>
@@ -483,6 +484,70 @@
     return String(mgr.formUrl || "").split("?")[0] + (query ? "?usp=pp_url&" + query : "");
   }
 
+  function openManagerFormInside(url, action) {
+    document.getElementById("alabtalManagerFormDialog")?.remove();
+
+    const overlay = document.createElement("div");
+    overlay.id = "alabtalManagerFormDialog";
+    overlay.className = "supply-dialog-overlay";
+    const title = action === "supply" ? "فورم التزويد" :
+      action === "break" ? "فورم فك البريك" : "فورم مدير المنطقة";
+
+    overlay.innerHTML = `
+      <section role="dialog" aria-modal="true"
+        aria-label="${title}"
+        style="position:relative;width:min(96vw,760px);height:min(90dvh,850px);
+        background:#101814;color:#fff;border:1px solid #20d879;border-radius:14px;
+        display:flex;flex-direction:column;overflow:hidden;margin:auto">
+        <header style="display:flex;align-items:center;gap:8px;padding:10px;
+          border-bottom:1px solid #28523d">
+          <b style="flex:1">${title}</b>
+          <button type="button" data-copy-manager-url
+            style="padding:8px 12px">نسخ الرابط</button>
+          <button type="button" data-manager-close
+            aria-label="إغلاق" style="padding:8px 12px">✕</button>
+        </header>
+        <input data-manager-url readonly
+          aria-label="رابط الفورم"
+          style="box-sizing:border-box;width:100%;padding:9px;background:#17231c;
+          color:#b9ffd2;border:0;border-bottom:1px solid #28523d">
+        <iframe title="فورم مدير المنطقة"
+          style="flex:1;width:100%;border:0;background:white"
+          referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </section>`;
+
+    const input = overlay.querySelector("[data-manager-url]");
+    input.value = url;
+    overlay.querySelector("iframe").src =
+      url + (url.includes("?") ? "&" : "?") + "embedded=true";
+
+    const close = () => {
+      overlay.remove();
+      window.removeEventListener("keydown", onKey);
+    };
+    const onKey = e => {
+      if (e.key === "Escape" && overlay.isConnected) close();
+    };
+    overlay.addEventListener("click", e => {
+      if (e.target === overlay || e.target.closest("[data-manager-close]")) {
+        close();
+      } else if (e.target.closest("[data-copy-manager-url]")) {
+        input.focus();
+        input.select();
+        if (navigator.clipboard?.writeText) {
+          navigator.clipboard.writeText(url).then(
+            () => riderActionMessage("تم نسخ رابط الفورم"),
+            () => riderActionMessage("حدد الرابط وانسخه يدويًا")
+          );
+        } else {
+          riderActionMessage("حدد الرابط وانسخه يدويًا");
+        }
+      }
+    });
+    window.addEventListener("keydown", onKey);
+    document.body.appendChild(overlay);
+  }
+
   async function runRiderManagerAction(rider, action, hours) {
     if (!rider || !rider.id || rider.id === "—") {
       riderActionMessage("رقم المندوب غير متاح");
@@ -517,12 +582,7 @@
         riderActionMessage("رابط فورم المدير غير صالح");
         return;
       }
-      if (window.AndroidNotifications &&
-          typeof window.AndroidNotifications.openExternal === "function") {
-        window.AndroidNotifications.openExternal(url);
-      } else {
-        window.open(url, "_blank");
-      }
+      openManagerFormInside(url, action);
     } catch (err) {
       riderActionMessage(err.message || "تعذر تحميل فورم مدير المنطقة");
     }
