@@ -5039,3 +5039,21 @@ body.bookings-mode #bookingList .booking-meta {
 @media(prefers-reduced-motion:reduce) {
   .rider,.chip,.rider .actions .action { transition: none !important; }
 }
+
+/* ALABTAL_RESTAURANT_ORANGE_LED_V1 */
+#riders .rider .order-status-badge.has-order .order-led {
+  background: #ff793d !important;
+  box-shadow: 0 0 8px #ff793d !important;
+}
+#riders .rider .order-restaurant {
+  margin: 5px 0 8px;
+  padding: 7px 10px;
+  border: 1px solid #ff955844;
+  border-radius: 10px;
+  background: #ff793d10;
+  color: #ffd0b2;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}

@@ -353,6 +353,7 @@
 
         ${order ? `<div class="order-progress order-stage-${orderStep}" aria-label="تقدم الأوردر">
           <div class="order-progress-title"><b>🚚 رحلة الأوردر</b><span>#${esc(orderId)}</span></div>
+          ${restaurant && restaurant !== "—" ? `<div class="order-restaurant">🍴 ${esc(restaurant)}</div>` : ""}
           <div class="order-progress-track"><span class="order-progress-fill step-${orderStep}"></span><span class="order-lane-led" aria-hidden="true"></span><span class="order-scooter">🛵</span></div>
           <div class="order-progress-labels"><span class="${orderStep>=1?'done ':''}${orderStep===1?'current':''}">معاه أوردر</span><span class="${orderStep>=2?'done ':''}${orderStep===2?'current':''}">وصل عند المطعم</span><span class="${orderStep>=3?'done ':''}${orderStep===3?'current':''}">في الطريق للعميل</span><span class="${orderStep>=4?'done ':''}${orderStep===4?'current':''}">وصل عند العميل</span></div>
           <div class="order-progress-current">${esc(statusLabel)}</div>
