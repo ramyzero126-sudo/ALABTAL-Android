@@ -4391,3 +4391,45 @@ html body #riderDetailContent .detail-wallet b {
 #filters .chip{font-size:15px;padding:11px 16px;min-height:42px}
 .rider-name{font-size:18px!important}.rider .sub{font-size:13px!important}.metric small{font-size:12px!important}
 .city-tabs{display:none!important}
+
+
+/* ALABTAL ANDROID STATUS PHONE SUPPLY ORDER POLISH */
+.status.status-starting{background:#4b1019!important;color:#ff6576!important;border-color:#ff4c60!important}
+.status.status-ready{background:#102e61!important;color:#69baff!important;border-color:#348eff!important}
+.status.status-working{background:#103e2b!important;color:#59f3a1!important;border-color:#25d982!important}
+.status.status-break{background:#493807!important;color:#ffe16b!important;border-color:#f8cd38!important}
+.status.status-tamp{background:#4c260c!important;color:#ffad62!important;border-color:#ff8b32!important}
+.status.status-متأخر{background:#4b1019!important;color:#ff6576!important;border-color:#ff4c60!important}
+.rider .rider-name{font-size:21px!important;line-height:1.45!important}
+.rider .sub,.rider .rider-phone-line{font-size:15px!important;line-height:1.8!important;font-weight:650}
+.rider .rider-phone-line{margin-top:3px;color:#d9eaff;overflow-wrap:anywhere}
+.rider .rider-phone-line b{color:#72caff;font-size:16px}
+.rider .status{font-size:14px!important;padding:6px 11px!important}
+.rider .metric b{font-size:21px!important}
+.rider .metric small{font-size:14px!important}
+.rider .wallet-row{font-size:15px!important}
+.rider .actions .action{font-size:14px!important;min-height:42px!important;font-weight:850!important}
+.order-progress{padding:13px!important;border-radius:16px!important;background:linear-gradient(145deg,#101f30,#09121e)!important;border:1px solid #35c9ff35!important;box-shadow:inset 0 1px #ffffff0c,0 8px 20px #0003!important}
+.order-progress-title{display:flex;justify-content:space-between;gap:8px;align-items:center;color:#e9f7ff;font-size:14px;margin-bottom:18px}
+.order-progress-title span{color:#7bcfff;font-size:12px;overflow-wrap:anywhere}
+.order-progress-track{height:8px!important;margin:8px 12px 17px!important;background:#26384b!important;box-shadow:inset 0 2px 4px #0007}
+.order-progress-fill{width:15%;background:linear-gradient(90deg,#087cf0,#36dcff)!important;box-shadow:0 0 13px #26cfff66}
+.order-progress-fill.step-2{width:40%}.order-progress-fill.step-3{width:70%}.order-progress-fill.step-4{width:100%}
+.order-scooter{left:calc(15% - 13px)!important;top:-20px!important;font-size:24px!important;filter:drop-shadow(0 0 6px #39cfff)!important}
+.order-progress-fill.step-2~.order-scooter{left:calc(40% - 13px)!important}
+.order-progress-fill.step-3~.order-scooter{left:calc(70% - 13px)!important}
+.order-progress-fill.step-4~.order-scooter{left:calc(100% - 25px)!important}
+.order-progress-labels{font-size:12px!important;color:#8fa6bc!important}
+.order-progress-labels .done{color:#66e5b5!important}
+.order-progress-current{margin-top:10px;padding:8px 10px;border-radius:10px;background:#1a3348;color:#8fe4ff;text-align:center;font-size:13px;font-weight:900}
+.supply-dialog-overlay{position:fixed;inset:0;z-index:99998;background:#020711c9;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(7px)}
+.supply-dialog{width:min(100%,390px);padding:18px;border-radius:22px;border:1px solid #40caff55;background:linear-gradient(145deg,#17283b,#091321);box-shadow:0 22px 70px #000a,inset 0 1px #ffffff12;color:#f3f9ff}
+.supply-dialog-head{display:flex;align-items:center;justify-content:space-between;font-size:19px}
+.supply-dialog-head button{border:0;border-radius:10px;background:#ffffff12;color:white;padding:8px 11px;font-size:17px}
+.supply-dialog p{color:#b9ccdf;font-size:14px;margin:12px 0 16px}
+.supply-hours-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.supply-hour-option{display:flex;flex-direction:column;align-items:center;gap:5px;min-height:76px;padding:10px 3px;border-radius:14px;border:1px solid #43caff38;background:linear-gradient(145deg,#1b3550,#102238);color:#effaff}
+.supply-hour-option b{font-size:23px;color:#63d7ff}
+.supply-hour-option span{font-size:12px;font-weight:800}
+.supply-hour-option:active{transform:scale(.96);background:#15528a}
+@media(max-width:380px){.rider .rider-name{font-size:19px!important}.supply-dialog{padding:14px}.supply-hours-grid{gap:6px}}

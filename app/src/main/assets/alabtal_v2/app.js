@@ -45,10 +45,11 @@
     const rawStatus = String(text(x, ["status","riderStatus","rider_status","state","workingStatus"], "غير محدد"));
     const s = rawStatus.toLowerCase();
     let state = rawStatus;
-    if (/break|rest|استراحة|بريك/.test(s)) state = "استراحة";
+    if (/break|rest|استراحة|بريك/.test(s)) state = "Break";
     else if (/starting|start|بدء|بداية/.test(s)) state = "Starting";
     else if (/ready|available|جاهز/.test(s)) state = "Ready";
-    else if (/work|active|online|شغال|working/.test(s)) state = "Working";
+    else if (/working|work|active|online|شغال/.test(s)) state = "Working";
+    else if (/temp|temporary|tam[p]?|مؤقت/.test(s)) state = "Tamp";
     else if (/late|delay|متأخر/.test(s)) state = "متأخر";
 
     const orders = number(x, ["orders","ordersCount","orders_count","totalOrders","todayOrders","completedOrders"]);
@@ -300,6 +301,16 @@
       const dropoff = order ? orderField(order, /drop.?off|deliveryAddress|customerAddress|destination|deliverTo/i) : "";
       const orderStatus = order ? orderField(order, /orderStatus|status|state|currentStatus/i) : "";
       const orderId = order ? orderField(order, /orderId|order_id|id|code/i) : "";
+      const orderStep = !order ? 0 :
+        /delivered|completed|complete|تم التوصيل|تم التسليم|وصل للعميل/i.test(orderStatus) ? 4 :
+        /deliver|on.?way|في الطريق|heading|to.?customer/i.test(orderStatus) ? 3 :
+        /picked|pickup|collected|استلام|تم الاستلام/i.test(orderStatus) ? 2 :
+        /arrive|arrived|at.?customer|وصل عند العميل/i.test(orderStatus) ? 4 : 1;
+      const riderPhone = riderActionPhone(r.raw);
+      const phoneDigits = riderPhone.replace(/\D/g, "");
+      const internationalPhone = phoneDigits.startsWith("00") ? phoneDigits.slice(2) :
+        phoneDigits.startsWith("0") ? "20" + phoneDigits.slice(1) :
+        phoneDigits.length === 10 && phoneDigits.startsWith("1") ? "20" + phoneDigits : phoneDigits;
 
       let statusLabel = "مفيش أوردر";
       let statusClass = "no-order";
@@ -327,14 +338,17 @@
               <span class="order-status-badge ${statusClass}"><i class="order-led"></i>${order ? esc(statusLabel) : "مفيش أوردر"}</span>
             </div>
             <div class="sub">#${esc(r.id)} · 📍 ${esc(r.city)}</div>
+            <div class="rider-phone-line">${riderPhone ? `📞 <b dir="ltr">${esc(riderPhone)}</b>` : "📞 رقم الهاتف غير متاح"}</div>
             <div class="sub">♙ ${esc(r.supervisor)}</div>
             <div class="sub">🕒 ${esc(formatShiftTime(r.shiftStart))} → ${esc(formatShiftTime(r.shiftEnd))}</div>
           </div>
         </div>
 
         ${order ? `<div class="order-progress" aria-label="تقدم الأوردر">
-          <div class="order-progress-track"><span class="order-progress-fill ${/deliver|on.?way|في الطريق|heading|to.?customer/i.test(orderStatus) ? "step-3" : /picked|pickup|collected|استلام|تم الاستلام/i.test(orderStatus) ? "step-2" : /arrive|arrived|وصل|at.?customer|delivered/i.test(orderStatus) ? "step-4" : "step-1"}"></span><span class="order-scooter">🛵</span></div>
-          <div class="order-progress-labels"><span>المطعم</span><span>استلام</span><span>في الطريق</span><span>العميل</span></div>
+          <div class="order-progress-title"><b>🚚 رحلة الأوردر</b><span>#${esc(orderId)}</span></div>
+          <div class="order-progress-track"><span class="order-progress-fill step-${orderStep}"></span><span class="order-scooter">🛵</span></div>
+          <div class="order-progress-labels"><span class="${orderStep>=1?'done':''}">المطعم</span><span class="${orderStep>=2?'done':''}">استلام</span><span class="${orderStep>=3?'done':''}">في الطريق</span><span class="${orderStep>=4?'done':''}">العميل</span></div>
+          <div class="order-progress-current">${esc(statusLabel)}</div>
         </div>` : ""}
       <div class="metrics">
           <div class="metric"><b>${r.orders}</b><small>أوردر</small></div>
@@ -510,14 +524,30 @@
   }
 
   function showRiderSupplyOptions(rider) {
-    const answer = window.prompt("تزويد شيفت — اكتب رقم الساعات من 1 إلى 8");
-    if (answer === null) return;
-    const index = Number(answer);
-    if (!Number.isInteger(index) || index < 1 || index > 8) {
-      riderActionMessage("اختار رقمًا من 1 إلى 8");
-      return;
-    }
-    runRiderManagerAction(rider, "supply", supplyOptions[index - 1]);
+    document.getElementById("alabtalSupplyDialog")?.remove();
+    const overlay = document.createElement("div");
+    overlay.id = "alabtalSupplyDialog";
+    overlay.className = "supply-dialog-overlay";
+    overlay.innerHTML = `
+      <section class="supply-dialog" role="dialog" aria-modal="true" aria-label="اختيار ساعات التزويد">
+        <div class="supply-dialog-head"><b>＋ تزويد الشيفت</b><button type="button" data-supply-close aria-label="إغلاق">✕</button></div>
+        <p>اختار عدد ساعات التزويد للمندوب</p>
+        <div class="supply-hours-grid">
+          ${supplyOptions.map((label,i)=>`<button type="button" class="supply-hour-option" data-hours-index="${i+1}"><b>${i+1}</b><span>${label}</span></button>`).join("")}
+        </div>
+      </section>`;
+    document.body.appendChild(overlay);
+    overlay.addEventListener("click", event => {
+      if (event.target === overlay || event.target.closest("[data-supply-close]")) {
+        overlay.remove();
+        return;
+      }
+      const option = event.target.closest("[data-hours-index]");
+      if (!option) return;
+      const index = Number(option.dataset.hoursIndex);
+      overlay.remove();
+      if (index >= 1 && index <= 8) runRiderManagerAction(rider, "supply", supplyOptions[index - 1]);
+    });
   }
 
   document.addEventListener("click", event => {
