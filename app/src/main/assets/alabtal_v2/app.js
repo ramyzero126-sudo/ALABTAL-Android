@@ -323,14 +323,13 @@
               <div class="rider-name">${esc(r.name)}</div>
               <span class="status">${esc(r.status)}</span>
             </div>
+            <div class="rider-status-line">
+              <span class="order-status-badge ${statusClass}">${order ? "● " + esc(statusLabel) : "○ مفيش أوردر"}</span>
+            </div>
             <div class="sub">#${esc(r.id)} · 📍 ${esc(r.city)}</div>
             <div class="sub">♙ ${esc(r.supervisor)}</div>
             <div class="sub">🕒 ${esc(formatShiftTime(r.shiftStart))} → ${esc(formatShiftTime(r.shiftEnd))}</div>
           </div>
-        </div>
-
-        <div class="rider-status-line">
-          <span class="order-status-badge ${statusClass}">${order ? "● " + esc(statusLabel) : "○ مفيش أوردر"}</span>
         </div>
 
         <div class="metrics">

@@ -4119,3 +4119,39 @@ html body #riders article.rider .order-status-badge.has-order {
   color: #d0d7e2 !important;
   border-color: #505b6b !important;
 }
+
+/* Order status directly under rider name */
+html body #riders article.rider .rider-info .rider-status-line {
+  display: flex !important;
+  width: 100% !important;
+  margin: 5px 0 6px !important;
+  padding: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: none !important;
+}
+html body #riders article.rider .rider-info .order-status-badge {
+  display: inline-flex !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+  min-height: 26px !important;
+  padding: 5px 9px !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  line-height: 1.4 !important;
+  color: #a0ffc8 !important;
+  background: #123b2b !important;
+  border: 1px solid #36c981 !important;
+  border-radius: 8px !important;
+  white-space: normal !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html body #riders article.rider .rider-info .order-status-badge.no-order {
+  color: #d5dce6 !important;
+  background: #292f3a !important;
+  border-color: #505b6b !important;
+}
