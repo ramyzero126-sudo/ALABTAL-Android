@@ -3,7 +3,8 @@
   const list = $("#riders");
   let data = [];
   let status = "الكل";
-  let selectedCity = "الكل";
+  let selectedCity = "tanta";
+  let availableCities = [{ value: "tanta", label: "طنطا" }];
   let busy = false;
 
   const text = (obj, keys, fallback = "") => {
@@ -248,15 +249,17 @@
     if (!list) return;
 
     const cityTabs = $("#cityTabs");
-    const cities = []; // إخفاء تبويب المدينة الثابت
+    const cities = availableCities;
 
-    if (selectedCity !== "الكل" && !cities.includes(selectedCity)) selectedCity = "الكل";
+    if (selectedCity !== "الكل" && !cities.some(city => city.value === selectedCity)) {
+      selectedCity = cities[0]?.value || "tanta";
+    }
 
     if (cityTabs) {
       cityTabs.innerHTML = [
         ...cities.map(city => {
-          const count = data.filter(r => ((r.city || "").trim() || "غير محددة") === city).length;
-          return `<button type="button" class="chip ${selectedCity === city ? "active" : ""}" data-city="${esc(city)}">${esc(city)} <b>${count}</b></button>`;
+          const count = data.filter(r => cityMatches(r.city, city)).length;
+          return `<button type="button" class="chip ${selectedCity === city.value ? "active" : ""}" data-city="${esc(city.value)}">${esc(city.label)} <b>${count}</b></button>`;
         })
       ].join("");
     }
@@ -276,7 +279,8 @@
     const rows = data.filter(r => {
       const statusMatch = status === "الكل" || r.status === status;
       const city = (r.city || "").trim() || "غير محددة";
-      const cityMatch = selectedCity === "الكل" || city === selectedCity;
+      const selectedOption = cities.find(item => item.value === selectedCity);
+      const cityMatch = selectedCity === "الكل" || (selectedOption && cityMatches(city, selectedOption));
       return statusMatch && cityMatch;
     });
 
@@ -610,6 +614,48 @@
     }
   });
 
+
+  function normalizeCityOptions(payload) {
+    let source = payload?.cities ?? payload?.data?.cities ??
+      payload?.data ?? payload?.items;
+    if (!source) return [];
+
+    let entries;
+    if (Array.isArray(source)) {
+      entries = source;
+    } else if (typeof source === "object") {
+      entries = Object.entries(source).map(([key, value]) => {
+        if (typeof value === "string") return { key, value, label: value };
+        if (value && typeof value === "object") return { key, ...value };
+        return { key, value: key, label: key };
+      });
+    } else {
+      return [];
+    }
+
+    const seen = new Set();
+    return entries.map(item => {
+      const value = typeof item === "string" ? item :
+        (item.value ?? item.key ?? item.id ?? item.city ??
+         item.cityName ?? item.name ?? "");
+      const label = typeof item === "string" ? item :
+        (item.label ?? item.name ?? item.cityName ?? item.city ??
+         item.title ?? item.value ?? item.key ?? value);
+      return { value: String(value).trim(), label: String(label).trim() };
+    }).filter(item => {
+      if (!item.value || !item.label || seen.has(item.value)) return false;
+      seen.add(item.value);
+      return true;
+    });
+  }
+
+  function cityMatches(riderCity, option) {
+    const rider = String(riderCity ?? "").trim().toLocaleLowerCase();
+    return rider !== "" &&
+      (rider === String(option.value).trim().toLocaleLowerCase() ||
+       rider === String(option.label).trim().toLocaleLowerCase());
+  }
+
   async function loadData() {
     if (busy) return;
     busy = true;
@@ -623,8 +669,23 @@
       }
       if (!session.ok) throw new Error("تعذر التحقق من جلسة الدخول");
 
-      const city = "tanta";
-      if (city === null || !city.trim()) {
+      try {
+        const citiesRes = await fetch("/api/cities", {
+          cache: "no-store", credentials: "same-origin"
+        });
+        if (citiesRes.ok) {
+          const citiesJson = await citiesRes.json();
+          const parsedCities = normalizeCityOptions(citiesJson);
+          if (parsedCities.length) availableCities = parsedCities;
+        }
+      } catch (cityError) {
+        console.warn("[Cities] Using fallback city list", cityError);
+      }
+      if (!availableCities.some(item => item.value === selectedCity)) {
+        selectedCity = availableCities[0]?.value || "tanta";
+      }
+      const city = selectedCity;
+      if (!city || !String(city).trim()) {
         list.innerHTML = '<div class="empty">لم يتم اختيار مدينة</div>';
         return;
       }
@@ -698,11 +759,13 @@
     status = b.dataset.status || "الكل";
     render();
   }));
-  $("#cityTabs")?.addEventListener("click", e => {
+  $("#cityTabs")?.addEventListener("click", async e => {
     const button = e.target.closest("button[data-city]");
     if (!button) return;
-    selectedCity = button.dataset.city || "الكل";
-    render();
+    const nextCity = button.dataset.city;
+    if (!nextCity || nextCity === selectedCity || busy) return;
+    selectedCity = nextCity;
+    await loadData();
   });
 
   const refreshLiveBtn = document.getElementById("refreshLiveBtn");
