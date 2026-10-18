@@ -4852,3 +4852,190 @@ body.bookings-mode #bookingList .booking-meta {
     font-size: 9px !important;
   }
 }
+
+/* ALABTAL_GLASS_INTERFACE_ORANGE_V1 */
+/* Lightweight glass styling. Order progress and scooter animation untouched. */
+:root {
+  --glass-orange: #ff793d;
+  --glass-line: rgba(255,145,88,.23);
+  --glass-muted: #a7aeba;
+}
+.topbar {
+  background: linear-gradient(115deg,#30211c,#171a22) !important;
+  color: #fff3ec !important;
+  border: 1px solid var(--glass-line) !important;
+  border-top: 0 !important;
+  border-radius: 0 0 20px 20px !important;
+  box-shadow: 0 7px 20px #0005,inset 0 1px #ffffff12 !important;
+}
+.topbar .iconbtn,
+.topbar .logout-action {
+  color: #ffe0ce !important;
+  background: #ffffff08 !important;
+  border: 1px solid var(--glass-line) !important;
+  border-radius: 12px !important;
+}
+.tile {
+  --accent: #ff9a63;
+  border: 1px solid #ffffff12 !important;
+  border-top: 2px solid #ff955866 !important;
+  border-radius: 15px !important;
+  background: linear-gradient(145deg,#252630ed,#11141bea) !important;
+  box-shadow: 0 7px 18px #0004,inset 0 1px #ffffff0b !important;
+}
+.tile.teal,.tile.red,.tile.blue,.tile.gold,.tile.slate {
+  --accent: #ff9a63;
+  background: linear-gradient(145deg,#252630ed,#11141bea) !important;
+}
+.tile strong,.tile span { color: var(--accent) !important; }
+.tile label { color: #c5c9d2 !important; }
+
+.panel,.filters,.area-box {
+  border: 1px solid var(--glass-line) !important;
+  background: linear-gradient(145deg,#20232bea,#0d1118f2) !important;
+  box-shadow: 0 9px 22px #0004,inset 0 1px #ffffff09 !important;
+}
+.panel { border-radius: 19px !important; }
+.filters { border-radius: 17px !important; }
+.panel h2 i,.section-title i { background: var(--glass-orange) !important; }
+
+.chip {
+  border-color: #ffffff1b !important;
+  background: #ffffff08 !important;
+  color: #d1d5de !important;
+  transition: background-color .16s ease,border-color .16s ease,color .16s ease;
+}
+.chip.active {
+  background: #ff793d20 !important;
+  border-color: #ff9558a6 !important;
+  color: #ffd0b7 !important;
+  box-shadow: inset 0 1px #ffffff0b !important;
+}
+.city-tabs .chip,
+.city-tabs .chip.active {
+  background: #ff793d12 !important;
+  border-color: #ff955855 !important;
+  color: #ffd0b7 !important;
+}
+.city-tabs .chip.active { background: #ff793d2b !important; }
+
+.rider {
+  border: 1px solid rgba(255,145,88,.28) !important;
+  border-radius: 18px !important;
+  padding: 13px !important;
+  background: linear-gradient(145deg,#252630f0,#10141cf5) !important;
+  box-shadow: 0 9px 22px #0005,inset 0 1px #ffffff0d !important;
+  transition: border-color .18s ease,box-shadow .18s ease,transform .18s ease !important;
+}
+.rider:before {
+  width: 3px !important;
+  background: linear-gradient(180deg,#ffc08c,#ff793d) !important;
+}
+.rider:active {
+  border-color: #ff955880 !important;
+  transform: translateY(1px);
+}
+.rider-led-strip {
+  background: linear-gradient(90deg,transparent,#ff793d99,#ffd0a6,#ff793d99,transparent) !important;
+}
+.rider .avatar {
+  border: 1px solid #ff955866 !important;
+  background: linear-gradient(145deg,#ff793d24,#ffffff08) !important;
+  box-shadow: inset 0 1px #ffffff10 !important;
+}
+.rider .rider-name { color: #fff5ef !important; }
+.rider .sub { color: var(--glass-muted) !important; }
+
+.rider .status {
+  background: #ff793d18 !important;
+  color: #ffc19d !important;
+  border-color: #ff95585c !important;
+  box-shadow: none !important;
+}
+.rider .order-status-badge {
+  color: #ffc19d !important;
+  background: #ff793d12 !important;
+  border-color: #ff95585c !important;
+  box-shadow: none !important;
+}
+.rider .metrics { gap: 7px !important; }
+.rider .metric {
+  border: 1px solid #ffffff12 !important;
+  border-radius: 12px !important;
+  background: #ffffff07 !important;
+  box-shadow: inset 0 1px #ffffff08 !important;
+}
+.rider .metric b { color: #fff2e9 !important; }
+.rider .metric small { color: #a7aeba !important; }
+
+.rider .wallet-row {
+  border: 1px solid #ff95582d !important;
+  border-radius: 12px !important;
+  background: #ff793d0d !important;
+  color: #c7ccd6 !important;
+}
+.rider .wallet-row b { color: #ffc19d !important; }
+
+.rider .actions .action {
+  border: 1px solid #ffffff18 !important;
+  border-radius: 11px !important;
+  background: #ffffff09 !important;
+  color: #e9edf3 !important;
+  box-shadow: none !important;
+  transition: background-color .16s ease,border-color .16s ease,transform .16s ease !important;
+}
+.rider .actions .action:active {
+  background: #ff793d20 !important;
+  border-color: #ff955880 !important;
+  transform: scale(.985);
+}
+.rider .actions .action.call,
+.rider .actions .action.break,
+.rider .actions .action.lock,
+.rider .actions .action.supply,
+.rider .actions [data-rider-action="supply"] {
+  background: #ff793d12 !important;
+  color: #ffc19d !important;
+  border-color: #ff95583d !important;
+}
+
+.refresh-live-btn {
+  border: 1px solid #ff95585c !important;
+  border-radius: 11px !important;
+  background: #ff793d18 !important;
+  color: #ffd0b7 !important;
+  box-shadow: none !important;
+}
+.side-menu {
+  background: linear-gradient(160deg,#242630,#0e1219) !important;
+  border-left: 1px solid var(--glass-line);
+  box-shadow: -12px 0 28px #0006 !important;
+}
+.side-link {
+  background: #ffffff08 !important;
+  border-color: #ffffff12 !important;
+}
+.side-link.active {
+  background: #ff793d20 !important;
+  border-color: #ff955866 !important;
+  color: #ffc19d !important;
+}
+.booking-summary article,.booking-card {
+  border: 1px solid #ff955832 !important;
+  border-radius: 16px !important;
+  background: linear-gradient(145deg,#252630ed,#11151df5) !important;
+  box-shadow: 0 8px 18px #0004,inset 0 1px #ffffff0a !important;
+}
+.booking-summary strong { color: #ffab7a !important; }
+.booking-search input {
+  border-color: #ff95583d !important;
+  background: #ffffff08 !important;
+}
+@media(max-width:620px) {
+  .rider { padding: 11px !important; border-radius: 16px !important; }
+  .tile { border-radius: 13px !important; }
+  .panel,.filters { border-radius: 15px !important; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .rider,.chip,.rider .actions .action { transition: none !important; }
+}
