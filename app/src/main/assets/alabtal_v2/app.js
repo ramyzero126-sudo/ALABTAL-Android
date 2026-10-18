@@ -43,13 +43,15 @@
     const name = text(x, ["name","riderName","rider_name","fullName","full_name","employeeName","driverName"], "مندوب");
     const id = text(x, ["id","empId","riderId","rider_id","employeeId","employee_id","code"], "—");
     const rawStatus = String(text(x, ["status","riderStatus","rider_status","state","workingStatus"], "غير محدد"));
-    const s = rawStatus.toLowerCase();
-    let state = rawStatus;
+    const s = rawStatus.trim().toLowerCase();
+    let state = rawStatus.trim() || "غير محدد";
+
+    // Normalize source values so the rider card, tab counts and filters agree.
     if (/break|rest|استراحة|بريك/.test(s)) state = "Break";
+    else if (/temp|temporary|tamp|tam|مؤقت/.test(s)) state = "Tamp";
     else if (/starting|start|بدء|بداية/.test(s)) state = "Starting";
     else if (/ready|available|جاهز/.test(s)) state = "Ready";
-    else if (/working|work|active|online|شغال/.test(s)) state = "Working";
-    else if (/temp|temporary|tam[p]?|مؤقت/.test(s)) state = "Tamp";
+    else if (/working|work|active|online|شغال|يعمل/.test(s)) state = "Working";
     else if (/late|delay|متأخر/.test(s)) state = "متأخر";
 
     const orders = number(x, ["orders","ordersCount","orders_count","totalOrders","todayOrders","completedOrders"]);
@@ -485,67 +487,15 @@
   }
 
   function openManagerFormInside(url, action) {
-    document.getElementById("alabtalManagerFormDialog")?.remove();
+    const dialog = document.getElementById("alabtalManagerFormDialog");
+    if (dialog) dialog.remove();
 
-    const overlay = document.createElement("div");
-    overlay.id = "alabtalManagerFormDialog";
-    overlay.className = "supply-dialog-overlay";
-    const title = action === "supply" ? "فورم التزويد" :
-      action === "break" ? "فورم فك البريك" : "فورم مدير المنطقة";
-
-    overlay.innerHTML = `
-      <section role="dialog" aria-modal="true"
-        aria-label="${title}"
-        style="position:relative;width:min(96vw,760px);height:min(90dvh,850px);
-        background:#101814;color:#fff;border:1px solid #20d879;border-radius:14px;
-        display:flex;flex-direction:column;overflow:hidden;margin:auto">
-        <header style="display:flex;align-items:center;gap:8px;padding:10px;
-          border-bottom:1px solid #28523d">
-          <b style="flex:1">${title}</b>
-          <button type="button" data-copy-manager-url
-            style="padding:8px 12px">نسخ الرابط</button>
-          <button type="button" data-manager-close
-            aria-label="إغلاق" style="padding:8px 12px">✕</button>
-        </header>
-        <input data-manager-url readonly
-          aria-label="رابط الفورم"
-          style="box-sizing:border-box;width:100%;padding:9px;background:#17231c;
-          color:#b9ffd2;border:0;border-bottom:1px solid #28523d">
-        <iframe title="فورم مدير المنطقة"
-          style="flex:1;width:100%;border:0;background:white"
-          referrerpolicy="strict-origin-when-cross-origin"></iframe>
-      </section>`;
-
-    const input = overlay.querySelector("[data-manager-url]");
-    input.value = url;
-    overlay.querySelector("iframe").src =
-      url + (url.includes("?") ? "&" : "?") + "embedded=true";
-
-    const close = () => {
-      overlay.remove();
-      window.removeEventListener("keydown", onKey);
-    };
-    const onKey = e => {
-      if (e.key === "Escape" && overlay.isConnected) close();
-    };
-    overlay.addEventListener("click", e => {
-      if (e.target === overlay || e.target.closest("[data-manager-close]")) {
-        close();
-      } else if (e.target.closest("[data-copy-manager-url]")) {
-        input.focus();
-        input.select();
-        if (navigator.clipboard?.writeText) {
-          navigator.clipboard.writeText(url).then(
-            () => riderActionMessage("تم نسخ رابط الفورم"),
-            () => riderActionMessage("حدد الرابط وانسخه يدويًا")
-          );
-        } else {
-          riderActionMessage("حدد الرابط وانسخه يدويًا");
-        }
-      }
-    });
-    window.addEventListener("keydown", onKey);
-    document.body.appendChild(overlay);
+    if (window.AndroidNotifications &&
+        typeof window.AndroidNotifications.openExternal === "function") {
+      window.AndroidNotifications.openExternal(url);
+    } else {
+      window.open(url, "_blank");
+    }
   }
 
   async function runRiderManagerAction(rider, action, hours) {
