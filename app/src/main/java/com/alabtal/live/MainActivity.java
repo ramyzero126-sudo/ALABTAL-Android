@@ -13,6 +13,7 @@ import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.webkit.WebSettings;
 import android.widget.Toast;
 import com.chaquo.python.Python;
 import java.io.File;
@@ -38,6 +39,8 @@ public class MainActivity extends Activity {
         web = new WebView(this);
         web.getSettings().setJavaScriptEnabled(true);
         web.getSettings().setDomStorageEnabled(true);
+        web.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        web.clearCache(true);
         CookieManager.getInstance().setAcceptCookie(true);
 
         web.addJavascriptInterface(new Object() {
@@ -124,7 +127,8 @@ public class MainActivity extends Activity {
                 final boolean serverReady = ready;
                 runOnUiThread(() -> {
                     if (serverReady) {
-                        web.loadUrl("http://127.0.0.1:8765/alabtal_v2/");
+                        web.clearCache(true);
+                        web.loadUrl("http://127.0.0.1:8765/alabtal_v2/?ui_refresh=" + System.currentTimeMillis());
                     } else {
                         Toast.makeText(this,
                             "تعذر تشغيل البروكسي. راجع اتصال الخادم.",
@@ -151,8 +155,8 @@ public class MainActivity extends Activity {
             try {
                 URL url = new URL(base + name + "?update=" + System.currentTimeMillis());
                 conn = (HttpURLConnection) url.openConnection();
-                conn.setConnectTimeout(7000);
-                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setReadTimeout(20000);
                 conn.setRequestProperty("Cache-Control", "no-cache");
                 conn.setRequestProperty("User-Agent", "ALABTAL-Android");
                 conn.connect();
