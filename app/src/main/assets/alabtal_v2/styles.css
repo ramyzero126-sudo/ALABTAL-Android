@@ -4662,3 +4662,193 @@ body.bookings-mode #bookingList .booking-meta {
   color:#b5c4bb;
   font-size:11px;
 }
+
+
+/* ALABTAL_ORDER_STAGE_PREMIUM_V1 */
+.rider .order-progress {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin: 14px 0 !important;
+  padding: 15px 13px 13px !important;
+  border: 1px solid rgba(64,230,165,.28) !important;
+  border-radius: 17px !important;
+  background:
+    radial-gradient(ellipse at 100% 0%,rgba(34,197,124,.13),transparent 58%),
+    linear-gradient(145deg,#101b17,#080d0b 75%) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.06),0 6px 16px #0004 !important;
+}
+.rider .order-progress-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 17px;
+}
+.rider .order-progress-title b {
+  color: #e9fff4;
+  font-size: 14px;
+  font-weight: 850;
+}
+.rider .order-progress-title span {
+  padding: 5px 9px;
+  border: 1px solid #ffffff16;
+  border-radius: 8px;
+  background: #ffffff08;
+  color: #a8c4b5;
+  font-size: 11px;
+  direction: ltr;
+}
+.rider .order-progress-track {
+  height: 7px !important;
+  margin: 9px 9px 22px !important;
+  border-radius: 99px !important;
+  background: #24342c !important;
+  box-shadow: inset 0 1px 3px #0009 !important;
+}
+.rider .order-progress-fill {
+  border-radius: 99px !important;
+  background: linear-gradient(90deg,#087f49,#22d681,#a0ffd0) !important;
+  box-shadow: 0 0 8px #21e58b99,0 0 17px #16c78455 !important;
+}
+.rider .order-lane-led {
+  position: absolute;
+  z-index: 2;
+  top: -2px;
+  left: 0;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #c7ffe2;
+  box-shadow: 0 0 5px #70ffb5,0 0 13px #18e887;
+  animation: orderStageLed 1.5s ease-in-out infinite !important;
+}
+.rider .order-scooter {
+  z-index: 3;
+  top: -21px !important;
+  font-size: 23px !important;
+  filter: drop-shadow(0 0 5px #43f6a4) !important;
+  transition: left .55s cubic-bezier(.2,.8,.2,1) !important;
+}
+.rider .order-progress-labels {
+  display: grid !important;
+  grid-template-columns: repeat(4,minmax(0,1fr)) !important;
+  gap: 5px !important;
+  align-items: start;
+  margin-top: 4px;
+}
+.rider .order-progress-labels span {
+  position: relative;
+  min-width: 0;
+  padding-top: 12px;
+  color: #71847a !important;
+  font-size: 10px !important;
+  line-height: 1.5;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.rider .order-progress-labels span::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  background: #34443b;
+  box-shadow: 0 0 0 3px #34443b25;
+}
+.rider .order-progress-labels span.done {
+  color: #b6d8c5 !important;
+}
+.rider .order-progress-labels span.done::before {
+  background: #28d987;
+  box-shadow: 0 0 8px #28d98766;
+}
+.rider .order-progress-labels span.current {
+  color: #ffffff !important;
+  font-weight: 900 !important;
+}
+.rider .order-stage-1 .order-progress-current {
+  color: #ff6877 !important;
+  border-color: #ff536844 !important;
+  background: #ff536810 !important;
+}
+.rider .order-stage-2 .order-progress-current {
+  color: #78bdff !important;
+  border-color: #559fff44 !important;
+  background: #559fff10 !important;
+}
+.rider .order-stage-3 .order-progress-current {
+  color: #61efad !important;
+  border-color: #28d98744 !important;
+  background: #28d98710 !important;
+}
+.rider .order-stage-4 .order-progress-current {
+  color: #ffb36b !important;
+  border-color: #ff9a4544 !important;
+  background: #ff9a4510 !important;
+}
+.rider .order-progress-current {
+  margin-top: 13px !important;
+  padding: 9px 11px !important;
+  border: 1px solid #28d98725 !important;
+  border-radius: 10px !important;
+  font-size: 12px !important;
+  font-weight: 850 !important;
+  line-height: 1.7;
+  animation: orderStageTextGlow 2.4s ease-in-out infinite !important;
+}
+@keyframes orderStageLed {
+  0%,100% { opacity: .65; transform: scale(.85); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+@keyframes orderStageTextGlow {
+  0%,100% { box-shadow: 0 0 0 #20d98700; }
+  50% { box-shadow: 0 0 12px #20d98715; }
+}
+@media(max-width:420px) {
+  .rider .order-progress { padding: 12px 9px !important; }
+  .rider .order-progress-labels { gap: 2px !important; }
+  .rider .order-progress-labels span { font-size: 9px !important; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .rider .order-lane-led,
+  .rider .order-progress-current { animation: none !important; }
+}
+
+
+/* ALABTAL_ORDER_STAGE_MOTION_FIX_V1 */
+/* Keep the scooter aligned with the actual progress stage */
+#riders .rider .order-progress-track {
+  position: relative !important;
+  overflow: visible !important;
+}
+#riders .rider .order-progress-fill {
+  height: 100%;
+  transition: width .55s cubic-bezier(.2,.8,.2,1) !important;
+}
+#riders .rider .order-progress-fill.step-2 ~ .order-scooter {
+  left: calc(40% - 13px) !important;
+}
+#riders .rider .order-progress-fill.step-3 ~ .order-scooter {
+  left: calc(70% - 13px) !important;
+}
+#riders .rider .order-progress-fill.step-4 ~ .order-scooter {
+  left: calc(100% - 25px) !important;
+}
+#riders .rider .order-progress-labels span {
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  text-wrap: balance;
+}
+#riders .rider .order-progress-labels span.current {
+  color: #fff !important;
+  font-weight: 900 !important;
+}
+@media (max-width: 380px) {
+  #riders .rider .order-progress-labels span {
+    font-size: 9px !important;
+  }
+}
