@@ -5057,3 +5057,46 @@ body.bookings-mode #bookingList .booking-meta {
   line-height: 1.5;
   overflow-wrap: anywhere;
 }
+
+
+/* ALABTAL_RIDER_SHIFT_BOOKING_CIRCLE_V1 */
+#riders .rider .rider-status-line {
+ display:flex!important;align-items:center!important;
+ justify-content:space-between!important;gap:6px!important;flex-wrap:wrap!important
+}
+#riders .rider .shift-booking-indicator {
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ gap:5px!important;min-height:27px;padding:3px 8px 3px 5px;
+ border-radius:999px;font-size:10px;font-weight:800;line-height:1.2;
+ white-space:nowrap;border:1px solid #ffffff1c;background:#ffffff08
+}
+#riders .rider .shift-booking-indicator i {
+ display:inline-flex;align-items:center;justify-content:center;flex:0 0 19px;
+ width:19px;height:19px;border-radius:50%;font-size:12px;font-style:normal;
+ font-weight:900;border:1px solid currentColor
+}
+#riders .rider .shift-booking-indicator.booked {
+ color:#83e6b1;background:#35c77a14;border-color:#35c77a50
+}
+#riders .rider .shift-booking-indicator.booked i {
+ color:#09160f;background:#83e6b1;border-color:#83e6b1
+}
+#riders .rider .shift-booking-indicator.not-booked {
+ color:#ffb8a4;background:#ff653014;border-color:#ff794d50
+}
+#riders .rider .shift-booking-indicator.not-booked i {
+ color:#2a100a;background:#ff9b7f;border-color:#ff9b7f
+}
+#riders .rider .order-progress-labels {
+ display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:3px!important
+}
+#riders .rider .order-progress-labels span {
+ min-width:0;font-size:clamp(8px,2.3vw,10px)!important;
+ line-height:1.35;overflow-wrap:anywhere;text-align:center
+}
+#riders .rider .order-restaurant {display:block;visibility:visible}
+@media(max-width:380px) {
+ #riders .rider .shift-booking-indicator {padding-inline:5px}
+ #riders .rider .order-progress-labels {gap:2px!important}
+ #riders .rider .order-progress-labels span {font-size:8px!important}
+}

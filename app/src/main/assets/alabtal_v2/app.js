@@ -343,6 +343,9 @@
             </div>
             <div class="rider-status-line">
               <span class="order-status-badge ${statusClass}"><i class="order-led"></i>${order ? esc(statusLabel) : "مفيش أوردر"}</span>
+              <span class="shift-booking-indicator ${r.bookedTomorrow === true ? "booked" : r.bookedTomorrow === false ? "not-booked" : "booking-unknown"}" role="status" aria-label="${r.bookedTomorrow === true ? "حاجز في اليوم المحدد" : r.bookedTomorrow === false ? "مش حاجز في اليوم المحدد" : "حالة الحجز غير معروفة"}">
+              <i aria-hidden="true">${r.bookedTomorrow === true ? "✓" : r.bookedTomorrow === false ? "×" : "?"}</i><b>${r.bookedTomorrow === true ? "حاجز" : r.bookedTomorrow === false ? "مش حاجز" : "غير معروف"}</b>
+              </span>
             </div>
             <div class="sub">#${esc(r.id)} · 📍 ${esc(r.city)}</div>
 
@@ -749,6 +752,39 @@
 
 
 
+
+      // Match rider cards against the official booking lists for the selected day.
+      const bookingId = row => {
+        for (const key of ["id", "empId", "employeeId", "employee_id", "riderId", "rider_id", "code"]) {
+          const value = row?.[key];
+          if (value !== undefined && value !== null && String(value).trim()) {
+            return String(value).trim().toLowerCase();
+          }
+        }
+        return "";
+      };
+
+      if (officialBookingData &&
+          Array.isArray(officialBookingData.booked) &&
+          Array.isArray(officialBookingData.notBooked)) {
+        const bookingStates = new Map();
+        for (const row of officialBookingData.booked) {
+          const id = bookingId(row);
+          if (id) bookingStates.set(id, true);
+        }
+        for (const row of officialBookingData.notBooked) {
+          const id = bookingId(row);
+          if (id && !bookingStates.has(id)) bookingStates.set(id, false);
+        }
+        for (const rider of data) {
+          const id = String(rider.id || "").trim().toLowerCase();
+          rider.bookedTomorrow = id && bookingStates.has(id)
+            ? bookingStates.get(id)
+            : null;
+        }
+      } else {
+        for (const rider of data) rider.bookedTomorrow = null;
+      }
 
       updateDashboardStats();
       render();
