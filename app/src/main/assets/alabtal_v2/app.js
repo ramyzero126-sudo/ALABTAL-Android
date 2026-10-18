@@ -46,9 +46,10 @@
     const s = rawStatus.toLowerCase();
     let state = rawStatus;
     if (/break|rest|استراحة|بريك/.test(s)) state = "استراحة";
-    else if (/work|active|online|شغال|working/.test(s)) state = "شغال";
+    else if (/starting|start|بدء|بداية/.test(s)) state = "Starting";
+    else if (/ready|available|جاهز/.test(s)) state = "Ready";
+    else if (/work|active|online|شغال|working/.test(s)) state = "Working";
     else if (/late|delay|متأخر/.test(s)) state = "متأخر";
-    else if (/ready/.test(s)) state = "READY";
 
     const orders = number(x, ["orders","ordersCount","orders_count","totalOrders","todayOrders","completedOrders"]);
     const hours = text(x, ["hours","workingHours","working_hours","totalHours","shiftHours"], "—");
@@ -223,7 +224,7 @@
       "UTR": Number.isFinite(hours) && hours > 0
         ? fmt(orders / hours) : "غير متاح",
       "خارج التغطية": "غير متاح",
-      "مستبعدة": "غير متاح",
+      "بريك": fmt(total("breaks"), 0),
       "مخالفات اليوم": "غير متاح",
       "أمراء المناوبات": "غير متاح",
       "مناديب تحت المتابعة": "غير متاح"
@@ -244,8 +245,7 @@
     if (!list) return;
 
     const cityTabs = $("#cityTabs");
-    const cities = ["طنطا"]
-      .sort((a, b) => a.localeCompare(b, "ar"));
+    const cities = []; // إخفاء تبويب المدينة الثابت
 
     if (selectedCity !== "الكل" && !cities.includes(selectedCity)) selectedCity = "الكل";
 
@@ -321,10 +321,10 @@
           <div class="rider-info">
             <div class="rider-name-row">
               <div class="rider-name">${esc(r.name)}</div>
-              <span class="status">${esc(r.status)}</span>
+              <span class="status status-${String(r.status).toLowerCase().replace(/[^a-z0-9]+/g,"-")}">${esc(r.status)}</span>
             </div>
             <div class="rider-status-line">
-              <span class="order-status-badge ${statusClass}">${order ? "● " + esc(statusLabel) : "○ مفيش أوردر"}</span>
+              <span class="order-status-badge ${statusClass}"><i class="order-led"></i>${order ? esc(statusLabel) : "مفيش أوردر"}</span>
             </div>
             <div class="sub">#${esc(r.id)} · 📍 ${esc(r.city)}</div>
             <div class="sub">♙ ${esc(r.supervisor)}</div>
@@ -332,7 +332,11 @@
           </div>
         </div>
 
-        <div class="metrics">
+        ${order ? `<div class="order-progress" aria-label="تقدم الأوردر">
+          <div class="order-progress-track"><span class="order-progress-fill ${/deliver|on.?way|في الطريق|heading|to.?customer/i.test(orderStatus) ? "step-3" : /picked|pickup|collected|استلام|تم الاستلام/i.test(orderStatus) ? "step-2" : /arrive|arrived|وصل|at.?customer|delivered/i.test(orderStatus) ? "step-4" : "step-1"}"></span><span class="order-scooter">🛵</span></div>
+          <div class="order-progress-labels"><span>المطعم</span><span>استلام</span><span>في الطريق</span><span>العميل</span></div>
+        </div>` : ""}
+      <div class="metrics">
           <div class="metric"><b>${r.orders}</b><small>أوردر</small></div>
           <div class="metric"><b>${esc(r.utr)}</b><small>UTR</small></div>
           <div class="metric"><b>${esc(r.hours)}</b><small>ساعة</small></div>

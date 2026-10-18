@@ -4368,3 +4368,26 @@ html body #riderDetailContent .detail-wallet b {
     padding: 10px !important;
   }
 }
+
+/* ALABTAL STATUS + ORDER PROGRESS UPDATE */
+.status{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:5px 10px;font-weight:900;font-size:13px;border:1px solid #ffffff22;background:#252a32;color:#f4f7ff}
+.status.status-starting{background:#4a1018;color:#ff6b78;border-color:#ff435855;box-shadow:0 0 12px #ff31452b}
+.status.status-ready{background:#102b52;color:#6bb5ff;border-color:#348eff77;box-shadow:0 0 12px #168aff2b}
+.status.status-working{background:#103c29;color:#55f2a0;border-color:#21d98177;box-shadow:0 0 12px #20df812b}
+.status.status-استراحة{background:#44320d;color:#ffd66b;border-color:#ffd04b66}
+.order-status-badge{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:850}
+.order-status-badge.has-order{color:#5df2a0}.order-status-badge.no-order{color:#ff6875}
+.order-led{display:inline-block;width:8px;height:8px;flex:0 0 8px;border-radius:50%;background:#ff394c;box-shadow:0 0 7px #ff394c;animation:alabtal-led 1.25s infinite}
+.order-status-badge.has-order .order-led{background:#39f58c;box-shadow:0 0 8px #39f58c}
+@keyframes alabtal-led{50%{opacity:.42}}
+.order-progress{margin:12px 0 14px;padding:10px 12px;border:1px solid #ffffff14;border-radius:13px;background:#080d0b}
+.order-progress-track{height:5px;position:relative;border-radius:8px;background:#26332d;margin:8px 8px 12px}
+.order-progress-fill{position:absolute;inset:0 auto 0 0;width:20%;border-radius:8px;background:linear-gradient(90deg,#00a95a,#54ffa3);transition:width .45s ease}
+.order-progress-fill.step-2{width:45%}.order-progress-fill.step-3{width:72%}.order-progress-fill.step-4{width:100%}
+.order-scooter{position:absolute;top:-18px;left:calc(20% - 13px);font-size:22px;filter:drop-shadow(0 0 5px #39f58c)}
+.order-progress-fill.step-2~.order-scooter{left:calc(45% - 13px)}.order-progress-fill.step-3~.order-scooter{left:calc(72% - 13px)}.order-progress-fill.step-4~.order-scooter{left:calc(100% - 25px)}
+.order-progress-labels{display:flex;justify-content:space-between;gap:4px;color:#c5d5cc;font-size:11px;font-weight:750}
+.brand-typewriter{position:relative}.brand-typewriter:after{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#36f58c;margin-inline-start:9px;box-shadow:0 0 8px #36f58c,0 0 18px #36f58c;vertical-align:middle}
+#filters .chip{font-size:15px;padding:11px 16px;min-height:42px}
+.rider-name{font-size:18px!important}.rider .sub{font-size:13px!important}.metric small{font-size:12px!important}
+.city-tabs{display:none!important}
