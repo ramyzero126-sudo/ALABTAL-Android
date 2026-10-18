@@ -349,11 +349,11 @@
         </div>
 
         <div class="actions">
-          <button class="action" disabled>واتساب</button>
-          <button class="action" disabled>اتصال</button>
-          <button class="action" disabled>قفل</button>
-          <button class="action" disabled>فك بريك</button>
-          <button class="action" disabled>تزويد</button>
+          <button type="button" class="action" data-rider-action="whatsapp">واتساب</button>
+          <button type="button" class="action" data-rider-action="call">اتصال</button>
+          <button type="button" class="action" data-rider-action="lock">قفل</button>
+          <button type="button" class="action" data-rider-action="break">فك بريك</button>
+          <button type="button" class="action" data-rider-action="supply">تزويد</button>
         </div>
       </article>`;
     };
@@ -387,6 +387,170 @@
       "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
     }[c]));
   }
+
+
+  // ALABTAL Android rider-card actions
+  const managerFormCache = new Map();
+  const supplyOptions = ["ساعة","ساعتين","3 ساعات","4 ساعات","5 ساعات","6 ساعات","7 ساعات","8 ساعات"];
+  const supplyNumbers = {"ساعة":1,"ساعتين":2,"3 ساعات":3,"4 ساعات":4,"5 ساعات":5,"6 ساعات":6,"7 ساعات":7,"8 ساعات":8};
+
+  function riderActionMessage(message) {
+    let el = document.getElementById("riderActionMessage");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "riderActionMessage";
+      el.style.cssText = "position:fixed;z-index:99999;bottom:22px;left:14px;right:14px;padding:13px 16px;border-radius:14px;background:#17212b;color:white;font-size:13px;font-weight:700;text-align:center;box-shadow:0 8px 28px #0005";
+      document.body.appendChild(el);
+    }
+    el.textContent = message;
+    el.style.display = "block";
+    clearTimeout(el._timer);
+    el._timer = setTimeout(() => el.style.display = "none", 3500);
+  }
+
+  function riderActionPhone(raw) {
+    const keys = /^(phone|phoneNumber|phone_number|mobile|mobileNumber|mobile_number|contactNumber|contact_number|whatsapp|whatsAppNumber|telephone|tel)$/i;
+    const seen = new Set();
+    function scan(o, depth) {
+      if (!o || typeof o !== "object" || depth > 5 || seen.has(o)) return "";
+      seen.add(o);
+      for (const [k,v] of Object.entries(o)) {
+        if (keys.test(k) && v != null) {
+          const n = String(v).replace(/[^0-9+]/g, "");
+          if (n.replace(/\D/g, "").length >= 10) return n;
+        }
+      }
+      for (const v of Object.values(o)) {
+        const found = scan(v, depth + 1);
+        if (found) return found;
+      }
+      return "";
+    }
+    return scan(raw, 0);
+  }
+
+  function managerActionUrl(mgr, action, d) {
+    const e = mgr.entryIds || {}, v = mgr.entryValues || {}, q = {};
+    if (e.typeSelectEntry) q[e.typeSelectEntry] = "شيفتات الطيارين";
+
+    if (action === "break") {
+      if (e.requestTypeEntry) q[e.requestTypeEntry] = v.breakRequestType || "فك بريك";
+      if (e.breakRiderIdEntry) q[e.breakRiderIdEntry] = d.empId;
+      if (e.breakCityEntry) q[e.breakCityEntry] = d.city;
+      if (e.lockActionEntry && v.breakActionValue) q[e.lockActionEntry] = v.breakActionValue;
+      if (e.breakReasonEntry) q[e.breakReasonEntry] = v.breakReasonText || "طلب المندوب فك البريك من التطبيق";
+    } else if (action === "lock") {
+      if (e.requestTypeEntry) q[e.requestTypeEntry] = v.lockRequestType || "قفل او رفع او فتح شيفت";
+      if (e.lockActionEntry) q[e.lockActionEntry] = v.lockActionValue || "قفل شيفت";
+      if (e.lockReasonEntry) q[e.lockReasonEntry] = "نلغي المد بعد اذنكم وراه شغل تاني";
+      if (e.lockReasonDetailEntry) q[e.lockReasonDetailEntry] = "ط ع ن 1256";
+      if (e.lockRiderIdEntry) q[e.lockRiderIdEntry] = d.empId;
+      if (e.lockCityEntry) q[e.lockCityEntry] = d.city;
+    } else if (action === "supply") {
+      if (e.requestTypeEntry) q[e.requestTypeEntry] = v.supplyRequestType || "تزويدات شيفتات الطيارين";
+      if (e.supplyHoursEntry) {
+        q[e.supplyHoursEntry] = d.hours;
+        const n = supplyNumbers[d.hours];
+        if (n) {
+          let base = d.shiftEnd ? new Date(d.shiftEnd) : null;
+          if (!base || Number.isNaN(base.getTime())) base = new Date();
+          const target = new Date(base.getTime() + n * 3600000);
+          q[e.supplyHoursEntry + "_hour"] = target.getHours();
+          q[e.supplyHoursEntry + "_minute"] = target.getMinutes();
+        }
+      }
+      if (e.supplyRiderIdEntry) q[e.supplyRiderIdEntry] = d.empId;
+      if (e.supplyCityEntry) q[e.supplyCityEntry] = d.city;
+    }
+
+    const query = Object.entries(q)
+      .filter(([,v]) => v != null && v !== "")
+      .map(([k,v]) => k + "=" + encodeURIComponent(v)).join("&");
+    return String(mgr.formUrl || "").split("?")[0] + (query ? "?usp=pp_url&" + query : "");
+  }
+
+  async function runRiderManagerAction(rider, action, hours) {
+    if (!rider || !rider.id || rider.id === "—") {
+      riderActionMessage("رقم المندوب غير متاح");
+      return;
+    }
+    riderActionMessage("جارٍ تجهيز فورم مدير المنطقة…");
+    const id = String(rider.id);
+    try {
+      if (!managerFormCache.has(id)) {
+        managerFormCache.set(id, fetch("/api/rider-manager-form?empId=" + encodeURIComponent(id), {
+          cache: "no-store", credentials: "same-origin"
+        }).then(async r => {
+          const data = await r.json();
+          if (!r.ok) throw new Error(data.error || "تعذر جلب فورم المدير");
+          return data;
+        }).catch(err => {
+          managerFormCache.delete(id);
+          throw err;
+        }));
+      }
+      const mgr = await managerFormCache.get(id);
+      if (!mgr || !mgr.ok || !mgr.formUrl) {
+        if (mgr && mgr.managerUsername) riderActionMessage('مدير المنطقة "' + mgr.managerUsername + '" لم يضف رابط الفورم');
+        else if (mgr && mgr.supervisorName) riderActionMessage('المشرف "' + mgr.supervisorName + '" غير مربوط بمدير منطقة');
+        else riderActionMessage("لم أجد فورم مدير المنطقة لهذا المندوب");
+        return;
+      }
+      const url = managerActionUrl(mgr, action, {
+        empId: id, city: rider.city, hours, shiftEnd: rider.shiftEnd
+      });
+      if (!/^https:\/\//i.test(url)) {
+        riderActionMessage("رابط فورم المدير غير صالح");
+        return;
+      }
+      window.location.href = url;
+    } catch (err) {
+      riderActionMessage(err.message || "تعذر تحميل فورم مدير المنطقة");
+    }
+  }
+
+  function showRiderSupplyOptions(rider) {
+    const answer = window.prompt("تزويد شيفت — اكتب رقم الساعات من 1 إلى 8");
+    if (answer === null) return;
+    const index = Number(answer);
+    if (!Number.isInteger(index) || index < 1 || index > 8) {
+      riderActionMessage("اختار رقمًا من 1 إلى 8");
+      return;
+    }
+    runRiderManagerAction(rider, "supply", supplyOptions[index - 1]);
+  }
+
+  document.addEventListener("click", event => {
+    const button = event.target.closest("[data-rider-action]");
+    if (!button) return;
+    const card = button.closest(".rider");
+    if (!card) return;
+    event.preventDefault();
+
+    const rider = data.find(r => String(r.id) === String(card.dataset.riderId));
+    if (!rider) {
+      riderActionMessage("بيانات المندوب غير متاحة؛ حدّث اللايف");
+      return;
+    }
+
+    const action = button.dataset.riderAction;
+    if (action === "lock" || action === "break") {
+      runRiderManagerAction(rider, action);
+    } else if (action === "supply") {
+      showRiderSupplyOptions(rider);
+    } else if (action === "call" || action === "whatsapp") {
+      let phone = riderActionPhone(rider.raw);
+      if (!phone) {
+        riderActionMessage("رقم الهاتف غير موجود في بيانات المندوب");
+        return;
+      }
+      let digits = phone.replace(/\D/g, "");
+      if (digits.startsWith("00")) digits = digits.slice(2);
+      if (digits.startsWith("0")) digits = "20" + digits.slice(1);
+      else if (digits.length === 10 && digits.startsWith("1")) digits = "20" + digits;
+      window.location.href = action === "call" ? "tel:+" + digits : "https://wa.me/" + digits;
+    }
+  });
 
   async function loadData() {
     if (busy) return;
