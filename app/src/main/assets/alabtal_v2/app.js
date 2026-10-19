@@ -1292,3 +1292,40 @@ document.addEventListener("click", function(e) {
   }
   tick();
 })();
+
+
+/* ROSTER MODAL: UI only; no external session tokens are copied */
+(() => {
+  const modal = document.getElementById("rosterModal");
+  const openBtn = document.getElementById("rosterBtn");
+  const closeBtn = document.getElementById("rosterClose");
+  const refreshBtn = document.getElementById("rosterRefresh");
+  const message = document.getElementById("rosterMessage");
+  const count = document.getElementById("rosterCount");
+  if (!modal || !openBtn || !closeBtn || !message || !count) return;
+
+  function openRoster() {
+    modal.hidden = false;
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("roster-open");
+  }
+  function closeRoster() {
+    modal.hidden = true;
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("roster-open");
+  }
+  function showPending() {
+    count.textContent = "مصدر البيانات غير مربوط";
+    message.textContent =
+      "الواجهة جاهزة، لكن اتصال الروستر لم يُفعّل بعد. سنربطه من خلال واجهة API مصرح بها، دون استخدام أو نسخ Cookies أو Tokens من المتصفح.";
+  }
+  openBtn.addEventListener("click", openRoster);
+  closeBtn.addEventListener("click", closeRoster);
+  modal.addEventListener("click", e => {
+    if (e.target === modal) closeRoster();
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && !modal.hidden) closeRoster();
+  });
+  if (refreshBtn) refreshBtn.addEventListener("click", showPending);
+})();

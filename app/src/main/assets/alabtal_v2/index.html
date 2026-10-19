@@ -9,7 +9,7 @@
 <header class="topbar">
   <button id="menuToggle" class="iconbtn" aria-label="فتح القائمة">☰</button>
   <div class="brand"><b>AL ABTAL</b><small>OPERATIONS</small></div>
-  <div class="headright"><button id="notificationsBtn" class="iconbtn" type="button" aria-label="الإشعارات">🔔<span id="notificationCount" hidden>0</span></button><button id="alabtalLogoutBtn" class="head-action logout-action" type="button">⎋ خروج</button></div>
+  <div class="headright"><button id="notificationsBtn" class="iconbtn" type="button" aria-label="الإشعارات">🔔<span id="notificationCount" hidden>0</span></button><button id="rosterBtn" class="iconbtn roster-btn" type="button" aria-label="روستر المناديب" title="روستر المناديب">🌐</button><button id="alabtalLogoutBtn" class="head-action logout-action" type="button">⎋ خروج</button></div>
 </header>
 <aside id="sideMenu" class="side-menu" aria-hidden="true">
   <div class="side-menu-brand"><b>AL ABTAL <small>OPERATIONS</small></b><button id="menuClose" type="button">×</button></div>
@@ -89,4 +89,22 @@
   <footer>ALABTAL <span>—</span> أكثر من مجرد توصيل</footer>
 </main>
 <script src="app.js?v=logout-notify-v6"></script>
+
+<section id="rosterModal" class="roster-modal" hidden aria-hidden="true">
+  <div class="roster-dialog" role="dialog" aria-modal="true" aria-labelledby="rosterTitle">
+    <header class="roster-header">
+      <div><h2 id="rosterTitle">🌐 روستر المناديب</h2><p>Live 3PL · Rider Operations</p></div>
+      <button id="rosterClose" type="button" class="roster-close" aria-label="إغلاق">×</button>
+    </header>
+    <div class="roster-toolbar">
+      <span id="rosterCount">بانتظار ربط مصدر البيانات</span>
+      <button id="rosterRefresh" type="button">↻ تحديث</button>
+    </div>
+    <div id="rosterMessage" class="roster-message" role="status">
+      الواجهة جاهزة. لعرض بيانات الروستر الحقيقية، يلزم إعداد اتصال مصرح به بمصدر البيانات.
+    </div>
+    <div id="rosterContent" class="roster-content"></div>
+  </div>
+</section>
+
 </body></html>\n
